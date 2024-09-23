@@ -1,0 +1,25 @@
+version: '3.6'
+services:
+  db:
+    image: mysql:5.7
+    hostname: ${DB_HOST}
+    networks:
+      - lan
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+    volumes:
+      - ${DB_DATA}:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - lan
+
+networks:
+  lan:
+    driver: bridge
