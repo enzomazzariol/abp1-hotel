@@ -8,9 +8,9 @@ public class Usuario {
     private String email;
     private String password;
     private Rol rol;
-    private Date fechaRegistro;
+    private String fechaRegistro;
 
-    public Usuario(String nombre, String email, String password, Rol rol, Date fechaRegistro) {
+    public Usuario(String nombre, String email, String password, Rol rol, String fechaRegistro) {
         this.nombre = nombre;
         this.email = email;
         this.password = password;
@@ -50,11 +50,11 @@ public class Usuario {
         this.rol = rol;
     }
 
-    public Date getFechaRegistro() {
+    public String getFechaRegistro() {
         return fechaRegistro;
     }
 
-    public void setFechaRegistro(Date fechaRegistro) {
+    public void setFechaRegistro(String fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 }
