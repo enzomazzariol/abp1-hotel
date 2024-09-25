@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/registro")
-public class Registro extends HttpServlet {
+public class RegistroServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,13 +28,14 @@ public class Registro extends HttpServlet {
         String password = req.getParameter("password");
         String email = req.getParameter("email");
         String rolParam = req.getParameter("rol");
-        System.out.println(nombre + " " + password + " " + email + " " + rolParam);
+
 
         // Convertir el rol recibido del formulario a enum
         Rol rol = Rol.valueOf(rolParam.toUpperCase());
 
         Usuario nuevoUsuario = new Usuario(nombre, password, email, rol);
         req.setAttribute("usuario", nuevoUsuario);
+        System.out.println(nuevoUsuario);
 
     }
 }

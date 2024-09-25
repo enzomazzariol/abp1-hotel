@@ -2,11 +2,12 @@ package Model;
 
 import Utils.Rol;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Usuario {
 
-    private int id;
     private String nombre;
     private String email;
     private String password;
@@ -14,24 +15,14 @@ public class Usuario {
     private String fechaRegistro;
 
     public Usuario(String nombre, String email, String password, Rol rol) {
-        this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.password = password;
         this.rol = rol;
-        this.fechaRegistro = fechaRegistro;
-    }
 
-    public Usuario(){
-
-    }
-
-    public int getIdUsuario() {
-        return id;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.id = idUsuario;
+        // Obtener la fecha actual en el formato dd-MM-yyyy para fechaRegistro
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        this.fechaRegistro = LocalDate.now().format(formatter);
     }
 
     public String getNombre() {
@@ -77,13 +68,11 @@ public class Usuario {
     @Override
     public String toString() {
         return "Usuario{" +
-                "idUsuario=" + id +
-                ", nombre='" + nombre + '\'' +
+                "nombre='" + nombre + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", rol=" + rol +
                 ", fechaRegistro='" + fechaRegistro + '\'' +
                 '}';
     }
-
 }

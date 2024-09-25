@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @WebServlet("/actividades")
-public class Actividades extends HttpServlet {
+public class ActividadesServlet extends HttpServlet {
 
     // Lista que almacena las actividades
     private ArrayList<Actividad> listaActividades = new ArrayList<>();

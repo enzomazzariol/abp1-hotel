@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @WebServlet("/habitacion")
-public class Habitacion extends HttpServlet {
+public class HabitacionServlet extends HttpServlet {
 
     private ArrayList<Model.Habitacion> habitaciones;
 
