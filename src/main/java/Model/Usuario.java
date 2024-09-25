@@ -1,6 +1,6 @@
 package Model;
 
-import Utils.Rol;
+import java.util.Date;
 
 public class Usuario {
 
