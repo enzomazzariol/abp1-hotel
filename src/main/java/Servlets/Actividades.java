@@ -23,9 +23,7 @@ public class Actividades extends HttpServlet {
         listaActividades.add(new Actividad("Boxeo", "Myke Tyson", "50px", 50, 15,
                         "2024-03-03"));
 
-        req.setAttribute("actividades", listaActividades);
-
-        // Foward a la pagina actividades
+            // Foward a la pagina actividades
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/actividades.jsp");
         dispatcher.forward(req, resp);
     }
