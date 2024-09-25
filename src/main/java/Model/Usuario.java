@@ -1,5 +1,7 @@
 package Model;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Usuario {
@@ -10,12 +12,13 @@ public class Usuario {
     private Rol rol;
     private String fechaRegistro;
 
-    public Usuario(String nombre, String email, String password, Rol rol, String fechaRegistro) {
+    public Usuario(String nombre, String email, String password, Rol rol) {
         this.nombre = nombre;
         this.email = email;
         this.password = password;
         this.rol = rol;
-        this.fechaRegistro = fechaRegistro;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        this.fechaRegistro = LocalDate.now().format(formatter);
     }
 
     public String getNombre() {
@@ -56,5 +59,16 @@ public class Usuario {
 
     public void setFechaRegistro(String fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "nombre='" + nombre + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", rol=" + rol +
+                ", fechaRegistro='" + fechaRegistro + '\'' +
+                '}';
     }
 }
