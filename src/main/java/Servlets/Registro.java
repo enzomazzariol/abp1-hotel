@@ -1,5 +1,8 @@
 package Servlets;
 
+import Model.Rol;
+import Model.Usuario;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +27,14 @@ public class Registro extends HttpServlet {
         String nombre = req.getParameter("nombre");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
-        System.out.println(nombre + " " + password + " " + email);
+        String rolParam = req.getParameter("rol");
+        System.out.println(nombre + " " + password + " " + email + " " + rolParam);
+
+        // Convertir el rol recibido del formulario a enum
+        Rol rol = Rol.valueOf(rolParam.toUpperCase());
+
+        Usuario nuevoUsuario = new Usuario(nombre, password, email, rol);
+        req.setAttribute("usuario", nuevoUsuario);
+
     }
 }
