@@ -2,12 +2,14 @@ package Model;
 
 public class Habitacion {
 
+    private int id;
     private String tipoHabitacion;
     private String imagen;
     private double precio;
     private String estado;
 
-    public Habitacion(String tipoHabitacion, String imagen, double precio, String estado) {
+    public Habitacion(int id, String tipoHabitacion, String imagen, double precio, String estado) {
+        this.id = id;
         this.tipoHabitacion = tipoHabitacion;
         this.imagen = imagen;
         this.precio = precio;

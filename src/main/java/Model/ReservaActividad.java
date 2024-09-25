@@ -6,8 +6,8 @@ public class ReservaActividad extends Reservas{
 
     private int idActividad;
 
-    public ReservaActividad(int idUsuario, int idActividad, Estado estado, String fechaReserva) {
-        super(idUsuario, estado, fechaReserva);
+    public ReservaActividad(int id, int idUsuario, Estado estado, String fechaReserva, int idActividad) {
+        super(id, idUsuario, estado, fechaReserva);
         this.idActividad = idActividad;
     }
 

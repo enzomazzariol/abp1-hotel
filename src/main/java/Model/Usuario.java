@@ -15,7 +15,7 @@ public class Usuario {
     private Rol rol;
     private String fechaRegistro;
 
-    public Usuario(String nombre, String email, String password, Rol rol) {
+    public Usuario(int id, String nombre, String email, String password, Rol rol) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
@@ -27,16 +27,12 @@ public class Usuario {
         this.fechaRegistro = LocalDate.now().format(formatter);
     }
 
-    public Usuario(){
-
-    }
-
-    public int getIdUsuario() {
+    public int getId() {
         return id;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.id = idUsuario;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -82,13 +78,11 @@ public class Usuario {
     @Override
     public String toString() {
         return "Usuario{" +
-                "idUsuario=" + id +
-                ", nombre='" + nombre + '\'' +
+                "nombre='" + nombre + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", rol=" + rol +
                 ", fechaRegistro='" + fechaRegistro + '\'' +
                 '}';
     }
-
 }

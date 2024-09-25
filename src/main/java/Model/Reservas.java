@@ -3,14 +3,24 @@ package Model;
 import Utils.Estado;
 
 public class Reservas {
+    protected int id;
     protected int idUsuario;
     protected Estado estado;
     protected String fechaReserva;
 
-    public Reservas(int idUsuario, Estado estado, String fechaReserva) {
+    public Reservas(int id, int idUsuario, Estado estado, String fechaReserva) {
+        this.id = id;
         this.idUsuario = idUsuario;
         this.estado = estado;
         this.fechaReserva = fechaReserva;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getIdUsuario() {

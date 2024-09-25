@@ -3,7 +3,7 @@ package Model;
 import java.util.Arrays;
 
 public class Actividad {
-
+ private int id;
  private String nombre_actividad;
  private String descripcion;
  private String imagenes;
@@ -11,13 +11,22 @@ public class Actividad {
  private int cupo;
  private String fecha_actividad;
 
-    public Actividad(String nombre_actividad, String descripcion, String imagenes, double precio, int cupo, String fecha_actividad) {
+    public Actividad(int id, String nombre_actividad, String descripcion, String imagenes, double precio, int cupo, String fecha_actividad) {
+        this.id = id;
         this.nombre_actividad = nombre_actividad;
         this.descripcion = descripcion;
         this.imagenes = imagenes;
         this.precio = precio;
         this.cupo = cupo;
         this.fecha_actividad = fecha_actividad;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setNombre_actividad(String nombre_actividad) {
