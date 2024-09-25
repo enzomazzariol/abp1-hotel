@@ -8,13 +8,15 @@ import java.util.Date;
 
 public class Usuario {
 
+    private int id;
     private String nombre;
     private String email;
     private String password;
     private Rol rol;
     private String fechaRegistro;
 
-    public Usuario(String nombre, String email, String password, Rol rol) {
+    public Usuario(int id, String nombre, String email, String password, Rol rol) {
+        this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.password = password;
@@ -23,6 +25,14 @@ public class Usuario {
         // Obtener la fecha actual en el formato dd-MM-yyyy para fechaRegistro
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         this.fechaRegistro = LocalDate.now().format(formatter);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {

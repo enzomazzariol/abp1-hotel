@@ -24,6 +24,8 @@ public class RegistroServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // recuperar parametros del formulario registro
+
+        int id = Integer.parseInt(req.getParameter("id"));
         String nombre = req.getParameter("nombre");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
@@ -33,7 +35,7 @@ public class RegistroServlet extends HttpServlet {
         // Convertir el rol recibido del formulario a enum
         Rol rol = Rol.valueOf(rolParam.toUpperCase());
 
-        Usuario nuevoUsuario = new Usuario(nombre, password, email, rol);
+        Usuario nuevoUsuario = new Usuario(id, nombre, password, email, rol);
         req.setAttribute("usuario", nuevoUsuario);
         System.out.println(nuevoUsuario);
 

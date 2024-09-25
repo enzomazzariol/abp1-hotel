@@ -21,7 +21,7 @@ public class ReservaHabitacionServlet extends HttpServlet {
 
         reservaHabitaciones = new ArrayList<>();
 
-        reservaHabitaciones.add(new ReservaHabitacion(1, 1, Estado.RESERVADO, "01-02-2024", "01-02-2024", "03-02-2024"));
+        reservaHabitaciones.add(new ReservaHabitacion(1, 1, Estado.RESERVADO, "01-02-2024", 1, "01-02-2024", "03-02-2024"));
         req.setAttribute("reservaHabitacion", reservaHabitaciones);
         getServletContext().getRequestDispatcher("/jsp/reservaHabitacion.jsp").forward(req, resp);
     }
@@ -30,6 +30,7 @@ public class ReservaHabitacionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
        reservaHabitaciones = new ArrayList<>();
 
+       int id = Integer.parseInt(req.getParameter("id"));
        int idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
        int idHabitacion = Integer.parseInt(req.getParameter("idHabitacion"));
        String estadoParam = req.getParameter("estado");
@@ -38,7 +39,7 @@ public class ReservaHabitacionServlet extends HttpServlet {
        String fechaSalida = req.getParameter("fechaSalida");
 
        Estado estado = Estado.valueOf(estadoParam.toUpperCase());
-       ReservaHabitacion reservaHabitacion = new ReservaHabitacion(idUsuario, idHabitacion, estado, fechaReserva, fechaEntrada, fechaSalida);
+       ReservaHabitacion reservaHabitacion = new ReservaHabitacion(id, idUsuario, estado, fechaReserva, idHabitacion, fechaEntrada, fechaSalida);
        reservaHabitaciones.add(reservaHabitacion);
 
        System.out.println(reservaHabitaciones);
