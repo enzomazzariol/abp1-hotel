@@ -1,6 +1,6 @@
 package Servlets;
 
-import Model.Rol;
+import Utils.Rol;
 import Model.Usuario;
 
 import javax.servlet.RequestDispatcher;
