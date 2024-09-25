@@ -1,11 +1,13 @@
 package Model;
 
+import Utils.Estado;
+
 public class ReservaHabitacion extends Reservas{
     private int idHabitacion;
     private String fechaEntrada;
     private String fechaSalida;
 
-    public ReservaHabitacion(int idUsuario, int idHabitacion, String estado, String fechaReserva, String fechaEntrada, String fechaSalida) {
+    public ReservaHabitacion(int idUsuario, int idHabitacion, Estado estado, String fechaReserva, String fechaEntrada, String fechaSalida) {
         super(idUsuario, estado, fechaReserva);
         this.idHabitacion = idHabitacion;
         this.fechaEntrada = fechaEntrada;
@@ -34,5 +36,17 @@ public class ReservaHabitacion extends Reservas{
 
     public void setFechaSalida(String fechaSalida) {
         this.fechaSalida = fechaSalida;
+    }
+
+    @Override
+    public String toString() {
+        return "ReservaHabitacion{" +
+                "idHabitacion=" + idHabitacion +
+                ", fechaEntrada='" + fechaEntrada + '\'' +
+                ", fechaSalida='" + fechaSalida + '\'' +
+                ", idUsuario=" + idUsuario +
+                ", estado=" + estado +
+                ", fechaReserva='" + fechaReserva + '\'' +
+                '}';
     }
 }

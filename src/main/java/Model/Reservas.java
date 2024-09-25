@@ -1,11 +1,13 @@
 package Model;
 
+import Utils.Estado;
+
 public class Reservas {
     protected int idUsuario;
-    protected String estado;
+    protected Estado estado;
     protected String fechaReserva;
 
-    public Reservas(int idUsuario, String estado, String fechaReserva) {
+    public Reservas(int idUsuario, Estado estado, String fechaReserva) {
         this.idUsuario = idUsuario;
         this.estado = estado;
         this.fechaReserva = fechaReserva;
@@ -19,11 +21,11 @@ public class Reservas {
         this.idUsuario = idUsuario;
     }
 
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
 
