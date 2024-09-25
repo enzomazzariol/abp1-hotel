@@ -2,6 +2,8 @@ package Model;
 
 import Utils.Rol;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Usuario {
@@ -19,7 +21,10 @@ public class Usuario {
         this.email = email;
         this.password = password;
         this.rol = rol;
-        this.fechaRegistro = fechaRegistro;
+
+        // Obtener la fecha actual en el formato dd-MM-yyyy para fechaRegistro
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        this.fechaRegistro = LocalDate.now().format(formatter);
     }
 
     public Usuario(){
