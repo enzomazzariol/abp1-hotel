@@ -1,15 +1,16 @@
-package Model;
 
-import java.util.Arrays;
+
+package Model;
 
 public class Actividad {
 
- private String nombre_actividad;
- private String descripcion;
- private String imagenes;
- private double precio;
- private int cupo;
- private String fecha_actividad;
+    private String nombre_actividad;
+    private String descripcion;
+    private String imagenes;
+    private double precio;
+    private int cupo;
+    private String fecha_actividad;
+    private boolean eliminado;  // Nuevo campo para marcar como eliminada
 
     public Actividad(String nombre_actividad, String descripcion, String imagenes, double precio, int cupo, String fecha_actividad) {
         this.nombre_actividad = nombre_actividad;
@@ -18,6 +19,7 @@ public class Actividad {
         this.precio = precio;
         this.cupo = cupo;
         this.fecha_actividad = fecha_actividad;
+        this.eliminado = false; // Inicialmente no eliminada
     }
 
     public void setNombre_actividad(String nombre_actividad) {
@@ -68,6 +70,8 @@ public class Actividad {
         return fecha_actividad;
     }
 
+
+
     @Override
     public String toString() {
         return "Actividad{" +
@@ -77,6 +81,7 @@ public class Actividad {
                 ", precio=" + precio +
                 ", cupo=" + cupo +
                 ", fecha_actividad='" + fecha_actividad + '\'' +
+                ", eliminado=" + eliminado +
                 '}';
     }
 }

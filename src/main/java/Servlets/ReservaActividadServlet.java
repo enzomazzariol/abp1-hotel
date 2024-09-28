@@ -10,35 +10,43 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/reservaActividad")
 public class ReservaActividadServlet extends HttpServlet {
 
-    private ArrayList<ReservaActividad> reservaActividades;
+    private List<ReservaActividad> reservasActividades = new ArrayList<>();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        reservaActividades = new ArrayList<>();
-
-        reservaActividades.add(new ReservaActividad(1, 1, Estado.RESERVADO, "03-03-2004"));
-        req.setAttribute("reservaActividad", reservaActividades);
+        req.setAttribute("reservasActividades", reservasActividades);
         getServletContext().getRequestDispatcher("/jsp/reservaActividad.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        reservaActividades = new ArrayList<>();
-
+        String action = req.getParameter("action");
         int idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
-        int idActividad = Integer.parseInt(req.getParameter("idActividad"));
-        String estadoParam = req.getParameter("estado");
+        Estado estado = Estado.valueOf(req.getParameter("estado"));
         String fechaReserva = req.getParameter("fechaReserva");
+        int idActividad = Integer.parseInt(req.getParameter("idActividad"));
 
-        Estado estado = Estado.valueOf(estadoParam.toUpperCase());
+        if ("actualizar".equals(action)) {
+            int index = Integer.parseInt(req.getParameter("index"));
+            ReservaActividad reservaActividad = reservasActividades.get(index);
+            reservaActividad.setIdActividad(idActividad);
+            reservaActividad.setEstado(estado);
+            reservaActividad.setFechaReserva(fechaReserva);
+        } else if ("eliminar".equals(action)) {
+            int index = Integer.parseInt(req.getParameter("index"));
+            reservasActividades.get(index).setEliminado(true); // Marcar como eliminado
+        } else {
+            // Crear nueva reserva
+            ReservaActividad nuevaReserva = new ReservaActividad(idUsuario, idActividad, estado, fechaReserva);
+            reservasActividades.add(nuevaReserva);
+        }
 
-        ReservaActividad reservaActividad = new ReservaActividad(idUsuario, idActividad, estado, fechaReserva);
-        reservaActividades.add(reservaActividad);
-        System.out.println(reservaActividades);
+        doGet(req, resp);
     }
 }
+
