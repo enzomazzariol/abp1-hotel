@@ -11,14 +11,14 @@ public class Actividad {
  private int cupo;
  private String fecha_actividad;
 
-    public Actividad(int id, String nombre_actividad, String descripcion, String imagenes, double precio, int cupo, String fecha_actividad) {
-        this.id = id;
+    public Actividad(String nombre_actividad, String descripcion, String imagenes, double precio, int cupo, String fecha_actividad) {
         this.nombre_actividad = nombre_actividad;
         this.descripcion = descripcion;
         this.imagenes = imagenes;
         this.precio = precio;
         this.cupo = cupo;
         this.fecha_actividad = fecha_actividad;
+        this.eliminado = false; // Inicialmente no eliminada
     }
 
     public int getId() {
@@ -86,6 +86,7 @@ public class Actividad {
                 ", precio=" + precio +
                 ", cupo=" + cupo +
                 ", fecha_actividad='" + fecha_actividad + '\'' +
+                ", eliminado=" + eliminado +
                 '}';
     }
 }
