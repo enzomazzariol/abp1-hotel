@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ActividadesDAO {
+public class ActividadesDAO extends Conexion {
 
     public static final String SELECT_ACTIVIDADES = "select id, nombre_actividad, descripcion, imagen, precio, cupo, " +
             "fecha_actividad from actividades";
@@ -17,7 +17,6 @@ public class ActividadesDAO {
         ArrayList<Actividad> listaActividades = new ArrayList<>();
         Conexion conexionBD = new Conexion();
 
-        Connection conn = conexionBD.conectar();
         PreparedStatement ps = conn.prepareStatement(SELECT_ACTIVIDADES);
 
         ResultSet rs = ps.executeQuery();
