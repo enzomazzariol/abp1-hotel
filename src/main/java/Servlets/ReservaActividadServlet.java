@@ -1,6 +1,8 @@
 package Servlets;
 
+import Model.ReservaActividad;
 import Service.ReservaActividadService;
+import Utils.Estado;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 @WebServlet("/reservaActividad")
 public class ReservaActividadServlet extends HttpServlet {
+
     ReservaActividadService ras = new ReservaActividadService();
 
     @Override
@@ -20,6 +24,6 @@ public class ReservaActividadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ras.crearReservaActividad(req, resp);
+        ras.menuPostReservaActividad(req, resp);
     }
 }

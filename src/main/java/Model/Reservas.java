@@ -7,12 +7,22 @@ public class Reservas {
     protected int idUsuario;
     protected Estado estado;
     protected String fechaReserva;
+    protected boolean eliminado;
 
-    public Reservas(int id, int idUsuario, Estado estado, String fechaReserva) {
+    public Reservas(int id, int idUsuario, Estado estado, String fechaReserva, boolean eliminado) {
         this.id = id;
         this.idUsuario = idUsuario;
         this.estado = estado;
         this.fechaReserva = fechaReserva;
+        this.eliminado = eliminado;
+    }
+
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
     }
 
     public int getId() {

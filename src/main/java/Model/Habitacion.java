@@ -7,13 +7,23 @@ public class Habitacion {
     private String imagen;
     private double precio;
     private String estado;
+    private boolean eliminado;
 
-    public Habitacion(int id, String tipoHabitacion, String imagen, double precio, String estado) {
+    public Habitacion(int id, String tipoHabitacion, String imagen, double precio, String estado, boolean eliminado) {
         this.id = id;
         this.tipoHabitacion = tipoHabitacion;
         this.imagen = imagen;
         this.precio = precio;
         this.estado = estado;
+        this.eliminado = eliminado;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTipoHabitacion() {
@@ -48,6 +58,14 @@ public class Habitacion {
         this.estado = estado;
     }
 
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
+    }
+
     @Override
     public String toString() {
         return "Habitacion{" +
@@ -57,4 +75,5 @@ public class Habitacion {
                 ", estado='" + estado + '\'' +
                 '}';
     }
+
 }

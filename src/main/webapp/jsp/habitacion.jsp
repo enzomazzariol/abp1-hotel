@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Hello Habitaciones!</h2>
+<h1>Hola aqui va el formulario de habitacion</h1>
 </body>
 </html>

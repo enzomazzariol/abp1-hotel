@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Hello reserva actividad!</h2>
+<h1>Hola aqui va el formulario de reserva actividad</h1>
 </body>
 </html>

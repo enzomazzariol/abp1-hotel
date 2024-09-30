@@ -23,6 +23,6 @@ public class ReservaHabitacionServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        rhs.crearReservaHabitacion(req, resp);
+        rhs.menuPostReservaHabitacion(req, resp);
     }
 }
