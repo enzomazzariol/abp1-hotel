@@ -7,8 +7,8 @@ public class ReservaHabitacion extends Reservas{
     private String fechaEntrada;
     private String fechaSalida;
 
-    public ReservaHabitacion(int id, int idUsuario, Estado estado, String fechaReserva, int idHabitacion, String fechaEntrada, String fechaSalida) {
-        super(id, idUsuario, estado, fechaReserva);
+    public ReservaHabitacion(int id, int idUsuario, Estado estado, String fechaReserva, boolean eliminado, int idHabitacion, String fechaEntrada, String fechaSalida) {
+        super(id, idUsuario, estado, fechaReserva, eliminado);
         this.idHabitacion = idHabitacion;
         this.fechaEntrada = fechaEntrada;
         this.fechaSalida = fechaSalida;
