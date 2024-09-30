@@ -25,7 +25,7 @@ public class ActividadesService {
         String action = req.getParameter("action");
 
         if ("agregar".equals(action)) {
-            agregarActividad(req);
+            agregarActividad(req, resp);
         } else if ("actualizar".equals(action)) {
             actualizarActividad(req);
         } else if ("eliminar".equals(action)) {
@@ -33,7 +33,7 @@ public class ActividadesService {
         }
     }
 
-    private void agregarActividad(HttpServletRequest req) {
+    public void agregarActividad(HttpServletRequest req, HttpServletResponse resp) {
         // Obtiene los datos de la nueva actividad
         int id = Integer.parseInt(req.getParameter("id"));
         String nombre = req.getParameter("nombre_actividad");
