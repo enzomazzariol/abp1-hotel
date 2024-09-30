@@ -4,7 +4,9 @@ public enum Estado {
 
     RESERVADO("reservado"),
     CANCELADO("cancelado"),
+    LIBRE("libre"),
     COMPLETADO("completado");
+
 
     private final String estado;
 

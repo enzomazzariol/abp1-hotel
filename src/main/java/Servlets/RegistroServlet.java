@@ -1,5 +1,6 @@
 package Servlets;
 
+import Service.RegistroService;
 import Utils.Rol;
 import Model.Usuario;
 
@@ -14,30 +15,15 @@ import java.io.IOException;
 @WebServlet("/registro")
 public class RegistroServlet extends HttpServlet {
 
+    RegistroService registroService = new RegistroService();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Foward a la pagina registro
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/registro.jsp");
-        dispatcher.forward(req, resp);
+        registroService.fowardRegistro(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // recuperar parametros del formulario registro
-
-        int id = Integer.parseInt(req.getParameter("id"));
-        String nombre = req.getParameter("nombre");
-        String password = req.getParameter("password");
-        String email = req.getParameter("email");
-        String rolParam = req.getParameter("rol");
-
-
-        // Convertir el rol recibido del formulario a enum
-        Rol rol = Rol.valueOf(rolParam.toUpperCase());
-
-        Usuario nuevoUsuario = new Usuario(id, nombre, password, email, rol);
-        req.setAttribute("usuario", nuevoUsuario);
-        System.out.println(nuevoUsuario);
-
+        registroService.registroUsuario(req, resp);
     }
 }
