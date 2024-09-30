@@ -2,6 +2,7 @@ package Servlets;
 
 import Model.ReservaHabitacion;
 import Utils.Estado;
+import Service.ReservaHabitacionService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,11 +17,12 @@ import java.util.List;
 public class ReservaHabitacionServlet extends HttpServlet {
 
     private List<ReservaHabitacion> reservasHabitaciones = new ArrayList<>();
+    ReservaHabitacionService rhs = new ReservaHabitacionService();
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("reservasHabitaciones", reservasHabitaciones);
-        getServletContext().getRequestDispatcher("/jsp/reservaHabitacion.jsp").forward(req, resp);
+        rhs.mostrarReservaHabitacion(req, resp);
     }
 
     @Override

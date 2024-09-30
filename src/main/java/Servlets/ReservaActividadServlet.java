@@ -16,11 +16,11 @@ import java.util.List;
 public class ReservaActividadServlet extends HttpServlet {
 
     private List<ReservaActividad> reservasActividades = new ArrayList<>();
+    ReservaActividadService ras = new ReservaActividadService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("reservasActividades", reservasActividades);
-        getServletContext().getRequestDispatcher("/jsp/reservaActividad.jsp").forward(req, resp);
+        ras.mostrarReservaActividad(req, resp);
     }
 
     @Override
@@ -49,4 +49,3 @@ public class ReservaActividadServlet extends HttpServlet {
         doGet(req, resp);
     }
 }
-

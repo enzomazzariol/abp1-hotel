@@ -1,21 +1,38 @@
 package Model;
 
+import Utils.Rol;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Usuario {
 
+    private int id;
     private String nombre;
     private String email;
     private String password;
     private Rol rol;
     private String fechaRegistro;
 
-    public Usuario(String nombre, String email, String password, Rol rol, String fechaRegistro) {
+    public Usuario(int id, String nombre, String email, String password, Rol rol) {
+        this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.password = password;
         this.rol = rol;
-        this.fechaRegistro = fechaRegistro;
+
+        // Obtener la fecha actual en el formato dd-MM-yyyy para fechaRegistro
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        this.fechaRegistro = LocalDate.now().format(formatter);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -56,5 +73,16 @@ public class Usuario {
 
     public void setFechaRegistro(String fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "nombre='" + nombre + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", rol=" + rol +
+                ", fechaRegistro='" + fechaRegistro + '\'' +
+                '}';
     }
 }

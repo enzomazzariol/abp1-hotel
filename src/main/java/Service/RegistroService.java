@@ -1,40 +1,39 @@
-package Servlets;
+package Service;
 
-import Model.Rol;
 import Model.Usuario;
+import Utils.Rol;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
-@WebServlet("/registro")
-public class Registro extends HttpServlet {
+public class RegistroService {
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+
+    public void fowardRegistro(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Foward a la pagina registro
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/registro.jsp");
         dispatcher.forward(req, resp);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void registroUsuario(HttpServletRequest req, HttpServletResponse resp){
         // recuperar parametros del formulario registro
+
+        int id = Integer.parseInt(req.getParameter("id"));
         String nombre = req.getParameter("nombre");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
         String rolParam = req.getParameter("rol");
-        System.out.println(nombre + " " + password + " " + email + " " + rolParam);
 
         // Convertir el rol recibido del formulario a enum
         Rol rol = Rol.valueOf(rolParam.toUpperCase());
 
-        Usuario nuevoUsuario = new Usuario(nombre, password, email, rol);
-        req.setAttribute("usuario", nuevoUsuario);
-
+        Usuario nuevoUsuario = new Usuario(id, nombre, password, email, rol);
+        listaUsuarios.add(nuevoUsuario);
+        System.out.println(nuevoUsuario);
     }
 }

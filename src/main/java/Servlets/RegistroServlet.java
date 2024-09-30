@@ -1,5 +1,10 @@
 package Servlets;
 
+import Service.RegistroService;
+import Utils.Rol;
+import Model.Usuario;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -7,19 +12,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/login")
-public class Login extends HttpServlet {
+@WebServlet("/registro")
+public class RegistroServlet extends HttpServlet {
+
+    RegistroService registroService = new RegistroService();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
-        System.out.println("Hola este es el get.");
+        registroService.fowardRegistro(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String nombre = req.getParameter("nombre");
-        String password = req.getParameter("password");
-        System.out.println("El usuario es " + nombre + " y la contraseña es " + password);
+        registroService.registroUsuario(req, resp);
     }
 }
