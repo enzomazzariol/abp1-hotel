@@ -2,49 +2,102 @@ package DAO;
 
 import Model.Actividad;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ActividadesDAO extends Conexion {
 
+    // Constantes SQL para el CRUD
     public static final String SELECT_ACTIVIDADES = "select id, nombre_actividad, descripcion, imagen, precio, cupo, " +
             "fecha_actividad from actividades";
 
-    public static final String INSERT_ACTIVIDADES = "";
+    public static final String INSERT_ACTIVIDADES = "insert into actividades (nombre_actividad, descripcion, imagen," +
+            "precio, cupo, fecha_actividad) values (?, ?, ?, ?, ?, ?)";
 
-    public static final String UPDATE_ACTIVIDADES = "";
+    public static final String UPDATE_ACTIVIDADES = "update actividades set nombre_actividad = ?, descripcion = ?, imagen = ?, precio = ?, cupo = ?, fecha_actividad = ? where id = ?";
 
-    public static final String DELETE_ACTIVIDADES = "";
+    public static final String DELETE_ACTIVIDADES = "delete from actividades where id = ?";
 
-    public ArrayList<Actividad> obtenerActividades() throws SQLException, ClassNotFoundException {
+
+    // Metodo para lista todas las actividades de la BBDD
+    public ArrayList<Actividad> listarActividades() throws SQLException, ClassNotFoundException {
         ArrayList<Actividad> listaActividades = new ArrayList<>();
-        Conexion conexionBD = new Conexion();
+        Conexion conn = new Conexion();
 
-        PreparedStatement ps = conn.prepareStatement(SELECT_ACTIVIDADES);
+        try {
+            PreparedStatement ps = conn.conectar().prepareStatement(SELECT_ACTIVIDADES);
+            ResultSet rs = ps.executeQuery();
 
-        ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre_actividad");
+                String descripcion = rs.getString("descripcion");
+                String imagenes = rs.getString("imagen");
+                double precio = rs.getDouble("precio");
+                int cupo = rs.getInt("cupo");
+                String fecha_actividad = rs.getString("fecha_actividad");
 
-        while(rs.next()){
-            int id = rs.getInt("id");
-            String nombre = rs.getString("nombre_actividad");
-            String descripcion = rs.getString("descripcion");
-            String imagenes = rs.getString("imagen");
-            double precio = rs.getDouble("precio");
-            int cupo = rs.getInt("cupo");
-            String fecha_actividad = rs.getString("fecha_actividad");
+                Actividad nuevaActividad = new Actividad(id, nombre, descripcion, imagenes, precio, cupo, fecha_actividad);
+                listaActividades.add(nuevaActividad);
 
-            Actividad nuevaActividad = new Actividad(id, nombre, descripcion, imagenes, precio, cupo, fecha_actividad);
-            System.out.println(nuevaActividad);
-            listaActividades.add(nuevaActividad);
+                int var = 0;
+
+                System.out.println(nuevaActividad);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
-        System.out.println("Se obtuvieron " + listaActividades.size() + " actividades de la base de datos.");
-
-        conexionBD.desconectar();
+        finally {
+            conn.desconectar();
+        }
         return listaActividades;
+    }
+
+    public void insertarActividad(Actividad actividad) throws SQLException {
+
+        try (Connection connection = new Conexion().conectar();
+             PreparedStatement ps = connection.prepareStatement(INSERT_ACTIVIDADES)) {
+
+            // Asigna los valores a la consulta SQL
+            ps.setString(1, actividad.getNombre_actividad());
+            ps.setString(2, actividad.getDescripcion());
+            ps.setString(3, actividad.getImagenes());
+            ps.setDouble(4, actividad.getPrecio());
+            ps.setInt(5, actividad.getCupo());
+            ps.setString(6, actividad.getFecha_actividad());
+
+            // Ejecuta la consulta
+            ps.executeUpdate();
+            System.out.println("Insert realizado correctamente a la BD");
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al insertar la actividad", e);
+        }
+    }
+
+    public void actualizarActividad(Actividad actividad) throws SQLException {
+        Conexion conn = new Conexion();
+
+        try (Connection connection = conn.conectar();
+             PreparedStatement ps = connection.prepareStatement(UPDATE_ACTIVIDADES)) {
+            ps.setString(1, actividad.getNombre_actividad());
+            ps.setString(2, actividad.getDescripcion());
+            ps.setString(3, actividad.getImagenes());
+            ps.setDouble(4, actividad.getPrecio());
+            ps.setInt(5, actividad.getCupo());
+            ps.setString(6, actividad.getFecha_actividad());
+            ps.setInt(7, actividad.getId());
+
+            ps.executeUpdate();
+            System.out.println("Actividad actualizada correctamente en la Base de Datos DAO");
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void eliminarActividad(int id){
+
     }
 }
 

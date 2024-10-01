@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 @WebServlet("/actividades")
 public class ActividadesServlet extends HttpServlet {
@@ -21,18 +20,16 @@ public class ActividadesServlet extends HttpServlet {
     ActividadesService as = new ActividadesService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       as.listarActividades(req, resp);
+       actividadesService.fowardActividades(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-         actividadesService.agregarActividad(req, resp);
-
         try {
-            actividadesDAO.obtenerActividades();
-            as.menuPostActividad(req, resp);
+            actividadesService.menuPostActividad(req, resp);
+            actividadesService.listarActividades(req, resp);
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
     }
