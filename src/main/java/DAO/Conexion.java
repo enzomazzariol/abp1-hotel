@@ -12,7 +12,7 @@ public class Conexion {
     public static final String PASS = "jupiter*";         // Contraseña de la base de datos
     public static final String URL = "jdbc:mysql://localhost:3306/" + SCHEMA_NAME + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=True";
 
-    private Connection conexion;
+     Connection conn;
 
     // Método para conectarse a la base de datos
     public Connection conectar() throws SQLException, ClassNotFoundException {
@@ -20,15 +20,15 @@ public class Conexion {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         // Establecer la conexión
-        conexion = DriverManager.getConnection(URL, USER, PASS);
+        conn = DriverManager.getConnection(URL, USER, PASS);
         System.out.println("Conexión exitosa a la base de datos: " + SCHEMA_NAME);
-        return conexion;
+        return conn;
     }
 
     // Método para desconectarse de la base de datos
     public void desconectar() throws SQLException {
-        if (conexion != null && !conexion.isClosed()) {
-            conexion.close();
+        if (conn != null && !conn.isClosed()) {
+            conn.close();
             System.out.println("Conexión cerrada.");
         }
     }
