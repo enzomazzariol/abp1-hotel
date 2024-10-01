@@ -2,11 +2,9 @@ package Utils;
 
 public enum Estado {
 
-    RESERVADO("reservado"),
-    CANCELADO("cancelado"),
-    LIBRE("libre"),
-    COMPLETADO("completado");
-
+    DISPONIBLE("disponible"),
+    OCUPADA("ocupada"),
+    MANTENIMIENTO("mantenimiento");
 
     private final String estado;
 
