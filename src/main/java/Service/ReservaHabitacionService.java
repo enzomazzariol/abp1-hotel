@@ -15,7 +15,7 @@ public class ReservaHabitacionService {
 
     public void mostrarReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         reservaHabitaciones = new ArrayList<>();
-        reservaHabitaciones.add(new ReservaHabitacion(1, 1, Estado.RESERVADO, "01-02-2024", false, 1, "01-02-2024", "03-02-2024"));
+        reservaHabitaciones.add(new ReservaHabitacion(1, 1, Estado.DISPONIBLE, "01-02-2024", false, 1, "01-02-2024", "03-02-2024"));
         req.setAttribute("reservaHabitacion", reservaHabitaciones);
 
         RequestDispatcher dispatcher= req.getRequestDispatcher("/jsp/reservaHabitacion.jsp");
