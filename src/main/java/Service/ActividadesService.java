@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class ActividadesService {
 
     private ArrayList<Actividad> actividades = new ArrayList<>();
+    ActividadesDAO actividadesDAO = new ActividadesDAO();
 
     public void fowardActividades(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //foward a la pagna de actividades
@@ -21,7 +22,7 @@ public class ActividadesService {
         dispatcher.forward(req, resp);
     }
 
-    public void menuPostActividad(HttpServletRequest req, HttpServletResponse resp) throws  SQLException {
+    public void menuPostActividad(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException {
         String action = req.getParameter("action");
 
         if ("agregar".equals(action)) {
@@ -41,8 +42,6 @@ public class ActividadesService {
 
 
     public void agregarActividad(HttpServletRequest req, HttpServletResponse resp) throws SQLException {
-        ActividadesDAO actividadesDAO = new ActividadesDAO();
-
         // Obtiene los datos de la nueva actividad
         int id = Integer.parseInt(req.getParameter("id"));
         String nombre = req.getParameter("nombre_actividad");
@@ -57,13 +56,11 @@ public class ActividadesService {
 
         // insertamos la actividad en la BD
         actividadesDAO.insertarActividad(nuevaActividad);
-        System.out.println("Actividad: " + nuevaActividad + " insertada correctamente en la base de datos");
+        System.out.println("Actividad insertada correctamente en la base de datos");
 
     }
 
     public void actualizarActividad(HttpServletRequest req, HttpServletResponse resp) throws SQLException {
-        ActividadesDAO actividadesDAO = new ActividadesDAO();
-
         // Obtiene el ID y los datos de la actividad a actualizar
         int id = Integer.parseInt(req.getParameter("id"));
         String nombre = req.getParameter("nombre_actividad");
@@ -78,19 +75,15 @@ public class ActividadesService {
         // Actualizamos la actividad en la Base de datos
         actividadesDAO.actualizarActividad(actividad);
 
-        System.out.println("Actividad: " + actividad + " actualizada correctamente en la base de datos SERVICE");
+        System.out.println("Actividad actualizada correctamente en la base de datos");
     }
 
-    public void eliminarActividad(HttpServletRequest req) {
+    public void eliminarActividad(HttpServletRequest req) throws SQLException, ClassNotFoundException {
+        // Obtenemos el id a eliminar en la BD
         int id = Integer.parseInt(req.getParameter("id"));
+        actividadesDAO.eliminarActividad(id);
 
-        for (Actividad actividad : actividades) {
-            if (actividad.getId() == id) {
-                actividad.setEliminado(true);  // Marcamos como eliminada
-                System.out.println("Actividad marcada como eliminada: " + actividad);
-                break;
-            }
-        }
+        System.out.println("Se ha eliminado la actividad con el id: " + id);
     }
 
 }

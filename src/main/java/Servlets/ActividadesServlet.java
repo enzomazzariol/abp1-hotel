@@ -27,7 +27,7 @@ public class ActividadesServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             actividadesService.menuPostActividad(req, resp);
-            actividadesService.listarActividades(req, resp);
+            //actividadesService.listarActividades(req, resp);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

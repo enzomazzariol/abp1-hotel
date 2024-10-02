@@ -40,8 +40,6 @@ public class ActividadesDAO extends Conexion {
                 Actividad nuevaActividad = new Actividad(id, nombre, descripcion, imagenes, precio, cupo, fecha_actividad);
                 listaActividades.add(nuevaActividad);
 
-                int var = 0;
-
                 System.out.println(nuevaActividad);
             }
         }catch (Exception e){
@@ -68,10 +66,7 @@ public class ActividadesDAO extends Conexion {
 
             // Ejecuta la consulta
             ps.executeUpdate();
-            System.out.println("Insert realizado correctamente a la BD");
-
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
             throw new RuntimeException("Error al insertar la actividad", e);
         }
     }
@@ -90,14 +85,22 @@ public class ActividadesDAO extends Conexion {
             ps.setInt(7, actividad.getId());
 
             ps.executeUpdate();
-            System.out.println("Actividad actualizada correctamente en la Base de Datos DAO");
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error al actualizar la actividad", e);
         }
     }
 
-    public void eliminarActividad(int id){
+    public void eliminarActividad(int id) throws SQLException, ClassNotFoundException {
+        Conexion conn = new Conexion();
 
+        try(Connection connection = conn.conectar()){
+            PreparedStatement ps = connection.prepareStatement(DELETE_ACTIVIDADES);
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+        } catch (SQLException e){
+            throw new RuntimeException("Error al eliminar la actividad", e);
+        }
     }
 }
 
