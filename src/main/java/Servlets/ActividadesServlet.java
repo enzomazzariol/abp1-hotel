@@ -15,7 +15,6 @@ import java.sql.SQLException;
 public class ActividadesServlet extends HttpServlet {
 
     private ActividadesService actividadesService = new ActividadesService();
-    private ActividadesDAO actividadesDAO = new ActividadesDAO();
     
     ActividadesService as = new ActividadesService();
     @Override

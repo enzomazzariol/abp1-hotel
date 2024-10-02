@@ -18,6 +18,8 @@ public class ActividadesDAO extends Conexion {
 
     public static final String DELETE_ACTIVIDADES = "delete from actividades where id = ?";
 
+    public static final String UPDATE_ELIMINADO = "update actividades set eliminado = 1 where id = ?";
+
 
     // Metodo para lista todas las actividades de la BBDD
     public ArrayList<Actividad> listarActividades() throws SQLException, ClassNotFoundException {
@@ -94,7 +96,7 @@ public class ActividadesDAO extends Conexion {
         Conexion conn = new Conexion();
 
         try(Connection connection = conn.conectar()){
-            PreparedStatement ps = connection.prepareStatement(DELETE_ACTIVIDADES);
+            PreparedStatement ps = connection.prepareStatement(UPDATE_ELIMINADO);
             ps.setInt(1, id);
 
             ps.executeUpdate();
