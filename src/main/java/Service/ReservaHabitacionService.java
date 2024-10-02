@@ -10,10 +10,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ReservaHabitacionService {
     private ArrayList<ReservaHabitacion> reservaHabitaciones;
+    ReservaHabitacionDAO reservaHabitacionDAO = new ReservaHabitacionDAO();
 
     public void mostrarReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         reservaHabitaciones = new ArrayList<>();
@@ -24,7 +26,7 @@ public class ReservaHabitacionService {
         dispatcher.forward(req, resp);
     }
 
-    public void menuPostReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void menuPostReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ClassNotFoundException {
         String action = req.getParameter("action");
 
         if ("agregar".equals(action)) {
@@ -37,7 +39,7 @@ public class ReservaHabitacionService {
 
         mostrarReservaHabitacion(req, resp); // Redirigir para mostrar la lista actualizada
     }
-    private void agregarReservaHabitacion(HttpServletRequest req) {
+    public void agregarReservaHabitacion(HttpServletRequest req) {
         // Obtener los parámetros de la solicitud.
         int idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
         String estadoParam = req.getParameter("estado");
@@ -53,13 +55,13 @@ public class ReservaHabitacionService {
         ReservaHabitacion nuevaReservaHabitacion = new ReservaHabitacion(idUsuario, estado, fechaReserva, idHabitacion, fechaEntrada, fechaSalida);
 
         // Se agrega la habitacion a la base de datos.
-        ReservaHabitacionDAO.agregarReservaHabitacion(nuevaReservaHabitacion);
+        reservaHabitacionDAO.agregarReservaHabitacion(nuevaReservaHabitacion);
 
         // Imprime por consola la Habitacion agregada.
         System.out.println("Nueva reserva de habitación: " + nuevaReservaHabitacion);
     }
 
-    private void actualizarReservaHabitacion(HttpServletRequest req) {
+    public void actualizarReservaHabitacion(HttpServletRequest req) {
         // Obtiene el índice y los datos de la reserva de habitación a actualizar
         int id = Integer.parseInt(req.getParameter("id"));
         int idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
@@ -76,20 +78,24 @@ public class ReservaHabitacionService {
         ReservaHabitacion nuevaReservaHabitacion = new ReservaHabitacion(id, idUsuario, estado, fechaReserva, idHabitacion, fechaEntrada, fechaSalida);
 
         // Se actualiza la habitacion a la base de datos.
-        ReservaHabitacionDAO.actualizarReserva(nuevaReservaHabitacion);
+        reservaHabitacionDAO.actualizarReserva(nuevaReservaHabitacion);
 
         // Imprime por consola la Habitacion actualiza.
         System.out.println("Reserva de habitación actualizada: " + nuevaReservaHabitacion);
     }
 
-    private void eliminarReservaHabitacion(HttpServletRequest req) {
+    public void eliminarReservaHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException {
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
 
         // Se elimina la habitacion con el id.
-        ReservaHabitacionDAO.eliminarReserva(id);
+        reservaHabitacionDAO.actualizarEliminadoReservaHabitacion(id);
 
         // Imprime por consola la Habitacion actualiza.
         System.out.println("Se ha eliminado la reserva de habitacion con id " + id);
+    }
+
+    public void listarReservaHabitacion() {
+        System.out.println(reservaHabitacionDAO.listarResevaHabitaciones());
     }
 }

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class HabitacionService {
     private ArrayList<Habitacion> habitaciones = new ArrayList<>();
+    HabitacionesDAO habitacionesDAO = new HabitacionesDAO();
 
     public void mostrarHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         habitaciones = new ArrayList<>();
@@ -39,7 +40,7 @@ public class HabitacionService {
         mostrarHabitacion(req, resp);
     }
 
-    private void agregarHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException {
+    public void agregarHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException {
         // Obtener los parámetros de la solicitud.
         String tipoHabitacionParam = req.getParameter("tipoHabitacion");
         String imagen = req.getParameter("imagen");
@@ -54,13 +55,13 @@ public class HabitacionService {
         Habitacion nuevaHabitacion = new Habitacion(tipoHabitacion, imagen, precio, estado);
 
         // Se agrega la habitacion a la base de datos.
-        HabitacionesDAO.agregarHabitacion(nuevaHabitacion);
+        habitacionesDAO.agregarHabitacion(nuevaHabitacion);
 
         // Imprime por consola la Habitacion agregada.
         System.out.println("Nueva habitación insertada: " + nuevaHabitacion);
     }
 
-    private void actualizarHabitacion(HttpServletRequest req) {
+    public void actualizarHabitacion(HttpServletRequest req) {
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
         String tipoHabitacionParam = req.getParameter("tipoHabitacion");
@@ -75,20 +76,24 @@ public class HabitacionService {
         Habitacion nuevaHabitacion = new Habitacion(id, tipoHabitacion, imagen, precio, estado);
 
         // Se actualiza la habitacion a la base de datos.
-        HabitacionesDAO.actualizarHabitacion(nuevaHabitacion);
+        habitacionesDAO.actualizarHabitacion(nuevaHabitacion);
 
         // Imprime por consola la Habitacion actualiza.
         System.out.println("Habitación actualizada: " + nuevaHabitacion);
     }
 
-    private void eliminarHabitacion(HttpServletRequest req) {
+    public void eliminarHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException {
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
 
         // Se elimina la habitacion con el id.
-        HabitacionesDAO.eliminarHabitacion(id);
+        habitacionesDAO.actualizarEliminadoHabitacion(id);
 
         // Imprime por consola la Habitacion actualiza.
         System.out.println("Se ha eliminado la habitacion con id " + id);
+    }
+
+    public void listarHabitaciones() {
+        System.out.println(habitacionesDAO.listarHabitaciones());
     }
 }

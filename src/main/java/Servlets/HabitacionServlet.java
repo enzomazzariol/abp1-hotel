@@ -18,6 +18,7 @@ public class HabitacionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         hs.mostrarHabitacion(req, resp);
+        hs.listarHabitaciones();
     }
 
     @Override
