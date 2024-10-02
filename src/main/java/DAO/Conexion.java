@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexion {
+    Connection conn;
 
     // Constantes para la configuración de la conexión a la base de datos
     public static final String SCHEMA_NAME = "hotel"; // Cambiar al nombre de tu esquema (Base de datos)
@@ -12,7 +13,6 @@ public class Conexion {
     public static final String PASS = "jupiter*";         // Contraseña de la base de datos
     public static final String URL = "jdbc:mysql://localhost:3306/" + SCHEMA_NAME + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=True";
 
-     Connection conn;
 
     // Método para conectarse a la base de datos
     public Connection conectar() throws SQLException, ClassNotFoundException {
