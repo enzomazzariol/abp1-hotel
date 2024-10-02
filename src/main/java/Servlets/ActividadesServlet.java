@@ -14,19 +14,27 @@ import java.sql.SQLException;
 @WebServlet("/actividades")
 public class ActividadesServlet extends HttpServlet {
 
-    private ActividadesService actividadesService = new ActividadesService();
-    
-    ActividadesService as = new ActividadesService();
+    private ActividadesService actividadesService;
+
+    public ActividadesServlet(){
+        actividadesService = new ActividadesService();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       actividadesService.fowardActividades(req, resp);
+        try {
+            actividadesService.fowardActividades(req, resp, this);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             actividadesService.menuPostActividad(req, resp);
-            //actividadesService.listarActividades(req, resp);
+           // actividadesService.listarActividades(req, resp);
+
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
