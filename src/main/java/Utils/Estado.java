@@ -4,7 +4,11 @@ public enum Estado {
 
     DISPONIBLE("disponible"),
     OCUPADA("ocupada"),
-    MANTENIMIENTO("mantenimiento");
+    MANTENIMIENTO("mantenimiento"),
+    RESERVADO("reservado"),
+    CANCELADO("cancelado"),
+    COMPLETADO("completado");
+
 
     private final String estado;
 

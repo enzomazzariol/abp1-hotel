@@ -16,7 +16,7 @@ public class ReservaActividadService {
 
     public void mostrarReservaActividad(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         reservaActividades = new ArrayList<>();
-        reservaActividades.add(new ReservaActividad(1, 1, Estado.DISPONIBLE, "03-03-2004", false, 1));
+        reservaActividades.add(new ReservaActividad(1, 1, Estado.DISPONIBLE, "03-03-2004", 1));
         req.setAttribute("reservaActividad", reservaActividades);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/reservaActividad.jsp");
@@ -44,7 +44,7 @@ public class ReservaActividadService {
         boolean eliminado = Boolean.parseBoolean(req.getParameter("eliminado"));
 
         // Crea la nueva instancia de ReservaActividad
-        ReservaActividad nuevaReserva = new ReservaActividad(idUsuario, idActividad, estado, fechaReserva, eliminado, idActividad);
+        ReservaActividad nuevaReserva = new ReservaActividad(idUsuario, idActividad, estado, fechaReserva, idActividad);
 
         // Agrega la nueva reserva a la lista
         reservaActividades.add(nuevaReserva);

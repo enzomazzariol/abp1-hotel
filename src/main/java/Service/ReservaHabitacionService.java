@@ -1,5 +1,7 @@
 package Service;
 
+import DAO.HabitacionesDAO;
+import DAO.ReservaHabitacionDAO;
 import Model.ReservaHabitacion;
 import Utils.Estado;
 
@@ -15,7 +17,7 @@ public class ReservaHabitacionService {
 
     public void mostrarReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         reservaHabitaciones = new ArrayList<>();
-        reservaHabitaciones.add(new ReservaHabitacion(1, 1, Estado.DISPONIBLE, "01-02-2024", false, 1, "01-02-2024", "03-02-2024"));
+        reservaHabitaciones.add(new ReservaHabitacion( 1, Estado.DISPONIBLE, "01-02-2024", 1, "01-02-2024", "03-02-2024"));
         req.setAttribute("reservaHabitacion", reservaHabitaciones);
 
         RequestDispatcher dispatcher= req.getRequestDispatcher("/jsp/reservaHabitacion.jsp");
@@ -36,50 +38,58 @@ public class ReservaHabitacionService {
         mostrarReservaHabitacion(req, resp); // Redirigir para mostrar la lista actualizada
     }
     private void agregarReservaHabitacion(HttpServletRequest req) {
-        // Obtiene los datos de la nueva reserva de habitación
-        int id = Integer.parseInt(req.getParameter("id"));
+        // Obtener los parámetros de la solicitud.
         int idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
-        Estado estado = Estado.valueOf(req.getParameter("estado"));
+        String estadoParam = req.getParameter("estado");
         String fechaReserva = req.getParameter("fechaReserva");
         int idHabitacion = Integer.parseInt(req.getParameter("idHabitacion"));
         String fechaEntrada = req.getParameter("fechaEntrada");
         String fechaSalida = req.getParameter("fechaSalida");
         boolean eliminado = Boolean.parseBoolean(req.getParameter("eliminado"));
 
-        // Crea la nueva instancia de ReservaHabitacion
-        ReservaHabitacion nuevaReserva = new ReservaHabitacion(id, idUsuario, estado, fechaReserva, eliminado, idHabitacion, fechaEntrada, fechaSalida);
+        Estado estado = Estado.valueOf(estadoParam.toUpperCase());
 
-        // Agrega la nueva reserva a la lista
-        reservaHabitaciones.add(nuevaReserva);
-        System.out.println("Se ha creado la reserva de habitación: " + nuevaReserva);
+        // Crea la nueva instancia de ReservaHabitacion
+        ReservaHabitacion nuevaReservaHabitacion = new ReservaHabitacion(idUsuario, estado, fechaReserva, idHabitacion, fechaEntrada, fechaSalida);
+
+        // Se agrega la habitacion a la base de datos.
+        ReservaHabitacionDAO.agregarReservaHabitacion(nuevaReservaHabitacion);
+
+        // Imprime por consola la Habitacion agregada.
+        System.out.println("Nueva reserva de habitación: " + nuevaReservaHabitacion);
     }
 
     private void actualizarReservaHabitacion(HttpServletRequest req) {
         // Obtiene el índice y los datos de la reserva de habitación a actualizar
-        int index = Integer.parseInt(req.getParameter("index"));
-        int idHabitacion = Integer.parseInt(req.getParameter("idHabitacion"));
-        Estado estado = Estado.valueOf(req.getParameter("estado"));
+        int id = Integer.parseInt(req.getParameter("id"));
+        int idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
+        String estadoParam = req.getParameter("estado");
         String fechaReserva = req.getParameter("fechaReserva");
+        int idHabitacion = Integer.parseInt(req.getParameter("idHabitacion"));
         String fechaEntrada = req.getParameter("fechaEntrada");
         String fechaSalida = req.getParameter("fechaSalida");
+        boolean eliminado = Boolean.parseBoolean(req.getParameter("eliminado"));
 
-        // Actualiza la reserva por índice
-        ReservaHabitacion reservaHabitacion = reservaHabitaciones.get(index);
-        reservaHabitacion.setIdHabitacion(idHabitacion);
-        reservaHabitacion.setEstado(estado);
-        reservaHabitacion.setFechaReserva(fechaReserva);
-        reservaHabitacion.setFechaEntrada(fechaEntrada);
-        reservaHabitacion.setFechaSalida(fechaSalida);
+        Estado estado = Estado.valueOf(estadoParam.toUpperCase());
 
-        System.out.println("Reserva de habitación actualizada: " + reservaHabitacion);
+        // Crear una nueva instancia de Habitacion con id.
+        ReservaHabitacion nuevaReservaHabitacion = new ReservaHabitacion(id, idUsuario, estado, fechaReserva, idHabitacion, fechaEntrada, fechaSalida);
+
+        // Se actualiza la habitacion a la base de datos.
+        ReservaHabitacionDAO.actualizarReserva(nuevaReservaHabitacion);
+
+        // Imprime por consola la Habitacion actualiza.
+        System.out.println("Reserva de habitación actualizada: " + nuevaReservaHabitacion);
     }
 
     private void eliminarReservaHabitacion(HttpServletRequest req) {
-        // Obtiene el índice de la reserva a eliminar
-        int index = Integer.parseInt(req.getParameter("index"));
+        // Obtener los parámetros de la solicitud
+        int id = Integer.parseInt(req.getParameter("id"));
 
-        // Marca como eliminada
-        reservaHabitaciones.get(index).setEliminado(true);
-        System.out.println("Reserva de habitación marcada como eliminada: " + reservaHabitaciones.get(index));
+        // Se elimina la habitacion con el id.
+        ReservaHabitacionDAO.eliminarReserva(id);
+
+        // Imprime por consola la Habitacion actualiza.
+        System.out.println("Se ha eliminado la reserva de habitacion con id " + id);
     }
 }
