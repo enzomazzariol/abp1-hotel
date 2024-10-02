@@ -2,6 +2,7 @@ package Service;
 
 import DAO.ActividadesDAO;
 import Model.Actividad;
+import Servlets.ActividadesServlet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,11 +14,18 @@ import java.util.ArrayList;
 
 public class ActividadesService {
 
-    private ArrayList<Actividad> actividades = new ArrayList<>();
-    ActividadesDAO actividadesDAO = new ActividadesDAO();
+    private ArrayList<Actividad> listaActividades = new ArrayList<>();
+    ActividadesDAO actividadesDAO;
 
-    public void fowardActividades(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //foward a la pagna de actividades
+    public ActividadesService(){
+        this.actividadesDAO = new ActividadesDAO();
+    }
+
+    public void fowardActividades(HttpServletRequest req, HttpServletResponse resp, ActividadesServlet actividadesServlet) throws ServletException, IOException, SQLException, ClassNotFoundException {
+        listaActividades = actividadesDAO.listarActividades();
+
+        req.setAttribute("actividades", listaActividades);
+        //foward a la pagina de actividades
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/actividades.jsp");
         dispatcher.forward(req, resp);
     }
@@ -36,7 +44,6 @@ public class ActividadesService {
 
     public void listarActividades(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException {
         // Consultar actividades de la base de datos
-        ActividadesDAO actividadesDAO = new ActividadesDAO();
         actividadesDAO.listarActividades();
     }
 
