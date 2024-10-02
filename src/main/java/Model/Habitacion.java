@@ -1,21 +1,30 @@
 package Model;
 
+import Utils.Estado;
+import Utils.TipoHabitacion;
+
 public class Habitacion {
 
     private int id;
-    private String tipoHabitacion;
+    private TipoHabitacion tipoHabitacion;
     private String imagen;
     private double precio;
-    private String estado;
+    private Estado estado;
     private boolean eliminado;
 
-    public Habitacion(int id, String tipoHabitacion, String imagen, double precio, String estado, boolean eliminado) {
+    public Habitacion(int id, TipoHabitacion tipoHabitacion, String imagen, double precio, Estado estado) {
         this.id = id;
         this.tipoHabitacion = tipoHabitacion;
         this.imagen = imagen;
         this.precio = precio;
         this.estado = estado;
-        this.eliminado = eliminado;
+    }
+
+    public Habitacion(TipoHabitacion tipoHabitacion, String imagen, double precio, Estado estado) {
+        this.tipoHabitacion = tipoHabitacion;
+        this.imagen = imagen;
+        this.precio = precio;
+        this.estado = estado;
     }
 
     public int getId() {
@@ -26,11 +35,11 @@ public class Habitacion {
         this.id = id;
     }
 
-    public String getTipoHabitacion() {
+    public TipoHabitacion getTipoHabitacion() {
         return tipoHabitacion;
     }
 
-    public void setTipoHabitacion(String tipoHabitacion) {
+    public void setTipoHabitacion(TipoHabitacion tipoHabitacion) {
         this.tipoHabitacion = tipoHabitacion;
     }
 
@@ -50,11 +59,11 @@ public class Habitacion {
         this.precio = precio;
     }
 
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
 
@@ -75,5 +84,7 @@ public class Habitacion {
                 ", estado='" + estado + '\'' +
                 '}';
     }
+
+
 
 }
