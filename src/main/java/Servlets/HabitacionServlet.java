@@ -13,7 +13,11 @@ import java.sql.SQLException;
 @WebServlet("/habitacion")
 public class HabitacionServlet extends HttpServlet {
 
-    HabitacionService hs = new HabitacionService();
+    HabitacionService hs;
+
+    public HabitacionServlet() {
+        this.hs = new HabitacionService();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
