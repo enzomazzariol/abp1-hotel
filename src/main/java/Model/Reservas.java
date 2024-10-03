@@ -22,6 +22,10 @@ public class Reservas {
         this.fechaReserva = fechaReserva;
     }
 
+    public Reservas(){
+
+    }
+
     public boolean isEliminado() {
         return eliminado;
     }
