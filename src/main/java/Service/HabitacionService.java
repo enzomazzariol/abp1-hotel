@@ -14,13 +14,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class HabitacionService {
-    private ArrayList<Habitacion> habitaciones = new ArrayList<>();
-    HabitacionesDAO habitacionesDAO = new HabitacionesDAO();
+    HabitacionesDAO habitacionesDAO;
+
+    public HabitacionService() {
+        this.habitacionesDAO = new HabitacionesDAO();
+    }
 
     public void mostrarHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        habitaciones = new ArrayList<>();
-        habitaciones.add(new Model.Habitacion(1,TipoHabitacion.DOBLE, "6px", 200, Estado.DISPONIBLE));
-        req.setAttribute("habitaciones", habitaciones);
+        req.setAttribute("habitaciones", habitacionesDAO.listarHabitaciones());
+        System.out.println(habitacionesDAO.listarHabitaciones());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/habitacion.jsp");
         dispatcher.forward(req, resp);
     }
@@ -93,7 +95,4 @@ public class HabitacionService {
         System.out.println("Se ha eliminado la habitacion con id " + id);
     }
 
-    public void listarHabitaciones() {
-        System.out.println(habitacionesDAO.listarHabitaciones());
-    }
 }

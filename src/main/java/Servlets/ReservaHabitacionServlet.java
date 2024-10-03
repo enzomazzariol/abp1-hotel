@@ -14,13 +14,15 @@ import java.sql.SQLException;
 @WebServlet("/reservaHabitacion")
 public class ReservaHabitacionServlet extends HttpServlet {
 
-    ReservaHabitacionService rhs = new ReservaHabitacionService();
+    ReservaHabitacionService rhs;
 
-
+    public ReservaHabitacionServlet() {
+        this.rhs = new ReservaHabitacionService();
+    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         rhs.mostrarReservaHabitacion(req, resp);
-        rhs.listarReservaHabitacion();
+
     }
 
     @Override

@@ -14,14 +14,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ReservaHabitacionService {
-    private ArrayList<ReservaHabitacion> reservaHabitaciones;
-    ReservaHabitacionDAO reservaHabitacionDAO = new ReservaHabitacionDAO();
+    ReservaHabitacionDAO reservaHabitacionDAO;
+
+    public ReservaHabitacionService() {
+        this.reservaHabitacionDAO = new ReservaHabitacionDAO();
+    }
 
     public void mostrarReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        reservaHabitaciones = new ArrayList<>();
-        reservaHabitaciones.add(new ReservaHabitacion( 1, Estado.DISPONIBLE, "01-02-2024", 1, "01-02-2024", "03-02-2024"));
-        req.setAttribute("reservaHabitacion", reservaHabitaciones);
-
+        req.setAttribute("reservahabitaciones", reservaHabitacionDAO.listarResevaHabitaciones());
+        System.out.println(reservaHabitacionDAO.listarResevaHabitaciones());
         RequestDispatcher dispatcher= req.getRequestDispatcher("/jsp/reservaHabitacion.jsp");
         dispatcher.forward(req, resp);
     }
@@ -95,7 +96,4 @@ public class ReservaHabitacionService {
         System.out.println("Se ha eliminado la reserva de habitacion con id " + id);
     }
 
-    public void listarReservaHabitacion() {
-        System.out.println(reservaHabitacionDAO.listarResevaHabitaciones());
-    }
 }

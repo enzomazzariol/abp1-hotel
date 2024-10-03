@@ -27,6 +27,15 @@ public class Usuario {
         this.fechaRegistro = LocalDate.now().format(formatter);
     }
 
+    public Usuario(int id, String nombre, String email) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+    }
+
+    public Usuario() {
+    }
+
     public int getId() {
         return id;
     }
