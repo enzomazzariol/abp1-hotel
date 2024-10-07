@@ -52,18 +52,16 @@ public class ReservaActividadesDAO extends Conexion{
             }
         }catch (Exception e){
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             conn.desconectar();
         }
         return listaReservaActividades;
     }
 
     public void insertarActividad(ReservaActividad reservaActividad) throws SQLException {
-
-        try (Connection connection = new Conexion().conectar();
-             PreparedStatement ps = connection.prepareStatement(INSERT_RESERVA_ACTIVIDAD)) {
-
+        Conexion conn = new Conexion();
+        try {
+            PreparedStatement ps = conn.conectar().prepareStatement(INSERT_RESERVA_ACTIVIDAD);
             // Asigna los valores a la consulta SQL
             ps.setInt(1, reservaActividad.getIdUsuario());
             ps.setInt(2, reservaActividad.getIdActividad());
@@ -74,14 +72,16 @@ public class ReservaActividadesDAO extends Conexion{
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             throw new RuntimeException("Error al insertar la reserva actividad", e);
+        } finally {
+            conn.desconectar();
         }
     }
 
-    public void actualizarReservaActividad(ReservaActividad reservaActividad){
+    public void actualizarReservaActividad(ReservaActividad reservaActividad) throws SQLException {
         Conexion conn = new Conexion();
 
-        try (Connection connection = conn.conectar();
-             PreparedStatement ps = connection.prepareStatement(UPDATE_RESERVA_ACTIVIDADES)) {
+        try {
+            PreparedStatement ps = conn.conectar().prepareStatement(UPDATE_RESERVA_ACTIVIDADES);
             ps.setString(1, reservaActividad.getEstado().name());
             ps.setString(2, reservaActividad.getFechaReserva());
             ps.setInt(3, reservaActividad.getId());
@@ -89,18 +89,22 @@ public class ReservaActividadesDAO extends Conexion{
             ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException("Error al actualizar la actividad", e);
+        } finally {
+            conn.desconectar();
         }
     }
 
     public void eliminarReservaActividad(int id) throws SQLException, ClassNotFoundException {
         Conexion conn = new Conexion();
 
-        try(Connection connection = conn.conectar()){
-            PreparedStatement ps = connection.prepareStatement(UPDATE_RESERVA_ACTIVIDAD_ELIMINADO);
+        try {
+            PreparedStatement ps = conn.conectar().prepareStatement(UPDATE_RESERVA_ACTIVIDAD_ELIMINADO);
             ps.setInt(1, id);
 
             ps.executeUpdate();
         } catch (SQLException e){
             throw new RuntimeException("Error al eliminar la reserva de la actividad", e);
+        } finally {
+            conn.desconectar();
         }
     }}

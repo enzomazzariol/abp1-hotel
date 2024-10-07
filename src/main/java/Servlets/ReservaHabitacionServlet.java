@@ -21,7 +21,11 @@ public class ReservaHabitacionServlet extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        rhs.mostrarReservaHabitacion(req, resp);
+        try {
+            rhs.forwardReservaHabitacion(req, resp);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

@@ -36,7 +36,6 @@ public class ReservaActividadServlet extends HttpServlet {
         try {
             ras.menuPostReservaActividad(req, resp);
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

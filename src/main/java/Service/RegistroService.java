@@ -32,7 +32,7 @@ public class RegistroService {
         // Convertir el rol recibido del formulario a enum
         Rol rol = Rol.valueOf(rolParam.toUpperCase());
 
-        Usuario nuevoUsuario = new Usuario(id, nombre, password, email, rol);
+        Usuario nuevoUsuario = new Usuario(id, nombre, password, email, rol); // cambiar por CRUD
         listaUsuarios.add(nuevoUsuario);
         System.out.println(nuevoUsuario);
     }

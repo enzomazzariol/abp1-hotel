@@ -44,19 +44,18 @@ public class ActividadesDAO extends Conexion {
 
                 System.out.println(nuevaActividad);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             conn.desconectar();
         }
         return listaActividades;
     }
 
     public void insertarActividad(Actividad actividad) throws SQLException {
-
-        try (Connection connection = new Conexion().conectar();
-             PreparedStatement ps = connection.prepareStatement(INSERT_ACTIVIDADES)) {
+        Conexion conn = new Conexion();
+        try {
+            PreparedStatement ps = conn.conectar().prepareStatement(INSERT_ACTIVIDADES);
 
             // Asigna los valores a la consulta SQL
             ps.setString(1, actividad.getNombre_actividad());
@@ -70,14 +69,16 @@ public class ActividadesDAO extends Conexion {
             ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException("Error al insertar la actividad", e);
+        } finally {
+            conn.desconectar();
         }
     }
 
     public void actualizarActividad(Actividad actividad) throws SQLException {
         Conexion conn = new Conexion();
 
-        try (Connection connection = conn.conectar();
-             PreparedStatement ps = connection.prepareStatement(UPDATE_ACTIVIDADES)) {
+        try {
+            PreparedStatement ps = conn.conectar().prepareStatement(UPDATE_ACTIVIDADES);
             ps.setString(1, actividad.getNombre_actividad());
             ps.setString(2, actividad.getDescripcion());
             ps.setString(3, actividad.getImagenes());
@@ -89,19 +90,23 @@ public class ActividadesDAO extends Conexion {
             ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException("Error al actualizar la actividad", e);
+        } finally {
+            conn.desconectar();
         }
     }
 
     public void eliminarActividad(int id) throws SQLException, ClassNotFoundException {
         Conexion conn = new Conexion();
 
-        try(Connection connection = conn.conectar()){
-            PreparedStatement ps = connection.prepareStatement(UPDATE_ELIMINADO);
+        try {
+            PreparedStatement ps = conn.conectar().prepareStatement(UPDATE_ELIMINADO);
             ps.setInt(1, id);
 
             ps.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Error al eliminar la actividad", e);
+        } finally {
+            conn.desconectar();
         }
     }
 }

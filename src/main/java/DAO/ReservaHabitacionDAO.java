@@ -19,10 +19,10 @@ public class ReservaHabitacionDAO {
     public static final String ACTUALIZAR_ELIMINADO_RESERVA_HABITACION = "UPDATE reserva_habitaciones SET eliminado = 1 WHERE id = ?";
 
     // INSERT:
-    public void agregarReservaHabitacion(ReservaHabitacion reservaHabitacion) {
+    public void agregarReservaHabitacion(ReservaHabitacion reservaHabitacion) throws SQLException {
+        Conexion conn = new Conexion();
         try {
-            Connection conn = new Conexion().conectar();
-            PreparedStatement ps = conn.prepareStatement(AGREGAR_RESERVA_HABITACION);
+            PreparedStatement ps = conn.conectar().prepareStatement(AGREGAR_RESERVA_HABITACION);
             ps.setInt(1, reservaHabitacion.getIdUsuario());
             ps.setInt(2, reservaHabitacion.getIdHabitacion());
             ps.setString(3, reservaHabitacion.getFechaEntrada());
@@ -31,17 +31,18 @@ public class ReservaHabitacionDAO {
             ps.setString(6, reservaHabitacion.getFechaReserva());
             ps.executeUpdate();
             System.out.println("Se ha insertado la reserva en la base de datos correctamente!");
-            conn.close();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
+        } finally {
+            conn.desconectar();
         }
     }
 
     // ACTUALIZAR:
-    public void actualizarReserva(ReservaHabitacion reservaHabitacion) {
+    public void actualizarReserva(ReservaHabitacion reservaHabitacion) throws SQLException {
+        Conexion conn = new Conexion();
         try {
-            Connection conn = new Conexion().conectar();
-            PreparedStatement ps = conn.prepareStatement(ACTUALIZAR_RESERVA_HABITACION);
+            PreparedStatement ps = conn.conectar().prepareStatement(ACTUALIZAR_RESERVA_HABITACION);
             ps.setInt(1, reservaHabitacion.getIdUsuario());
             ps.setInt(2, reservaHabitacion.getIdHabitacion());
             ps.setString(3, reservaHabitacion.getFechaEntrada());
@@ -51,38 +52,59 @@ public class ReservaHabitacionDAO {
             ps.setInt(7, reservaHabitacion.getId());
             ps.executeUpdate();
             System.out.println("Se ha actualizado la reserva en la base de datos correctamente!");
-            conn.close();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    // ELIMINAR PERMAMENTEMENTE:
-    public void eliminarReserva(int id) {
-        try {
-            Connection conn = new Conexion().conectar();
-            PreparedStatement ps = conn.prepareStatement(ELIMINAR_RESERVA_HABITACION);
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            System.out.println("Se ha eliminado la reserva en la base de datos correctamente!");
-            conn.close();
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } finally {
+            conn.desconectar();
         }
     }
 
     // ACTUALIZAR EL ELIMINADO:
     public void actualizarEliminadoReservaHabitacion(int id) throws SQLException, ClassNotFoundException {
+        Conexion conn = new Conexion();
         try {
-            Connection conn = new Conexion().conectar();
-            PreparedStatement ps = conn.prepareStatement(ACTUALIZAR_ELIMINADO_RESERVA_HABITACION);
+            PreparedStatement ps = conn.conectar().prepareStatement(ACTUALIZAR_ELIMINADO_RESERVA_HABITACION);
             ps.setInt(1, id);
             ps.executeUpdate();
-            conn.close();
         } catch (SQLException e){
             throw new RuntimeException("Error al eliminar la actividad", e);
+        } finally {
+            conn.desconectar();
         }
     }
+
+    // READ:
+    public ArrayList<ReservaHabitacion> listarResevaHabitaciones() throws SQLException {
+        Conexion conn = new Conexion();
+        try {
+            ArrayList<ReservaHabitacion> reservaHabitacions = new ArrayList<>();
+            PreparedStatement ps = conn.conectar().prepareStatement(SELECT_RESERVA_HABITACIONES);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int idUsuario = rs.getInt("id_usuario");
+                int idHabitacion = rs.getInt("id_habitacion");
+                String fechaEntrada = rs.getString("fecha_entrada");
+                String fechaSalida = rs.getString("fecha_salida");
+                String estadoParam = rs.getString("estado");
+                String fechaReserva = rs.getString("fecha_reserva");
+
+                Estado estado = Estado.valueOf(estadoParam.toUpperCase());
+
+                ReservaHabitacion reservaHabitacion = new ReservaHabitacion(idUsuario, estado, fechaReserva, idHabitacion, fechaEntrada, fechaSalida);
+                reservaHabitacions.add(reservaHabitacion);
+            }
+            return reservaHabitacions;
+
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            conn.desconectar();
+        }
+    }
+
+    // Funciones por si sirven en un futuro:
 
     // VER UNA RESERVA:
     public ArrayList<ReservaHabitacion> selectReserva(int id) {
@@ -111,37 +133,19 @@ public class ReservaHabitacionDAO {
             return reservaHabitacions;
 
         } catch (SQLException | ClassNotFoundException e) {
-             throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
-
     }
 
-    // READ:
-    public ArrayList<ReservaHabitacion> listarResevaHabitaciones() {
+    // ELIMINAR PERMAMENTEMENTE:
+    public void eliminarReserva(int id) {
         try {
-            ArrayList<ReservaHabitacion> reservaHabitacions = new ArrayList<>();
-
             Connection conn = new Conexion().conectar();
-            PreparedStatement ps = conn.prepareStatement(SELECT_RESERVA_HABITACIONES);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                int idUsuario = rs.getInt("id_usuario");
-                int idHabitacion = rs.getInt("id_habitacion");
-                String fechaEntrada = rs.getString("fecha_entrada");
-                String fechaSalida = rs.getString("fecha_salida");
-                String estadoParam = rs.getString("estado");
-                String fechaReserva = rs.getString("fecha_reserva");
-
-                Estado estado = Estado.valueOf(estadoParam.toUpperCase());
-
-                ReservaHabitacion reservaHabitacion = new ReservaHabitacion(idUsuario, estado, fechaReserva, idHabitacion, fechaEntrada, fechaSalida);
-                reservaHabitacions.add(reservaHabitacion);
-            }
+            PreparedStatement ps = conn.prepareStatement(ELIMINAR_RESERVA_HABITACION);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            System.out.println("Se ha eliminado la reserva en la base de datos correctamente!");
             conn.close();
-            return reservaHabitacions;
-
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
