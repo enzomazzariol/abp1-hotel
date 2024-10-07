@@ -34,8 +34,7 @@ public class ReservaActividadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            //ras.menuPostReservaActividad(req, resp);
-            ras.listarReservaActividades(req, resp);
+            ras.menuPostReservaActividad(req, resp);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
