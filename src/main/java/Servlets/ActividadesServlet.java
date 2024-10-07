@@ -23,7 +23,7 @@ public class ActividadesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            actividadesService.fowardActividades(req, resp, this);
+            actividadesService.fowardActividades(req, resp);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

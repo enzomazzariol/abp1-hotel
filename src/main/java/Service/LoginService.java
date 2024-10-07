@@ -29,18 +29,16 @@ public class LoginService {
         if (usuarioActual.getId() == 0) {
             req.setAttribute("error", "Error en el usuario o contraseña.");
             System.out.println("error");
-            req.getRequestDispatcher("/jsp/login.jsp"). forward(req, resp);
+            req.getRequestDispatcher("/jsp/error.jsp"). forward(req, resp);
         } else {
             req.setAttribute("nombre", nombre);
             System.out.println("El usuario es " + nombre + " y la contraseña es " + password);
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/index.jsp").forward(req, resp);
         }
-
-
     }
 
     // GET
-    public void enviarLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void forwardLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("Hola este es el get.");
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/login.jsp");
         dispatcher.forward(req, resp);

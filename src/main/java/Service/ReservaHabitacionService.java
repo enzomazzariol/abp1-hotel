@@ -20,7 +20,7 @@ public class ReservaHabitacionService {
         this.reservaHabitacionDAO = new ReservaHabitacionDAO();
     }
 
-    public void mostrarReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void forwardReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         req.setAttribute("reservahabitaciones", reservaHabitacionDAO.listarResevaHabitaciones());
         System.out.println(reservaHabitacionDAO.listarResevaHabitaciones());
         RequestDispatcher dispatcher= req.getRequestDispatcher("/jsp/reservaHabitacion.jsp");
@@ -37,10 +37,8 @@ public class ReservaHabitacionService {
         } else if ("eliminar".equals(action)) {
             eliminarReservaHabitacion(req);
         }
-
-        mostrarReservaHabitacion(req, resp); // Redirigir para mostrar la lista actualizada
     }
-    public void agregarReservaHabitacion(HttpServletRequest req) {
+    public void agregarReservaHabitacion(HttpServletRequest req) throws SQLException {
         // Obtener los parámetros de la solicitud.
         int idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
         String estadoParam = req.getParameter("estado");
@@ -48,7 +46,6 @@ public class ReservaHabitacionService {
         int idHabitacion = Integer.parseInt(req.getParameter("idHabitacion"));
         String fechaEntrada = req.getParameter("fechaEntrada");
         String fechaSalida = req.getParameter("fechaSalida");
-        boolean eliminado = Boolean.parseBoolean(req.getParameter("eliminado"));
 
         Estado estado = Estado.valueOf(estadoParam.toUpperCase());
 
@@ -62,7 +59,7 @@ public class ReservaHabitacionService {
         System.out.println("Nueva reserva de habitación: " + nuevaReservaHabitacion);
     }
 
-    public void actualizarReservaHabitacion(HttpServletRequest req) {
+    public void actualizarReservaHabitacion(HttpServletRequest req) throws SQLException {
         // Obtiene el índice y los datos de la reserva de habitación a actualizar
         int id = Integer.parseInt(req.getParameter("id"));
         int idUsuario = Integer.parseInt(req.getParameter("idUsuario"));

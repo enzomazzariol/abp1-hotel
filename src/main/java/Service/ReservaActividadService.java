@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ReservaActividadService {
-    private ArrayList<ReservaActividad> listaReservaActividades = new ArrayList<>();
     ReservaActividadesDAO reservaActividadesDAO;
 
     public ReservaActividadService(){
@@ -23,10 +22,7 @@ public class ReservaActividadService {
     }
 
     public void fowardReservaActividad(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ClassNotFoundException {
-        listaReservaActividades = reservaActividadesDAO.listarReservaActividades();
-
-        req.setAttribute("reserva actividades", listaReservaActividades);
-
+        req.setAttribute("reserva actividades",  reservaActividadesDAO.listarReservaActividades());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/reservaActividad.jsp");
         dispatcher.forward(req, resp);
     }
@@ -43,12 +39,6 @@ public class ReservaActividadService {
         }
     }
 
-    public void listarReservaActividades(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException {
-        // Consultar actividades de la base de datos
-        ReservaActividadesDAO reservaActividadesDAO = new ReservaActividadesDAO();
-        reservaActividadesDAO.listarReservaActividades();
-    }
-
     public void agregarReservaActividad(HttpServletRequest req) throws ServletException, IOException, SQLException {
         // Obtiene los datos de la nueva reserva de actividad
         int idUsuario = Integer.parseInt(req.getParameter("id_usuario"));
@@ -61,10 +51,10 @@ public class ReservaActividadService {
 
         // insertamos la actividad en la BD
         reservaActividadesDAO.insertarActividad(reservaActividad);
-        System.out.println("Se ha creado la reserva de la actividad: " + reservaActividad.getIdActividad());
+        System.out.println("Se ha creado la reserva de la actividad: " + reservaActividad.getId());
     }
 
-    public void actualizarReservaActividad(HttpServletRequest req) {
+    public void actualizarReservaActividad(HttpServletRequest req) throws SQLException {
         // Obtiene el índice y los datos de la reserva de actividad a actualizar
         int id = Integer.parseInt(req.getParameter("id"));
         String estadoParam = req.getParameter("estado");

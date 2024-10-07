@@ -21,26 +21,27 @@ public class HabitacionesDAO {
 
     // INSERTAR:
     public void agregarHabitacion(Habitacion habitacion) throws SQLException, ClassNotFoundException {
+        Conexion conn = new Conexion();
         try {
-            Connection conn = new Conexion().conectar();
-            PreparedStatement ps = conn.prepareStatement(AGREGAR_HABITACION);
+            PreparedStatement ps = conn.conectar().prepareStatement(AGREGAR_HABITACION);
             ps.setString(1, habitacion.getTipoHabitacion().name());
             ps.setString(2, habitacion.getImagen());
             ps.setDouble(3, habitacion.getPrecio());
             ps.setString(4, habitacion.getEstado().name());
             ps.executeUpdate();
             System.out.println("Se ha insertado la habitacion en la base de datos correctamente!");
-            conn.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            conn.desconectar();
         }
     }
 
     // ACTUALIZAR:
-    public void actualizarHabitacion(Habitacion habitacion){
+    public void actualizarHabitacion(Habitacion habitacion) throws SQLException {
+        Conexion conn = new Conexion();
         try {
-            Connection conn = new Conexion().conectar();
-            PreparedStatement ps = conn.prepareStatement(ACTUALIZAR_HABITACION);
+            PreparedStatement ps = conn.conectar().prepareStatement(ACTUALIZAR_HABITACION);
             ps.setString(1, habitacion.getTipoHabitacion().name());
             ps.setString(2, habitacion.getImagen());
             ps.setDouble(3, habitacion.getPrecio());
@@ -48,9 +49,10 @@ public class HabitacionesDAO {
             ps.setInt(5, habitacion.getId());
             ps.executeUpdate();
             System.out.println("Se ha actualizado la habitacion en la base de datos correctamente!");
-            conn.close();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
+        } finally {
+            conn.desconectar();
         }
     }
 
@@ -70,24 +72,24 @@ public class HabitacionesDAO {
 
     // ACTUALIZAR EL ELIMINADO:
     public void actualizarEliminadoHabitacion(int id) throws SQLException, ClassNotFoundException {
+        Conexion conn = new Conexion();
         try {
-            Connection conn = new Conexion().conectar();
-            PreparedStatement ps = conn.prepareStatement(ACTUALIZAR_ELIMINADO_HABITACION);
+            PreparedStatement ps = conn.conectar().prepareStatement(ACTUALIZAR_ELIMINADO_HABITACION);
             ps.setInt(1, id);
             ps.executeUpdate();
-            conn.close();
         } catch (SQLException e){
             throw new RuntimeException("Error al eliminar la habitacion: ", e);
+        } finally {
+            conn.desconectar();
         }
     }
 
     // READ:
-    public ArrayList<Habitacion> listarHabitaciones(){
+    public ArrayList<Habitacion> listarHabitaciones() throws SQLException {
+        Conexion conn = new Conexion();
         try {
             ArrayList<Habitacion> habitacions = new ArrayList<>();
-
-            Connection conn = new Conexion().conectar();
-            PreparedStatement ps = conn.prepareStatement(SELECT_HABITACIONES);
+            PreparedStatement ps = conn.conectar().prepareStatement(SELECT_HABITACIONES);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -103,10 +105,11 @@ public class HabitacionesDAO {
                 Habitacion habitacion = new Habitacion(id, tipoHabitacion, imagen, precio, estado);
                 habitacions.add(habitacion);
             }
-            conn.close();
             return habitacions;
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
+        } finally {
+            conn.desconectar();
         }
     }
 }

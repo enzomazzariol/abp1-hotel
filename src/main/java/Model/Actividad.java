@@ -23,6 +23,15 @@ public class Actividad {
         this.eliminado = false; // Inicialmente no eliminada
     }
 
+    public Actividad(String nombre_actividad, String descripcion, String imagenes, double precio, int cupo, String fecha_actividad) {
+        this.nombre_actividad = nombre_actividad;
+        this.descripcion = descripcion;
+        this.imagenes = imagenes;
+        this.precio = precio;
+        this.cupo = cupo;
+        this.fecha_actividad = fecha_actividad;
+    }
+
     public boolean isEliminado() {
         return eliminado;
     }

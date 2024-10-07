@@ -14,17 +14,14 @@ import java.util.ArrayList;
 
 public class ActividadesService {
 
-    private ArrayList<Actividad> listaActividades = new ArrayList<>();
     ActividadesDAO actividadesDAO;
 
     public ActividadesService(){
         this.actividadesDAO = new ActividadesDAO();
     }
 
-    public void fowardActividades(HttpServletRequest req, HttpServletResponse resp, ActividadesServlet actividadesServlet) throws ServletException, IOException, SQLException, ClassNotFoundException {
-        listaActividades = actividadesDAO.listarActividades();
-
-        req.setAttribute("actividades", listaActividades);
+    public void fowardActividades(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ClassNotFoundException {
+        req.setAttribute("actividades", actividadesDAO.listarActividades());
         //foward a la pagina de actividades
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/actividades.jsp");
         dispatcher.forward(req, resp);
@@ -42,15 +39,8 @@ public class ActividadesService {
         }
     }
 
-    public void listarActividades(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException {
-        // Consultar actividades de la base de datos
-        actividadesDAO.listarActividades();
-    }
-
-
     public void agregarActividad(HttpServletRequest req, HttpServletResponse resp) throws SQLException {
         // Obtiene los datos de la nueva actividad
-        int id = Integer.parseInt(req.getParameter("id"));
         String nombre = req.getParameter("nombre_actividad");
         String descripcion = req.getParameter("descripcion");
         String imagenes = req.getParameter("imagenes");
@@ -59,7 +49,7 @@ public class ActividadesService {
         String fecha = req.getParameter("fecha_actividad");
 
         // Crea la nueva instancia de Actividad
-        Actividad nuevaActividad = new Actividad(id, nombre, descripcion, imagenes, precio, cupo, fecha);
+        Actividad nuevaActividad = new Actividad(nombre, descripcion, imagenes, precio, cupo, fecha);
 
         // insertamos la actividad en la BD
         actividadesDAO.insertarActividad(nuevaActividad);

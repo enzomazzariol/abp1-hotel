@@ -20,7 +20,7 @@ public class HabitacionService {
         this.habitacionesDAO = new HabitacionesDAO();
     }
 
-    public void mostrarHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void forwardHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         req.setAttribute("habitaciones", habitacionesDAO.listarHabitaciones());
         System.out.println(habitacionesDAO.listarHabitaciones());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/habitacion.jsp");
@@ -37,9 +37,6 @@ public class HabitacionService {
         } else if ("eliminar".equals(action)) {
             eliminarHabitacion(req);
         }
-
-        // Redirigir al GET para mostrar la lista actualizada
-        mostrarHabitacion(req, resp);
     }
 
     public void agregarHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException {
@@ -48,7 +45,6 @@ public class HabitacionService {
         String imagen = req.getParameter("imagen");
         double precio = Double.parseDouble(req.getParameter("precio"));
         String estadoParam = req.getParameter("estado");
-        boolean eliminado = Boolean.parseBoolean(req.getParameter("eliminado"));
 
         TipoHabitacion tipoHabitacion = TipoHabitacion.valueOf(tipoHabitacionParam.toUpperCase());
         Estado estado = Estado.valueOf(estadoParam.toUpperCase());
@@ -63,7 +59,7 @@ public class HabitacionService {
         System.out.println("Nueva habitación insertada: " + nuevaHabitacion);
     }
 
-    public void actualizarHabitacion(HttpServletRequest req) {
+    public void actualizarHabitacion(HttpServletRequest req) throws SQLException {
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
         String tipoHabitacionParam = req.getParameter("tipoHabitacion");
