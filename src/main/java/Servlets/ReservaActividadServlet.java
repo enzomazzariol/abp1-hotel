@@ -1,8 +1,9 @@
 package Servlets;
 
-import Model.ReservaActividad;
 import Service.ReservaActividadService;
-import Utils.Estado;
+
+import excepciones.ConexionException;
+import excepciones.ReservaActividadesException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +27,7 @@ public class ReservaActividadServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             ras.fowardReservaActividad(req, resp);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException | ConexionException | ReservaActividadesException e) {
             throw new RuntimeException(e);
         }
     }
@@ -35,7 +36,7 @@ public class ReservaActividadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             ras.menuPostReservaActividad(req, resp);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException | ConexionException | ReservaActividadesException e) {
             throw new RuntimeException(e);
         }
     }

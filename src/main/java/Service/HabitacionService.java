@@ -4,6 +4,8 @@ import DAO.HabitacionesDAO;
 import Model.Habitacion;
 import Utils.Estado;
 import Utils.TipoHabitacion;
+import excepciones.ConexionException;
+import excepciones.HabitacionException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class HabitacionService {
     HabitacionesDAO habitacionesDAO;
@@ -20,14 +21,14 @@ public class HabitacionService {
         this.habitacionesDAO = new HabitacionesDAO();
     }
 
-    public void forwardHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
+    public void forwardHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, HabitacionException, ConexionException {
         req.setAttribute("habitaciones", habitacionesDAO.listarHabitaciones());
         System.out.println(habitacionesDAO.listarHabitaciones());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/habitacion.jsp");
         dispatcher.forward(req, resp);
     }
 
-    public void menuPostHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ClassNotFoundException {
+    public void menuPostHabitacion(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException, HabitacionException, ConexionException {
         String action = req.getParameter("action");
 
         if ("agregar".equals(action)) {
@@ -39,7 +40,7 @@ public class HabitacionService {
         }
     }
 
-    public void agregarHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException {
+    public void agregarHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException, HabitacionException, ConexionException {
         // Obtener los parámetros de la solicitud.
         String tipoHabitacionParam = req.getParameter("tipoHabitacion");
         String imagen = req.getParameter("imagen");
@@ -59,7 +60,7 @@ public class HabitacionService {
         System.out.println("Nueva habitación insertada: " + nuevaHabitacion);
     }
 
-    public void actualizarHabitacion(HttpServletRequest req) throws SQLException {
+    public void actualizarHabitacion(HttpServletRequest req) throws SQLException, HabitacionException, ConexionException {
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
         String tipoHabitacionParam = req.getParameter("tipoHabitacion");
@@ -80,7 +81,7 @@ public class HabitacionService {
         System.out.println("Habitación actualizada: " + nuevaHabitacion);
     }
 
-    public void eliminarHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException {
+    public void eliminarHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException, HabitacionException, ConexionException {
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
 

@@ -1,10 +1,11 @@
 package DAO;
 
-import Model.Actividad;
+
 import Model.ReservaActividad;
 import Utils.Estado;
+import excepciones.ConexionException;
+import excepciones.ReservaActividadesException;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ public class ReservaActividadesDAO extends Conexion{
 
 
     // Metodo para lista todas las reservas actividades de la BBDD
-    public ArrayList<ReservaActividad> listarReservaActividades() throws SQLException, ClassNotFoundException {
+    public ArrayList<ReservaActividad> listarReservaActividades() throws SQLException, ClassNotFoundException, ConexionException, ReservaActividadesException {
         ArrayList<ReservaActividad> listaReservaActividades = new ArrayList<>();
         Conexion conn = new Conexion();
 
@@ -51,14 +52,14 @@ public class ReservaActividadesDAO extends Conexion{
                 System.out.println(reservaActividad);
             }
         }catch (Exception e){
-            e.printStackTrace();
+            throw new ReservaActividadesException(ReservaActividadesException.ErrorListarReservas);
         } finally {
             conn.desconectar();
         }
         return listaReservaActividades;
     }
 
-    public void insertarActividad(ReservaActividad reservaActividad) throws SQLException {
+    public void insertarActividad(ReservaActividad reservaActividad) throws SQLException, ConexionException, ReservaActividadesException {
         Conexion conn = new Conexion();
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(INSERT_RESERVA_ACTIVIDAD);
@@ -70,14 +71,13 @@ public class ReservaActividadesDAO extends Conexion{
             // Ejecuta la consulta
             ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error al insertar la reserva actividad", e);
+            throw new ReservaActividadesException(ReservaActividadesException.ErrorInsertarReserva);
         } finally {
             conn.desconectar();
         }
     }
 
-    public void actualizarReservaActividad(ReservaActividad reservaActividad) throws SQLException {
+    public void actualizarReservaActividad(ReservaActividad reservaActividad) throws SQLException, ConexionException, ReservaActividadesException {
         Conexion conn = new Conexion();
 
         try {
@@ -88,13 +88,13 @@ public class ReservaActividadesDAO extends Conexion{
 
             ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException("Error al actualizar la actividad", e);
+            throw new ReservaActividadesException(ReservaActividadesException.ErrorActualizarReserva);
         } finally {
             conn.desconectar();
         }
     }
 
-    public void eliminarReservaActividad(int id) throws SQLException, ClassNotFoundException {
+    public void eliminarReservaActividad(int id) throws SQLException, ClassNotFoundException, ConexionException, ReservaActividadesException {
         Conexion conn = new Conexion();
 
         try {
@@ -103,7 +103,7 @@ public class ReservaActividadesDAO extends Conexion{
 
             ps.executeUpdate();
         } catch (SQLException e){
-            throw new RuntimeException("Error al eliminar la reserva de la actividad", e);
+            throw new ReservaActividadesException(ReservaActividadesException.ErrorEliminarReserva);
         } finally {
             conn.desconectar();
         }
