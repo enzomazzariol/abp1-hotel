@@ -3,6 +3,8 @@ package Service;
 import DAO.LoginDAO;
 import Model.Usuario;
 import Servlets.LoginServlet;
+import excepciones.ConexionException;
+import excepciones.LoginException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,19 +22,19 @@ public class LoginService {
     }
 
     // POST
-    public void comprobarLogin(HttpServletRequest req, HttpServletResponse resp, LoginServlet loginServlet) throws SQLException, ClassNotFoundException, ServletException, IOException {
+    public void comprobarLogin(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException, ServletException, IOException, LoginException, ConexionException {
         String nombre = req.getParameter("nombre");
         String password = req.getParameter("password");
 
         // Logica para comprobar el nombre y la contraseña.
         Usuario usuarioActual = this.loginDAO.checklogin(nombre, password);
         if (usuarioActual.getId() == 0) {
-            req.setAttribute("error", "Error en el usuario o contraseña.");
-            System.out.println("error");
+            System.out.println(LoginException.ErrorUsuarioContraseña);
+            req.setAttribute("error", LoginException.ErrorUsuarioContraseña);
             req.getRequestDispatcher("/jsp/error.jsp"). forward(req, resp);
         } else {
-            req.setAttribute("nombre", nombre);
             System.out.println("El usuario es " + nombre + " y la contraseña es " + password);
+            req.setAttribute("nombre", nombre);
             req.getRequestDispatcher("/jsp/index.jsp").forward(req, resp);
         }
     }

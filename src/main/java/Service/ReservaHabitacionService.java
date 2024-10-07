@@ -1,9 +1,10 @@
 package Service;
 
-import DAO.HabitacionesDAO;
 import DAO.ReservaHabitacionDAO;
 import Model.ReservaHabitacion;
 import Utils.Estado;
+import excepciones.ConexionException;
+import excepciones.ReservaHabitacionException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
+
 
 public class ReservaHabitacionService {
     ReservaHabitacionDAO reservaHabitacionDAO;
@@ -20,14 +21,14 @@ public class ReservaHabitacionService {
         this.reservaHabitacionDAO = new ReservaHabitacionDAO();
     }
 
-    public void forwardReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
+    public void forwardReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ReservaHabitacionException, ConexionException {
         req.setAttribute("reservahabitaciones", reservaHabitacionDAO.listarResevaHabitaciones());
         System.out.println(reservaHabitacionDAO.listarResevaHabitaciones());
         RequestDispatcher dispatcher= req.getRequestDispatcher("/jsp/reservaHabitacion.jsp");
         dispatcher.forward(req, resp);
     }
 
-    public void menuPostReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ClassNotFoundException {
+    public void menuPostReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ClassNotFoundException, ReservaHabitacionException, ConexionException {
         String action = req.getParameter("action");
 
         if ("agregar".equals(action)) {
@@ -38,7 +39,7 @@ public class ReservaHabitacionService {
             eliminarReservaHabitacion(req);
         }
     }
-    public void agregarReservaHabitacion(HttpServletRequest req) throws SQLException {
+    public void agregarReservaHabitacion(HttpServletRequest req) throws SQLException, ReservaHabitacionException, ConexionException {
         // Obtener los parámetros de la solicitud.
         int idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
         String estadoParam = req.getParameter("estado");
@@ -59,7 +60,7 @@ public class ReservaHabitacionService {
         System.out.println("Nueva reserva de habitación: " + nuevaReservaHabitacion);
     }
 
-    public void actualizarReservaHabitacion(HttpServletRequest req) throws SQLException {
+    public void actualizarReservaHabitacion(HttpServletRequest req) throws SQLException, ReservaHabitacionException, ConexionException {
         // Obtiene el índice y los datos de la reserva de habitación a actualizar
         int id = Integer.parseInt(req.getParameter("id"));
         int idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
@@ -82,7 +83,7 @@ public class ReservaHabitacionService {
         System.out.println("Reserva de habitación actualizada: " + nuevaReservaHabitacion);
     }
 
-    public void eliminarReservaHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException {
+    public void eliminarReservaHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException, ReservaHabitacionException, ConexionException {
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
 

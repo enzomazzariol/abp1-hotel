@@ -1,7 +1,8 @@
 package Servlets;
 
-import DAO.ActividadesDAO;
 import Service.ActividadesService;
+import excepciones.ActividadesException;
+import excepciones.ConexionException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +25,7 @@ public class ActividadesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             actividadesService.fowardActividades(req, resp);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException | ConexionException | ActividadesException e) {
             throw new RuntimeException(e);
         }
     }
@@ -33,7 +34,7 @@ public class ActividadesServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             actividadesService.menuPostActividad(req, resp);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException | ConexionException | ActividadesException e) {
             throw new RuntimeException(e);
         }
 

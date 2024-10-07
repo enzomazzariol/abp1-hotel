@@ -1,6 +1,8 @@
 package Servlets;
 
 import Service.LoginService;
+import excepciones.ConexionException;
+import excepciones.LoginException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,8 +24,8 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            ls.comprobarLogin(req, resp, this);
-        } catch (SQLException | ClassNotFoundException e) {
+            ls.comprobarLogin(req, resp);
+        } catch (SQLException | ClassNotFoundException | LoginException | ConexionException e) {
             throw new RuntimeException(e);
         }
     }

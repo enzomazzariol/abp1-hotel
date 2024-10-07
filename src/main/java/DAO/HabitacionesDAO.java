@@ -4,6 +4,8 @@ import Model.Habitacion;
 import Utils.Constants;
 import Utils.Estado;
 import Utils.TipoHabitacion;
+import excepciones.ConexionException;
+import excepciones.HabitacionException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +22,7 @@ public class HabitacionesDAO {
     public static final String SELECT_HABITACIONES = "SELECT * FROM habitaciones";
 
     // INSERTAR:
-    public void agregarHabitacion(Habitacion habitacion) throws SQLException, ClassNotFoundException {
+    public void agregarHabitacion(Habitacion habitacion) throws SQLException, ClassNotFoundException, HabitacionException, ConexionException {
         Conexion conn = new Conexion();
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(AGREGAR_HABITACION);
@@ -31,14 +33,14 @@ public class HabitacionesDAO {
             ps.executeUpdate();
             System.out.println("Se ha insertado la habitacion en la base de datos correctamente!");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new HabitacionException(HabitacionException.ErrorInsertarHabitacion);
         } finally {
             conn.desconectar();
         }
     }
 
     // ACTUALIZAR:
-    public void actualizarHabitacion(Habitacion habitacion) throws SQLException {
+    public void actualizarHabitacion(Habitacion habitacion) throws SQLException, HabitacionException, ConexionException {
         Conexion conn = new Conexion();
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(ACTUALIZAR_HABITACION);
@@ -50,42 +52,28 @@ public class HabitacionesDAO {
             ps.executeUpdate();
             System.out.println("Se ha actualizado la habitacion en la base de datos correctamente!");
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new HabitacionException(HabitacionException.ErrorActualizarHabitacion);
         } finally {
             conn.desconectar();
         }
     }
 
-    // ELIMINAR PERMAMENTEMENTE:
-    public void eliminarHabitacion(int id) {
-        try {
-            Connection conn = new Conexion().conectar();
-            PreparedStatement ps = conn.prepareStatement(ELIMINAR_HABITACION);
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            System.out.println("Se ha eliminado la habitacion en la base de datos correctamente!");
-            conn.close();
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     // ACTUALIZAR EL ELIMINADO:
-    public void actualizarEliminadoHabitacion(int id) throws SQLException, ClassNotFoundException {
+    public void actualizarEliminadoHabitacion(int id) throws SQLException, ClassNotFoundException, HabitacionException, ConexionException {
         Conexion conn = new Conexion();
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(ACTUALIZAR_ELIMINADO_HABITACION);
             ps.setInt(1, id);
             ps.executeUpdate();
-        } catch (SQLException e){
-            throw new RuntimeException("Error al eliminar la habitacion: ", e);
+        } catch (SQLException | ConexionException e){
+            throw new HabitacionException(HabitacionException.ErrorEliminarHabitacion);
         } finally {
             conn.desconectar();
         }
     }
 
     // READ:
-    public ArrayList<Habitacion> listarHabitaciones() throws SQLException {
+    public ArrayList<Habitacion> listarHabitaciones() throws SQLException, HabitacionException, ConexionException {
         Conexion conn = new Conexion();
         try {
             ArrayList<Habitacion> habitacions = new ArrayList<>();
@@ -106,10 +94,24 @@ public class HabitacionesDAO {
                 habitacions.add(habitacion);
             }
             return habitacions;
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException | ClassNotFoundException | ConexionException e) {
+            throw new HabitacionException(HabitacionException.ErrorListarHabitaciones);
         } finally {
             conn.desconectar();
+        }
+    }
+
+    // ELIMINAR PERMAMENTEMENTE:
+    public void eliminarHabitacion(int id) throws HabitacionException {
+        try {
+            Connection conn = new Conexion().conectar();
+            PreparedStatement ps = conn.prepareStatement(ELIMINAR_HABITACION);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            System.out.println("Se ha eliminado la habitacion en la base de datos correctamente!");
+            conn.close();
+        } catch (SQLException | ClassNotFoundException | ConexionException e) {
+            throw new HabitacionException(HabitacionException.ErrorEliminarHabitacion);
         }
     }
 }

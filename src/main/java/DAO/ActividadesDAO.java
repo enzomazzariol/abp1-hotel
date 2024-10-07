@@ -1,6 +1,8 @@
 package DAO;
 
 import Model.Actividad;
+import excepciones.ActividadesException;
+import excepciones.ConexionException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ public class ActividadesDAO extends Conexion {
 
 
     // Metodo para lista todas las actividades de la BBDD
-    public ArrayList<Actividad> listarActividades() throws SQLException, ClassNotFoundException {
+    public ArrayList<Actividad> listarActividades() throws SQLException, ClassNotFoundException, ActividadesException, ConexionException {
         ArrayList<Actividad> listaActividades = new ArrayList<>();
         Conexion conn = new Conexion();
 
@@ -45,14 +47,14 @@ public class ActividadesDAO extends Conexion {
                 System.out.println(nuevaActividad);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+           throw new ActividadesException(ActividadesException.ErrorListarActividades);
         } finally {
             conn.desconectar();
         }
         return listaActividades;
     }
 
-    public void insertarActividad(Actividad actividad) throws SQLException {
+    public void insertarActividad(Actividad actividad) throws SQLException, ActividadesException, ConexionException {
         Conexion conn = new Conexion();
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(INSERT_ACTIVIDADES);
@@ -68,13 +70,13 @@ public class ActividadesDAO extends Conexion {
             // Ejecuta la consulta
             ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException("Error al insertar la actividad", e);
+            throw new ActividadesException(ActividadesException.ErrorInsertarActividad);
         } finally {
             conn.desconectar();
         }
     }
 
-    public void actualizarActividad(Actividad actividad) throws SQLException {
+    public void actualizarActividad(Actividad actividad) throws SQLException, ActividadesException, ConexionException {
         Conexion conn = new Conexion();
 
         try {
@@ -89,13 +91,13 @@ public class ActividadesDAO extends Conexion {
 
             ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException("Error al actualizar la actividad", e);
+            throw new ActividadesException(ActividadesException.ErrorActualizarActividad);
         } finally {
             conn.desconectar();
         }
     }
 
-    public void eliminarActividad(int id) throws SQLException, ClassNotFoundException {
+    public void eliminarActividad(int id) throws SQLException, ClassNotFoundException, ActividadesException, ConexionException {
         Conexion conn = new Conexion();
 
         try {
@@ -104,7 +106,7 @@ public class ActividadesDAO extends Conexion {
 
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error al eliminar la actividad", e);
+            throw new ActividadesException(ActividadesException.ErrorEliminarActividad);
         } finally {
             conn.desconectar();
         }

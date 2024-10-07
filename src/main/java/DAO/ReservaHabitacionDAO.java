@@ -2,6 +2,8 @@ package DAO;
 
 import Model.ReservaHabitacion;
 import Utils.Estado;
+import excepciones.ConexionException;
+import excepciones.ReservaHabitacionException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +21,7 @@ public class ReservaHabitacionDAO {
     public static final String ACTUALIZAR_ELIMINADO_RESERVA_HABITACION = "UPDATE reserva_habitaciones SET eliminado = 1 WHERE id = ?";
 
     // INSERT:
-    public void agregarReservaHabitacion(ReservaHabitacion reservaHabitacion) throws SQLException {
+    public void agregarReservaHabitacion(ReservaHabitacion reservaHabitacion) throws SQLException, ConexionException, ReservaHabitacionException {
         Conexion conn = new Conexion();
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(AGREGAR_RESERVA_HABITACION);
@@ -32,14 +34,14 @@ public class ReservaHabitacionDAO {
             ps.executeUpdate();
             System.out.println("Se ha insertado la reserva en la base de datos correctamente!");
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new ReservaHabitacionException(ReservaHabitacionException.ErrorInsertarReserva);
         } finally {
             conn.desconectar();
         }
     }
 
     // ACTUALIZAR:
-    public void actualizarReserva(ReservaHabitacion reservaHabitacion) throws SQLException {
+    public void actualizarReserva(ReservaHabitacion reservaHabitacion) throws SQLException, ConexionException, ReservaHabitacionException {
         Conexion conn = new Conexion();
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(ACTUALIZAR_RESERVA_HABITACION);
@@ -53,28 +55,28 @@ public class ReservaHabitacionDAO {
             ps.executeUpdate();
             System.out.println("Se ha actualizado la reserva en la base de datos correctamente!");
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new ReservaHabitacionException(ReservaHabitacionException.ErrorActualizarReserva);
         } finally {
             conn.desconectar();
         }
     }
 
     // ACTUALIZAR EL ELIMINADO:
-    public void actualizarEliminadoReservaHabitacion(int id) throws SQLException, ClassNotFoundException {
+    public void actualizarEliminadoReservaHabitacion(int id) throws SQLException, ClassNotFoundException, ConexionException, ReservaHabitacionException {
         Conexion conn = new Conexion();
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(ACTUALIZAR_ELIMINADO_RESERVA_HABITACION);
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e){
-            throw new RuntimeException("Error al eliminar la actividad", e);
+            throw new ReservaHabitacionException(ReservaHabitacionException.ErrorEliminarReserva);
         } finally {
             conn.desconectar();
         }
     }
 
     // READ:
-    public ArrayList<ReservaHabitacion> listarResevaHabitaciones() throws SQLException {
+    public ArrayList<ReservaHabitacion> listarResevaHabitaciones() throws SQLException, ConexionException, ReservaHabitacionException {
         Conexion conn = new Conexion();
         try {
             ArrayList<ReservaHabitacion> reservaHabitacions = new ArrayList<>();
@@ -98,7 +100,7 @@ public class ReservaHabitacionDAO {
             return reservaHabitacions;
 
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new ReservaHabitacionException(ReservaHabitacionException.ErrorListarReservas);
         } finally {
             conn.desconectar();
         }
@@ -107,7 +109,7 @@ public class ReservaHabitacionDAO {
     // Funciones por si sirven en un futuro:
 
     // VER UNA RESERVA:
-    public ArrayList<ReservaHabitacion> selectReserva(int id) {
+    public ArrayList<ReservaHabitacion> selectReserva(int id) throws ReservaHabitacionException {
         try {
             ArrayList<ReservaHabitacion> reservaHabitacions = new ArrayList<>();
 
@@ -132,8 +134,8 @@ public class ReservaHabitacionDAO {
             conn.close();
             return reservaHabitacions;
 
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException | ClassNotFoundException | ConexionException e) {
+            throw new ReservaHabitacionException(ReservaHabitacionException.ErrorSeleccionarReserva);
         }
     }
 
@@ -146,7 +148,7 @@ public class ReservaHabitacionDAO {
             ps.executeUpdate();
             System.out.println("Se ha eliminado la reserva en la base de datos correctamente!");
             conn.close();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException | ConexionException e) {
             throw new RuntimeException(e);
         }
     }

@@ -1,5 +1,7 @@
 package DAO;
 
+import excepciones.ConexionException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,21 +17,27 @@ public class Conexion {
 
 
     // Método para conectarse a la base de datos
-    public Connection conectar() throws SQLException, ClassNotFoundException {
-        // Cargar el driver de MySQL
-        Class.forName("com.mysql.cj.jdbc.Driver");
+    public Connection conectar() throws SQLException, ClassNotFoundException, ConexionException {
+        try {
+            // Cargar el driver de MySQL
+            Class.forName("com.mysql.cj.jdbc.Driver");
 
-        // Establecer la conexión
-        conn = DriverManager.getConnection(URL, USER, PASS);
-        System.out.println("Conexión exitosa a la base de datos: " + SCHEMA_NAME);
-        return conn;
+            // Establecer la conexión
+            conn = DriverManager.getConnection(URL, USER, PASS);
+            System.out.println("Conexión exitosa a la base de datos: " + SCHEMA_NAME);
+            return conn;
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new ConexionException(ConexionException.ErrorConexionBD);
+        }
     }
 
     // Método para desconectarse de la base de datos
-    public void desconectar() throws SQLException {
+    public void desconectar() throws SQLException, ConexionException {
         if (conn != null && !conn.isClosed()) {
             conn.close();
             System.out.println("Conexión cerrada.");
+        } else {
+            throw new ConexionException(ConexionException.ErrorDesconexionBD);
         }
     }
 }

@@ -1,6 +1,8 @@
 package Servlets;
 
 import Service.HabitacionService;
+import excepciones.ConexionException;
+import excepciones.HabitacionException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +25,7 @@ public class HabitacionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             hs.forwardHabitacion(req, resp);
-        } catch (SQLException e) {
+        } catch (SQLException | HabitacionException | ConexionException e) {
             throw new RuntimeException(e);
         }
     }
@@ -32,7 +34,7 @@ public class HabitacionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             hs.menuPostHabitacion(req, resp);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException | HabitacionException | ConexionException e) {
             throw new RuntimeException(e);
         }
     }
