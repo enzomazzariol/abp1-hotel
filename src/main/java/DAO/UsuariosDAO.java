@@ -1,5 +1,6 @@
 package DAO;
 
+
 import Model.Usuario;
 import Utils.Rol;
 import java.sql.*;
@@ -16,10 +17,10 @@ public class UsuariosDAO extends Conexion {
     // Método para listar todos los usuarios de la base de datos
     public ArrayList<Usuario> listarUsuarios() throws SQLException, ClassNotFoundException {
         ArrayList<Usuario> listaUsuarios = new ArrayList<>();
-        Conexion conn = new Conexion();
+        Conexion conexionBD = new Conexion();
 
         try {
-            PreparedStatement ps = conn.conectar().prepareStatement(SELECT_USUARIOS);
+            PreparedStatement ps = conn.prepareStatement(SELECT_USUARIOS);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -39,7 +40,7 @@ public class UsuariosDAO extends Conexion {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            conn.desconectar();
+            conexionBD.desconectar();
         }
         return listaUsuarios;
     }

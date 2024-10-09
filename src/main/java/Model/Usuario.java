@@ -75,6 +75,8 @@ public class Usuario {
         this.fechaRegistro = fechaRegistro;
     }
 
+
+
     @Override
     public String toString() {
         return "Usuario{" +
@@ -85,4 +87,6 @@ public class Usuario {
                 ", fechaRegistro='" + fechaRegistro + '\'' +
                 '}';
     }
+
+
 }
