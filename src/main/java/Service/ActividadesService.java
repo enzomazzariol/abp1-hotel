@@ -1,93 +1,76 @@
 package Service;
 
+import DAO.ActividadesDAO;
 import Model.Actividad;
+import excepciones.ActividadesException;
+import excepciones.ConexionException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
+import java.sql.SQLException;
 
 public class ActividadesService {
 
-    private ArrayList<Actividad> actividades = new ArrayList<>();
+    ActividadesDAO actividadesDAO;
 
-    public void listarActividades(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Consultar actividades de la base de datos
+    public ActividadesService(){
+        this.actividadesDAO = new ActividadesDAO();
+    }
 
-        //foward a la pagna de actividades
+    public void fowardActividades(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ClassNotFoundException, ConexionException, ActividadesException {
+        req.setAttribute("actividades", actividadesDAO.listarActividades());
+        //foward a la pagina de actividades
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/actividades.jsp");
         dispatcher.forward(req, resp);
     }
 
-    public void menuPostActividad(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void menuPostActividad(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException, ConexionException, ActividadesException, ServletException, IOException {
         String action = req.getParameter("action");
 
         if ("agregar".equals(action)) {
             agregarActividad(req, resp);
         } else if ("actualizar".equals(action)) {
-            actualizarActividad(req);
+            actualizarActividad(req, resp);
         } else if ("eliminar".equals(action)) {
             eliminarActividad(req);
         }
     }
 
-    public void agregarActividad(HttpServletRequest req, HttpServletResponse resp) {
-        // Obtiene los datos de la nueva actividad
-        int id = Integer.parseInt(req.getParameter("id"));
+    public void agregarActividad(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ConexionException, ActividadesException, IOException, ServletException {
         String nombre = req.getParameter("nombre_actividad");
         String descripcion = req.getParameter("descripcion");
-        String imagenes = req.getParameter("imagenes");
         double precio = Double.parseDouble(req.getParameter("precio"));
         int cupo = Integer.parseInt(req.getParameter("cupo"));
         String fecha = req.getParameter("fecha_actividad");
+        byte[] imagen = req.getParameter("imagenes").getBytes();
 
-        // Crea la nueva instancia de Actividad
-        Actividad nuevaActividad = new Actividad(id, nombre, descripcion, imagenes, precio, cupo, fecha);
+        Actividad nuevaActividad = new Actividad(nombre, descripcion, imagen, precio, cupo, fecha);
 
-        // Agrega la nueva actividad a la lista
-        actividades.add(nuevaActividad);
-
-        System.out.println("Se ha creado: " +actividades);
+        actividadesDAO.insertarActividad(nuevaActividad);
+        System.out.println("Actividad insertada correctamente en la base de datos");
     }
 
-    private void actualizarActividad(HttpServletRequest req) {
-        // Obtiene el ID y los datos de la actividad a actualizar
+    public void actualizarActividad(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ConexionException, ActividadesException, IOException, ServletException {
         int id = Integer.parseInt(req.getParameter("id"));
         String nombre = req.getParameter("nombre_actividad");
         String descripcion = req.getParameter("descripcion");
-        String imagenes = req.getParameter("imagenes");
         double precio = Double.parseDouble(req.getParameter("precio"));
         int cupo = Integer.parseInt(req.getParameter("cupo"));
         String fecha = req.getParameter("fecha_actividad");
+        byte[] imagen = req.getParameter("imagenes").getBytes();
 
-        // Busca y actualiza la actividad por ID
-        for (Actividad actividad: actividades) {
-            if (actividad.getId() == id) {
-                actividad.setNombre_actividad(nombre);
-                actividad.setDescripcion(descripcion);
-                actividad.setImagenes(imagenes);
-                actividad.setPrecio(precio);
-                actividad.setCupo(cupo);
-                actividad.setFecha_actividad(fecha);
-                System.out.println("Actividad actualizada: " + actividad);
-                break;
-            }
-        }
-
+        Actividad actividad = new Actividad(id, nombre, descripcion, imagen, precio, cupo, fecha);
+        actividadesDAO.actualizarActividad(actividad);
+        System.out.println("Actividad actualizada correctamente en la base de datos");
     }
 
-    private void eliminarActividad(HttpServletRequest req) {
+    public void eliminarActividad(HttpServletRequest req) throws SQLException, ClassNotFoundException, ConexionException, ActividadesException {
         int id = Integer.parseInt(req.getParameter("id"));
-
-        for (Actividad actividad : actividades) {
-            if (actividad.getId() == id) {
-                actividad.setEliminado(true);  // Marcamos como eliminada
-                System.out.println("Actividad marcada como eliminada: " + actividad);
-                break;
-            }
-        }
+        actividadesDAO.eliminarActividad(id);
+        System.out.println("Se ha eliminado la actividad con el id: " + id);
     }
-
 }

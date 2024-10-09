@@ -1,29 +1,34 @@
 package Service;
 
-import Model.Actividad;
+import DAO.ReservaActividadesDAO;
+
 import Model.ReservaActividad;
 import Utils.Estado;
+import excepciones.ConexionException;
+import excepciones.ReservaActividadesException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.sql.SQLException;
+
 
 public class ReservaActividadService {
-    private ArrayList<ReservaActividad> reservaActividades = new ArrayList<>();
+    ReservaActividadesDAO reservaActividadesDAO;
 
-    public void mostrarReservaActividad(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        reservaActividades = new ArrayList<>();
-        reservaActividades.add(new ReservaActividad(1, 1, Estado.RESERVADO, "03-03-2004", false, 1));
-        req.setAttribute("reservaActividad", reservaActividades);
+    public ReservaActividadService(){
+        this.reservaActividadesDAO = new ReservaActividadesDAO();
+    }
 
+    public void fowardReservaActividad(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ClassNotFoundException, ConexionException, ReservaActividadesException {
+        req.setAttribute("reserva actividades",  reservaActividadesDAO.listarReservaActividades());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/reservaActividad.jsp");
         dispatcher.forward(req, resp);
     }
 
-    public void menuPostReservaActividad(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void menuPostReservaActividad(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ClassNotFoundException, ConexionException, ReservaActividadesException {
         String action = req.getParameter("action");
 
         if ("agregar".equals(action)) {
@@ -35,57 +40,40 @@ public class ReservaActividadService {
         }
     }
 
-    public void agregarReservaActividad(HttpServletRequest req) throws ServletException, IOException {
+    public void agregarReservaActividad(HttpServletRequest req) throws ServletException, IOException, SQLException, ConexionException, ReservaActividadesException {
         // Obtiene los datos de la nueva reserva de actividad
-        int idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
-        Estado estado = Estado.valueOf(req.getParameter("estado"));
-        String fechaReserva = req.getParameter("fechaReserva");
-        int idActividad = Integer.parseInt(req.getParameter("idActividad"));
-        boolean eliminado = Boolean.parseBoolean(req.getParameter("eliminado"));
-
-        // Crea la nueva instancia de ReservaActividad
-        ReservaActividad nuevaReserva = new ReservaActividad(idUsuario, idActividad, estado, fechaReserva, eliminado, idActividad);
-
-        // Agrega la nueva reserva a la lista
-        reservaActividades.add(nuevaReserva);
-
-        System.out.println("Se ha creado la reserva de actividad: " + nuevaReserva);
-    }
-    private void actualizarReservaActividad(HttpServletRequest req) {
-        // Obtiene el índice y los datos de la reserva de actividad a actualizar
-        int id = Integer.parseInt(req.getParameter("id"));
-        int idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
+        int idUsuario = Integer.parseInt(req.getParameter("id_usuario"));
+        int idActividad = Integer.parseInt(req.getParameter("id_actividad"));
         String estadoParam = req.getParameter("estado");
-        String fechaReserva = req.getParameter("fechaReserva");
-        boolean eliminado = Boolean.parseBoolean(req.getParameter("eliminado"));
-        int idActividad = Integer.parseInt(req.getParameter("idActividad"));
-
         Estado estado = Estado.valueOf(estadoParam.toUpperCase());
 
-        // Busca y actualiza la reserva por índice
-        for (ReservaActividad reservaActividad: reservaActividades) {
-            if (reservaActividad.getId() == id){
-                reservaActividad.setIdUsuario(idUsuario);
-                reservaActividad.setEstado(estado);
-                reservaActividad.setFechaReserva(fechaReserva);
-                reservaActividad.setEliminado(eliminado);
-                reservaActividad.setIdActividad(idActividad);
-                System.out.println("Reserva de actividad actualizada: " + reservaActividad);
-                break;
-            }
-        }
+        // Crea la nueva instancia de Reserva Actividad
+        ReservaActividad reservaActividad = new ReservaActividad(idUsuario, idActividad, estado);
 
+        // insertamos la actividad en la BD
+        reservaActividadesDAO.insertarActividad(reservaActividad);
+        System.out.println("Se ha creado la reserva de la actividad: " + reservaActividad.getId());
     }
 
-    private void eliminarReservaActividad(HttpServletRequest req) {
+    public void actualizarReservaActividad(HttpServletRequest req) throws SQLException, ConexionException, ReservaActividadesException {
+        // Obtiene el índice y los datos de la reserva de actividad a actualizar
         int id = Integer.parseInt(req.getParameter("id"));
+        String estadoParam = req.getParameter("estado");
+        String fechaReserva = req.getParameter("fechaReserva");
+        Estado estado = Estado.valueOf(estadoParam.toUpperCase());
 
-        for (ReservaActividad reservaActividad: reservaActividades) {
-            if (reservaActividad.getId() == id) {
-                reservaActividad.setEliminado(true);  // Marcamos como eliminada
-                System.out.println("Actividad marcada como eliminada: " + reservaActividad);
-                break;
-            }
-        }
+        ReservaActividad reservaActividad = new ReservaActividad(id, estado, fechaReserva);
+
+        reservaActividadesDAO.actualizarReservaActividad(reservaActividad);
+
+        System.out.println("Reserva de la actividad " + id + "actualizada correctamente en la base de datos");
+    }
+
+    private void eliminarReservaActividad(HttpServletRequest req) throws SQLException, ClassNotFoundException, ConexionException, ReservaActividadesException {
+        // Obtenemos el id a eliminar en la BD
+        int id = Integer.parseInt(req.getParameter("id"));
+        reservaActividadesDAO.eliminarReservaActividad(id);
+
+        System.out.println("Se ha eliminado la actividad con el id: " + id);
     }
 }
