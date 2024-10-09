@@ -7,12 +7,12 @@ public class Habitacion {
 
     private int id;
     private TipoHabitacion tipoHabitacion;
-    private String imagen;
+    private byte[] imagen;
     private double precio;
     private Estado estado;
     private boolean eliminado;
 
-    public Habitacion(int id, TipoHabitacion tipoHabitacion, String imagen, double precio, Estado estado) {
+    public Habitacion(int id, TipoHabitacion tipoHabitacion, byte[] imagen, double precio, Estado estado) {
         this.id = id;
         this.tipoHabitacion = tipoHabitacion;
         this.imagen = imagen;
@@ -20,7 +20,7 @@ public class Habitacion {
         this.estado = estado;
     }
 
-    public Habitacion(TipoHabitacion tipoHabitacion, String imagen, double precio, Estado estado) {
+    public Habitacion(TipoHabitacion tipoHabitacion, byte[] imagen, double precio, Estado estado) {
         this.tipoHabitacion = tipoHabitacion;
         this.imagen = imagen;
         this.precio = precio;
@@ -43,11 +43,11 @@ public class Habitacion {
         this.tipoHabitacion = tipoHabitacion;
     }
 
-    public String getImagen() {
+    public byte[] getImagen() {
         return imagen;
     }
 
-    public void setImagen(String imagen) {
+    public void setImagen(byte[] imagen) {
         this.imagen = imagen;
     }
 
