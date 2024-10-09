@@ -7,10 +7,7 @@ import Utils.TipoHabitacion;
 import excepciones.ConexionException;
 import excepciones.HabitacionException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class HabitacionesDAO {
@@ -22,12 +19,12 @@ public class HabitacionesDAO {
     public static final String SELECT_HABITACIONES = "SELECT * FROM habitaciones";
 
     // INSERTAR:
-    public void agregarHabitacion(Habitacion habitacion) throws SQLException, ClassNotFoundException, HabitacionException, ConexionException {
+    public void insertarHabitacion(Habitacion habitacion) throws SQLException, ClassNotFoundException, HabitacionException, ConexionException {
         Conexion conn = new Conexion();
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(AGREGAR_HABITACION);
             ps.setString(1, habitacion.getTipoHabitacion().name());
-            ps.setString(2, habitacion.getImagen());
+            ps.setBytes(2, habitacion.getImagen());
             ps.setDouble(3, habitacion.getPrecio());
             ps.setString(4, habitacion.getEstado().name());
             ps.executeUpdate();
@@ -45,7 +42,7 @@ public class HabitacionesDAO {
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(ACTUALIZAR_HABITACION);
             ps.setString(1, habitacion.getTipoHabitacion().name());
-            ps.setString(2, habitacion.getImagen());
+            ps.setBytes(2, habitacion.getImagen());
             ps.setDouble(3, habitacion.getPrecio());
             ps.setString(4, habitacion.getEstado().name());
             ps.setInt(5, habitacion.getId());
@@ -83,7 +80,8 @@ public class HabitacionesDAO {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String tipoHabitacionParam = rs.getString("tipo_habitacion");
-                String imagen = rs.getString("imagen");
+                Blob blobImagen = rs.getBlob("imagen");
+                byte[] imagen = blobImagen.getBytes(1, (int) blobImagen.length());
                 double precio = rs.getDouble("precio");
                 String estadoParam = rs.getString("estado");
 
