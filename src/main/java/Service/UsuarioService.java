@@ -3,6 +3,8 @@ package Service;
 import DAO.UsuariosDAO;
 import Model.Usuario;
 import Utils.Rol;
+import excepciones.UsuariosException;
+import excepciones.ConexionException;
 
 
 import javax.servlet.RequestDispatcher;
@@ -19,34 +21,14 @@ public class UsuarioService {
         this.usuariosDAO = new UsuariosDAO();
     }
 
-    public void forwardUsuarios(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            // Intenta listar los usuarios y establecerlo como atributo de la solicitud
-            req.setAttribute("usuarios", usuariosDAO.listarUsuarios());
-            System.out.println(usuariosDAO.listarUsuarios());
-        } catch (ClassNotFoundException e) {
-            // Manejar ClassNotFoundException
-            e.printStackTrace();
-            req.setAttribute("errorMessage", "No se pudo encontrar la clase necesaria para acceder a la base de datos.");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp"); // Cambia a tu página de error
-            dispatcher.forward(req, resp);
-            return;
-        } catch (SQLException e) {
-            // Manejar SQLException
-            e.printStackTrace();
-            req.setAttribute("errorMessage", "Se produjo un error al acceder a la base de datos.");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp"); // Cambia a tu página de error
-            dispatcher.forward(req, resp);
-            return;
-        }
-
-        // Si no hay excepciones, continúa a la página de usuario
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/usuario.jsp");
+    public void forwardUsuarios(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ConexionException, UsuariosException{
+        req.setAttribute("usuarios", usuariosDAO.listarUsuarios());
+        //foward a la pagina de actividades
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/actividades.jsp");
         dispatcher.forward(req, resp);
     }
 
-
-    public void menuPostUsuario(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException{
+    public void menuPostUsuario(HttpServletRequest req, HttpServletResponse resp) throws SQLException, UsuariosException {
         String action = req.getParameter("action");
 
         if ("agregar".equals(action)) {
@@ -85,7 +67,7 @@ public class UsuarioService {
         System.out.println("Usuario actualizado: " + usuarioActualizado);
     }
 
-    public void eliminarUsuario(HttpServletRequest req) throws SQLException, ClassNotFoundException  {
+    public void eliminarUsuario(HttpServletRequest req) throws SQLException  {
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
 

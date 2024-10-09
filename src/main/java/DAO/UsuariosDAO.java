@@ -6,6 +6,10 @@ import Utils.Rol;
 import java.sql.*;
 import java.util.ArrayList;
 
+import excepciones.ActividadesException;
+import excepciones.UsuariosException;
+import excepciones.ConexionException;
+
 public class UsuariosDAO extends Conexion {
 
     // Constantes SQL para el CRUD
@@ -15,12 +19,12 @@ public class UsuariosDAO extends Conexion {
     public static final String DELETE_USUARIO = "UPDATE usuarios SET eliminado = 1 WHERE id = ?"; // Marcar como eliminado
 
     // Método para listar todos los usuarios de la base de datos
-    public ArrayList<Usuario> listarUsuarios() throws SQLException, ClassNotFoundException {
+    public ArrayList<Usuario> listarUsuarios() throws SQLException, ClassNotFoundException, ActividadesException, ConexionException {
         ArrayList<Usuario> listaUsuarios = new ArrayList<>();
-        Conexion conexionBD = new Conexion();
+        Conexion conn = new Conexion();
 
         try {
-            PreparedStatement ps = conn.prepareStatement(SELECT_USUARIOS);
+            PreparedStatement ps = conn.conectar().prepareStatement(SELECT_USUARIOS);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -37,10 +41,10 @@ public class UsuariosDAO extends Conexion {
 
                 System.out.println(nuevoUsuario);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new UsuariosException(UsuariosException.ErrorListarUsuarios);
         } finally {
-            conexionBD.desconectar();
+            conn.desconectar();
         }
         return listaUsuarios;
     }
