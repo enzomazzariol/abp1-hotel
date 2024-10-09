@@ -1,6 +1,6 @@
 package Servlets;
 
-import Service.UsuariosService;
+import Service.UsuarioService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,15 +10,15 @@ import java.io.IOException;
 
 public class UsuariosServlet extends HttpServlet {
 
-    private UsuariosService usuariosService = new UsuariosService();
+    UsuarioService us = new UsuarioService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        usuariosService.listarUsuarios(req, resp); // Llama al método de listar usuarios
+        us.listarUsuarios(req, resp); // Llama al método de listar usuarios
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        usuariosService.menuPostUsuario(req, resp); // Llama al método de manejar acciones POST
+        us.menuPostUsuario(req, resp); // Llama al método de manejar acciones POST
     }
 }
