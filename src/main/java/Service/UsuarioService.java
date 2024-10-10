@@ -49,7 +49,7 @@ public class UsuarioService {
         Rol rol = Rol.valueOf(rolParam.toUpperCase());
 
         // Crear nuevo usuario con ID (puedes generarlo en la base de datos)
-        Usuario nuevoUsuario = new Usuario(0, nombre, email, password, rol); // Usar ID temporal, ajusta según tu lógica
+        Usuario nuevoUsuario = new Usuario(0, nombre, email, password, rol); 
         usuariosDAO.insertarUsuario(nuevoUsuario);
         System.out.println("Nuevo usuario insertado: " + nuevoUsuario);
     }
