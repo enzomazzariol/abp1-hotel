@@ -19,7 +19,7 @@ public class UsuariosDAO extends Conexion {
     public static final String DELETE_USUARIO = "UPDATE usuarios SET eliminado = 1 WHERE id = ?"; // Marcar como eliminado
 
     // Método para listar todos los usuarios de la base de datos
-    public ArrayList<Usuario> listarUsuarios() throws SQLException, ClassNotFoundException, ActividadesException, ConexionException {
+    public ArrayList<Usuario> listarUsuarios() throws SQLException, UsuariosException, ConexionException {
         ArrayList<Usuario> listaUsuarios = new ArrayList<>();
         Conexion conn = new Conexion();
 
@@ -50,7 +50,7 @@ public class UsuariosDAO extends Conexion {
     }
 
     // Método para insertar un nuevo usuario en la base de datos
-    public void insertarUsuario(Usuario usuario) throws SQLException {
+    public void insertarUsuario(Usuario usuario) throws SQLException, ClassNotFoundException, UsuariosException, ConexionException  {
         try (Connection connection = new Conexion().conectar();
              PreparedStatement ps = connection.prepareStatement(INSERT_USUARIO)) {
 
@@ -69,7 +69,7 @@ public class UsuariosDAO extends Conexion {
     }
 
     // Método para actualizar los datos de un usuario (no actualiza la fecha de registro)
-    public void actualizarUsuario(Usuario usuario) throws SQLException {
+    public void actualizarUsuario(Usuario usuario) throws SQLException, UsuariosException, ConexionException  {
         try (Connection connection = new Conexion().conectar();
              PreparedStatement ps = connection.prepareStatement(UPDATE_USUARIO)) {
 
@@ -88,7 +88,7 @@ public class UsuariosDAO extends Conexion {
     }
 
     // Método para eliminar (marcar como eliminado) un usuario
-    public void eliminarUsuario(int id) throws SQLException {
+    public void eliminarUsuario(int id) throws UsuariosException {
         try (Connection connection = new Conexion().conectar();
              PreparedStatement ps = connection.prepareStatement(DELETE_USUARIO)) {
 
