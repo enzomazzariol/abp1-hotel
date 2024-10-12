@@ -21,14 +21,14 @@ public class UsuarioService {
         this.usuariosDAO = new UsuariosDAO();
     }
 
-    public void forwardUsuarios(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ConexionException, UsuariosException{
+    public void forwardUsuarios(HttpServletRequest req, HttpServletResponse resp) throws SServletException, IOException, SQLException, UsuariosException, ConexionException{
         req.setAttribute("usuarios", usuariosDAO.listarUsuarios());
         //foward a la pagina de actividades
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/actividades.jsp");
         dispatcher.forward(req, resp);
     }
 
-    public void menuPostUsuario(HttpServletRequest req, HttpServletResponse resp) throws SQLException, UsuariosException {
+    public void menuPostUsuario(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException, UsuariosException, ConexionException {
         String action = req.getParameter("action");
 
         if ("agregar".equals(action)) {
@@ -40,7 +40,7 @@ public class UsuarioService {
         }
     }
 
-    public void agregarUsuario(HttpServletRequest req) throws SQLException {
+    public void agregarUsuario(HttpServletRequest req) throws SQLException, ClassNotFoundException, UsuariosException, ConexionException {
         String nombre = req.getParameter("nombre");
         String email = req.getParameter("email");
         String password = req.getParameter("password"); // Obtener la contraseña
@@ -54,7 +54,7 @@ public class UsuarioService {
         System.out.println("Nuevo usuario insertado: " + nuevoUsuario);
     }
 
-    public void actualizarUsuario(HttpServletRequest req) throws SQLException {
+    public void actualizarUsuario(HttpServletRequest req) throws SQLException, UsuariosException, ConexionException {
         int id = Integer.parseInt(req.getParameter("id"));
         String nombre = req.getParameter("nombre");
         String email = req.getParameter("email");
@@ -67,7 +67,7 @@ public class UsuarioService {
         System.out.println("Usuario actualizado: " + usuarioActualizado);
     }
 
-    public void eliminarUsuario(HttpServletRequest req) throws SQLException  {
+    public void eliminarUsuario(HttpServletRequest req) throws SQLException, ClassNotFoundException, UsuariosException, ConexionException
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
 
