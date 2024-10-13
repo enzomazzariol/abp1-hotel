@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class LoginDAO {
     // Constantes SQL
-    public static final String SELECT_USUARIOS_NOMBRE_CONTRASENA = "SELECT id, nombre, email FROM usuarios WHERE nombre = ? AND password = ?";
+    public static final String SELECT_USUARIOS_NOMBRE_CONTRASENA = "SELECT id, nombre, email, eliminado FROM usuarios WHERE nombre = ? AND password = ?";
 
     public Usuario checklogin(String nombre, String password) throws LoginException, ConexionException {
         Usuario usuario = new Usuario();
@@ -27,6 +27,7 @@ public class LoginDAO {
                 usuario.setId(rs.getInt("id"));
                 usuario.setNombre(rs.getString("nombre"));
                 usuario.setEmail(rs.getString("email"));
+                usuario.setEliminado(rs.getBoolean("eliminado"));
             } else {
                 throw new LoginException(LoginException.ErrorCredencialesInvalidas);
             }

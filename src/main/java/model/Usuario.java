@@ -10,6 +10,7 @@ public class Usuario {
     private String password;
     private Rol rol;
     private String fechaRegistro;
+    private boolean eliminado;
 
     public Usuario(int id, String nombre, String email, String password, Rol rol) {
         this.id = id;
@@ -90,14 +91,24 @@ public class Usuario {
         this.fechaRegistro = fechaRegistro;
     }
 
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
-                "nombre='" + nombre + '\'' +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", rol=" + rol +
                 ", fechaRegistro='" + fechaRegistro + '\'' +
+                ", eliminado=" + eliminado +
                 '}';
     }
 }

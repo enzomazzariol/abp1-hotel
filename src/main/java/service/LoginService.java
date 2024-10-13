@@ -30,17 +30,22 @@ public class LoginService {
         if (usuarioActual.getId() == 0) {
             System.out.println(LoginException.ErrorUsuarioContraseña);
             req.setAttribute("error", LoginException.ErrorUsuarioContraseña);
-            req.getRequestDispatcher("/jsp/error.jsp"). forward(req, resp);
-        } else {
+            req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+        } else if(usuarioActual.isEliminado()){
+            System.out.println("usuario eliminado");
+            req.setAttribute("error", LoginException.ErrorUsuarioEliminado);
+            req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+        }
+        else {
             System.out.println("El usuario es " + nombre + " y la contraseña es " + password);
-            req.setAttribute("nombre", nombre);
-            req.getRequestDispatcher("/jsp/index.jsp").forward(req, resp);
+            req.setAttribute("usuario", usuarioActual);
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            //req.getRequestDispatcher("/perfil.jsp").forward(req, resp);
         }
     }
 
     // GET
     public void forwardLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("Hola este es el get.");
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/login.jsp");
         dispatcher.forward(req, resp);
     }
