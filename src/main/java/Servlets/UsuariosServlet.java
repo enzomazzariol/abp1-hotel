@@ -1,8 +1,8 @@
 package Servlets;
 
-import Service.ActividadesService;
-import excepciones.ActividadesException;
+import Service.UsuarioService;
 import excepciones.ConexionException;
+import excepciones.UsuariosException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,20 +12,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/actividades")
-public class ActividadesServlet extends HttpServlet {
+@WebServlet("/usuarios")
+public class UsuariosServlet extends HttpServlet {
 
-    private ActividadesService actividadesService;
+    UsuarioService us;
 
-    public ActividadesServlet(){
-        actividadesService = new ActividadesService();
+    public UsuariosServlet(){
+        us = new UsuarioService();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            actividadesService.fowardActividades(req, resp);
-        } catch (SQLException | ClassNotFoundException | ConexionException | ActividadesException e) {
+            us.forwardUsuarios(req, resp); // Llama al método de forward usuarios
+        } catch (SQLException | UsuariosException | ConexionException e) {
             throw new RuntimeException(e);
         }
     }
@@ -33,10 +33,9 @@ public class ActividadesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            actividadesService.menuPostActividad(req, resp);
-        } catch (SQLException | ClassNotFoundException | ConexionException | ActividadesException e) {
+            us.menuPostUsuario(req, resp); // Llama al método de manejar acciones POST
+        } catch (SQLException | ClassNotFoundException | UsuariosException | ConexionException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

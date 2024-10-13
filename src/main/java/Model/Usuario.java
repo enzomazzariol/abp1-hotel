@@ -23,14 +23,24 @@ public class Usuario {
         this.rol = rol;
 
         // Obtener la fecha actual en el formato dd-MM-yyyy para fechaRegistro
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        this.fechaRegistro = LocalDate.now().format(formatter);
+        /*DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        this.fechaRegistro = LocalDate.now().format(formatter);*/
     }
 
-    public Usuario(int id, String nombre, String email) {
+    public Usuario(String nombre, String email, String password, Rol rol) {
+        this.nombre = nombre;
+        this.email = email;
+        this.password = password;
+        this.rol = rol;
+    }
+
+    public Usuario(int id, String nombre, String email, String password, Rol rol, String fechaRegistro) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
+        this.password = password;
+        this.rol = rol;
+        this.fechaRegistro = fechaRegistro;
     }
 
     public Usuario() {
