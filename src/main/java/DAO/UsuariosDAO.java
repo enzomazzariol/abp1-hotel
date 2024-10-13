@@ -14,7 +14,7 @@ public class UsuariosDAO extends Conexion {
 
     // Constantes SQL para el CRUD
     public static final String SELECT_USUARIOS = "SELECT id, nombre, email, password, rol, fecha_registro FROM usuarios";
-    public static final String INSERT_USUARIO = "INSERT INTO usuarios (nombre, email, password, rol, fecha_registro) VALUES (?, ?, ?, ?, ?)";
+    public static final String INSERT_USUARIO = "INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)";
     public static final String UPDATE_USUARIO = "UPDATE usuarios SET nombre = ?, email = ?, password = ?, rol = ? WHERE id = ?";
     public static final String DELETE_USUARIO = "UPDATE usuarios SET eliminado = 1 WHERE id = ?"; // Marcar como eliminado
 
@@ -32,16 +32,17 @@ public class UsuariosDAO extends Conexion {
                 String nombre = rs.getString("nombre");
                 String email = rs.getString("email");
                 String password = rs.getString("password");
-                Rol rol = Rol.valueOf(rs.getString("rol")); // Convertir el rol a enum
+                String rolParam = rs.getString("rol"); // Convertir el rol a enum
                 String fechaRegistro = rs.getString("fecha_registro");
 
-                Usuario nuevoUsuario = new Usuario(id, nombre, email, password, rol);
-                nuevoUsuario.setFechaRegistro(fechaRegistro); // Establecer la fecha de registro
+                Rol rol = Rol.valueOf(rolParam.toUpperCase());
+
+                Usuario nuevoUsuario = new Usuario(id, nombre, email, password, rol, fechaRegistro);
                 listaUsuarios.add(nuevoUsuario);
 
                 System.out.println(nuevoUsuario);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new UsuariosException(UsuariosException.ErrorListarUsuarios);
         } finally {
             conn.desconectar();
@@ -59,7 +60,7 @@ public class UsuariosDAO extends Conexion {
             ps.setString(2, usuario.getEmail());
             ps.setString(3, usuario.getPassword());
             ps.setString(4, usuario.getRol().name()); // Convertir Rol a String usando .name()
-            ps.setString(5, usuario.getFechaRegistro()); // Agregar la fecha de registro
+            //ps.setString(5, usuario.getFechaRegistro()); // Agregar la fecha de registro
 
             // Ejecutar la consulta
             ps.executeUpdate();
@@ -97,7 +98,7 @@ public class UsuariosDAO extends Conexion {
 
             // Ejecutar la actualización
             ps.executeUpdate();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException | ConexionException e) {
             throw new RuntimeException("Error al eliminar el usuario", e);
         }
     }

@@ -21,10 +21,10 @@ public class UsuarioService {
         this.usuariosDAO = new UsuariosDAO();
     }
 
-    public void forwardUsuarios(HttpServletRequest req, HttpServletResponse resp) throws SServletException, IOException, SQLException, UsuariosException, ConexionException{
+    public void forwardUsuarios(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, UsuariosException, ConexionException, ServletException {
         req.setAttribute("usuarios", usuariosDAO.listarUsuarios());
         //foward a la pagina de actividades
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/actividades.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/usuarios.jsp");
         dispatcher.forward(req, resp);
     }
 
@@ -49,7 +49,7 @@ public class UsuarioService {
         Rol rol = Rol.valueOf(rolParam.toUpperCase());
 
         // Crear nuevo usuario con ID (puedes generarlo en la base de datos)
-        Usuario nuevoUsuario = new Usuario(0, nombre, email, password, rol); 
+        Usuario nuevoUsuario = new Usuario(nombre, email, password, rol);
         usuariosDAO.insertarUsuario(nuevoUsuario);
         System.out.println("Nuevo usuario insertado: " + nuevoUsuario);
     }
@@ -67,7 +67,7 @@ public class UsuarioService {
         System.out.println("Usuario actualizado: " + usuarioActualizado);
     }
 
-    public void eliminarUsuario(HttpServletRequest req) throws SQLException, ClassNotFoundException, UsuariosException, ConexionException
+    public void eliminarUsuario(HttpServletRequest req) throws SQLException, ClassNotFoundException, UsuariosException, ConexionException{
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
 
