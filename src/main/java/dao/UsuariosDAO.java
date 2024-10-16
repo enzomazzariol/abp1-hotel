@@ -12,7 +12,7 @@ import excepciones.ConexionException;
 public class UsuariosDAO extends Conexion {
 
     // Constantes SQL para el CRUD
-    public static final String SELECT_USUARIOS = "SELECT id, nombre, email, password, rol, fecha_registro FROM usuarios";
+    public static final String SELECT_USUARIOS = "SELECT id, nombre, email, password, rol, fecha_registro, eliminado FROM usuarios";
     public static final String INSERT_USUARIO = "INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)";
     public static final String UPDATE_USUARIO = "UPDATE usuarios SET nombre = ?, email = ?, password = ?, rol = ? WHERE id = ?";
     public static final String DELETE_USUARIO = "UPDATE usuarios SET eliminado = 1 WHERE id = ?"; // Marcar como eliminado
@@ -33,10 +33,11 @@ public class UsuariosDAO extends Conexion {
                 String password = rs.getString("password");
                 String rolParam = rs.getString("rol"); // Convertir el rol a enum
                 String fechaRegistro = rs.getString("fecha_registro");
+                boolean eliminado = rs.getBoolean("eliminado");
 
                 Rol rol = Rol.valueOf(rolParam.toUpperCase());
 
-                Usuario nuevoUsuario = new Usuario(id, nombre, email, password, rol, fechaRegistro);
+                Usuario nuevoUsuario = new Usuario(id, nombre, email, password, rol, fechaRegistro, eliminado);
                 listaUsuarios.add(nuevoUsuario);
 
                 System.out.println(nuevoUsuario);

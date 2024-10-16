@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class ActividadesDAO extends Conexion {
 
-    public static final String SELECT_ACTIVIDADES = "select id, nombre_actividad, descripcion, imagen, precio, cupo, fecha_actividad from actividades";
+    public static final String SELECT_ACTIVIDADES = "select id, nombre_actividad, descripcion, imagen, precio, cupo, fecha_actividad, eliminado from actividades";
     public static final String INSERT_ACTIVIDADES = "insert into actividades (nombre_actividad, descripcion, imagen, precio, cupo, fecha_actividad) values (?, ?, ?, ?, ?, ?)";
     public static final String UPDATE_ACTIVIDADES = "update actividades set nombre_actividad = ?, descripcion = ?, imagen = ?, precio = ?, cupo = ?, fecha_actividad = ? where id = ?";
     public static final String DELETE_ACTIVIDADES = "delete from actividades where id = ?";
@@ -32,8 +32,9 @@ public class ActividadesDAO extends Conexion {
                 double precio = rs.getDouble("precio");
                 int cupo = rs.getInt("cupo");
                 String fecha_actividad = rs.getString("fecha_actividad");
+                boolean eliminado = rs.getBoolean("eliminado");
 
-                Actividad nuevaActividad = new Actividad(id, nombre, descripcion, imagen, precio, cupo, fecha_actividad);
+                Actividad nuevaActividad = new Actividad(id, nombre, descripcion, imagen, precio, cupo, fecha_actividad, eliminado);
                 listaActividades.add(nuevaActividad);
                 System.out.println(nuevaActividad);
             }

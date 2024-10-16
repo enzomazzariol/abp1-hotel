@@ -31,13 +31,14 @@ public class Usuario {
         this.rol = rol;
     }
 
-    public Usuario(int id, String nombre, String email, String password, Rol rol, String fechaRegistro) {
+    public Usuario(int id, String nombre, String email, String password, Rol rol, String fechaRegistro, boolean eliminado) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.password = password;
         this.rol = rol;
         this.fechaRegistro = fechaRegistro;
+        this.eliminado =eliminado;
     }
 
     public Usuario() {

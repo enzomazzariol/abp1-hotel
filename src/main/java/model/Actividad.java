@@ -23,6 +23,17 @@ public class Actividad {
         this.eliminado = false; // Inicialmente no eliminada
     }
 
+    public Actividad(int id, String nombre_actividad, String descripcion, byte[] imagen, double precio, int cupo, String fecha_actividad, boolean eliminado) {
+        this.id = id;
+        this.nombre_actividad = nombre_actividad;
+        this.descripcion = descripcion;
+        this.imagen = imagen;
+        this.precio = precio;
+        this.cupo = cupo;
+        this.fecha_actividad = fecha_actividad;
+        this.eliminado = eliminado;
+    }
+
     public Actividad(String nombre_actividad, String descripcion, byte[] imagen, double precio, int cupo, String fecha_actividad) {
         this.nombre_actividad = nombre_actividad;
         this.descripcion = descripcion;
