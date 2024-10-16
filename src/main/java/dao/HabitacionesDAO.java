@@ -15,7 +15,7 @@ public class HabitacionesDAO {
     public static final String ACTUALIZAR_HABITACION = "UPDATE habitaciones SET tipo_habitacion = ?, imagen = ?, precio = ?, estado = ? WHERE id = ?";
     public static final String ACTUALIZAR_ELIMINADO_HABITACION = "UPDATE habitaciones SET eliminado = 1 WHERE id = ?";
     public static final String ELIMINAR_HABITACION = "DELETE FROM habitaciones WHERE id = ?";
-    public static final String SELECT_HABITACIONES = "SELECT * FROM habitaciones";
+    public static final String SELECT_HABITACIONES = "SELECT * FROM habitaciones WHERE eliminado = 0";
 
     // INSERTAR:
     public void insertarHabitacion(Habitacion habitacion) throws SQLException, ClassNotFoundException, HabitacionException, ConexionException {
