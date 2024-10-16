@@ -52,7 +52,7 @@ public class ReservaActividadService {
 
         // insertamos la actividad en la BD
         reservaActividadesDAO.insertarActividad(reservaActividad);
-        System.out.println("Se ha creado la reserva de la actividad: " + reservaActividad.getId());
+        System.out.println("Se ha creado la reserva de la actividad: " + reservaActividad.getIdActividad());
     }
 
     public void actualizarReservaActividad(HttpServletRequest req) throws SQLException, ConexionException, ReservaActividadesException {
@@ -66,7 +66,7 @@ public class ReservaActividadService {
 
         reservaActividadesDAO.actualizarReservaActividad(reservaActividad);
 
-        System.out.println("Reserva de la actividad " + id + "actualizada correctamente en la base de datos");
+        System.out.println("Reserva de la actividad " + id + " actualizada correctamente en la base de datos");
     }
 
     private void eliminarReservaActividad(HttpServletRequest req) throws SQLException, ClassNotFoundException, ConexionException, ReservaActividadesException {
