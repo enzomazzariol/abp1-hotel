@@ -18,10 +18,9 @@ public class ReservaActividad extends Reservas{
         this.idActividad = idActividad;
     }
 
-    public ReservaActividad(int id, Estado estado, String fechaReserva){
+    public ReservaActividad(int id, Estado estado){
         this.id = id;
         this.estado = estado;
-        this.fechaReserva = fechaReserva;
     }
 
     public int getIdActividad() {
@@ -35,8 +34,8 @@ public class ReservaActividad extends Reservas{
     @Override
     public String toString() {
         return "ReservaActividad{" +
-                "idActividad=" + idActividad +
-                ", id=" + id +
+                "id=" + id +
+                ", idActividad=" + idActividad +
                 ", idUsuario=" + idUsuario +
                 ", estado=" + estado +
                 ", fechaReserva='" + fechaReserva + '\'' +

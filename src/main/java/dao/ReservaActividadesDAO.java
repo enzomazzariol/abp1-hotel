@@ -14,17 +14,17 @@ import java.util.ArrayList;
 public class ReservaActividadesDAO extends Conexion{
 
     // Constantes SQL para el CRUD
-    public static final String SELECT_RESERVA_ACTIVIDAD= "SELECT id, id_usuario, id_actividad, estado, fecha_reserva, eliminado FROM reserva_actividades";
+    public static final String SELECT_RESERVA_ACTIVIDAD= "SELECT id, id_usuario, id_actividad, estado, fecha_reserva, eliminado FROM reserva_actividades where eliminado = 0";
 
     public static final String INSERT_RESERVA_ACTIVIDAD = "INSERT INTO reserva_actividades (id_usuario, id_actividad, estado) values (?, ?, ?)";
 
-    public static final String UPDATE_RESERVA_ACTIVIDADES = "update reserva_actividades set estado = ?, fecha_reserva = ? where id = ?";
+    public static final String UPDATE_RESERVA_ACTIVIDADES = "update reserva_actividades set estado = ? where id = ?";
 
     // Eliminar registro permanentemente
     public static final String DELETE_RESERVA_ACTIVIDADES = "delete from reserva_actividades where id = ?";
 
     // Elimina registro indefinidamente
-    public static final String UPDATE_RESERVA_ACTIVIDAD_ELIMINADO = "update reserva_actividades set eliminado = 1 where id = ?";
+    public static final String UPDATE_RESERVA_ACTIVIDAD_ELIMINADO = "update reserva_actividades set eliminado = 1, estado = 'cancelado' where id = ?";
 
 
     // Metodo para lista todas las reservas actividades de la BBDD
@@ -83,8 +83,7 @@ public class ReservaActividadesDAO extends Conexion{
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(UPDATE_RESERVA_ACTIVIDADES);
             ps.setString(1, reservaActividad.getEstado().name());
-            ps.setString(2, reservaActividad.getFechaReserva());
-            ps.setInt(3, reservaActividad.getId());
+            ps.setInt(2, reservaActividad.getId());
 
             ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {

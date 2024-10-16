@@ -59,10 +59,9 @@ public class ReservaActividadService {
         // Obtiene el índice y los datos de la reserva de actividad a actualizar
         int id = Integer.parseInt(req.getParameter("id"));
         String estadoParam = req.getParameter("estado");
-        String fechaReserva = req.getParameter("fechaReserva");
         Estado estado = Estado.valueOf(estadoParam.toUpperCase());
 
-        ReservaActividad reservaActividad = new ReservaActividad(id, estado, fechaReserva);
+        ReservaActividad reservaActividad = new ReservaActividad(id, estado);
 
         reservaActividadesDAO.actualizarReservaActividad(reservaActividad);
 
