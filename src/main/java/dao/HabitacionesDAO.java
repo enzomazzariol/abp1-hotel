@@ -89,6 +89,8 @@ public class HabitacionesDAO {
 
                 Habitacion habitacion = new Habitacion(id, tipoHabitacion, imagen, precio, estado);
                 habitacions.add(habitacion);
+
+                System.out.println(habitacion);
             }
             return habitacions;
         } catch (SQLException | ClassNotFoundException | ConexionException e) {

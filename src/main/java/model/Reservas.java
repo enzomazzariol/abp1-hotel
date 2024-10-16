@@ -22,6 +22,11 @@ public class Reservas {
         this.fechaReserva = fechaReserva;
     }
 
+    public Reservas(int id, Estado estado) {
+        this.id = id;
+        this.estado = estado;
+    }
+
     public Reservas(){
 
     }

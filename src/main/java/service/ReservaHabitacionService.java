@@ -23,7 +23,6 @@ public class ReservaHabitacionService {
 
     public void forwardReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ReservaHabitacionException, ConexionException {
         req.setAttribute("reservahabitaciones", reservaHabitacionDAO.listarResevaHabitaciones());
-        System.out.println(reservaHabitacionDAO.listarResevaHabitaciones());
         RequestDispatcher dispatcher= req.getRequestDispatcher("/jsp/reservaHabitacion.jsp");
         dispatcher.forward(req, resp);
     }
@@ -34,7 +33,7 @@ public class ReservaHabitacionService {
         if ("agregar".equals(action)) {
             agregarReservaHabitacion(req);
         } else if ("actualizar".equals(action)) {
-            actualizarReservaHabitacion(req);
+            actualizarEstadoReservaHabitacion(req);
         } else if ("eliminar".equals(action)) {
             eliminarReservaHabitacion(req);
         }
@@ -78,6 +77,23 @@ public class ReservaHabitacionService {
 
         // Se actualiza la habitacion a la base de datos.
         reservaHabitacionDAO.actualizarReserva(nuevaReservaHabitacion);
+
+        // Imprime por consola la Habitacion actualiza.
+        System.out.println("Reserva de habitación actualizada: " + nuevaReservaHabitacion);
+    }
+
+    public void actualizarEstadoReservaHabitacion(HttpServletRequest req) throws SQLException, ReservaHabitacionException, ConexionException {
+        // Obtiene el índice y los datos de la reserva de habitación a actualizar
+        int id = Integer.parseInt(req.getParameter("id"));
+        String estadoParam = req.getParameter("estado");
+
+        Estado estado = Estado.valueOf(estadoParam.toUpperCase());
+
+        // Crear una nueva instancia de Habitacion con id.
+        ReservaHabitacion nuevaReservaHabitacion = new ReservaHabitacion(id, estado);
+
+        // Se actualiza la habitacion a la base de datos.
+        reservaHabitacionDAO.actualizarEstadoReservaHabitacion(nuevaReservaHabitacion);
 
         // Imprime por consola la Habitacion actualiza.
         System.out.println("Reserva de habitación actualizada: " + nuevaReservaHabitacion);

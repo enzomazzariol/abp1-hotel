@@ -23,7 +23,6 @@ public class HabitacionService {
 
     public void forwardHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, HabitacionException, ConexionException {
         req.setAttribute("habitaciones", habitacionesDAO.listarHabitaciones());
-        System.out.println(habitacionesDAO.listarHabitaciones());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/habitacion.jsp");
         dispatcher.forward(req, resp);
     }
