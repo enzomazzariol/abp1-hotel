@@ -15,10 +15,11 @@ public class ReservaHabitacionDAO {
     // Constantes SQL para el CRUD
     public static final String AGREGAR_RESERVA_HABITACION = "INSERT INTO reserva_habitaciones (id_usuario, id_habitacion, fecha_entrada, fecha_salida, estado, fecha_reserva) VALUES (?, ?, ?, ?, ?, ?)";
     public static final String ACTUALIZAR_RESERVA_HABITACION = "UPDATE reserva_habitaciones SET id_usuario = ?, id_habitacion = ?, fecha_entrada = ?, fecha_salida = ?, estado = ?, fecha_reserva = ? WHERE id = ?";
+    public static final String ACTUALIZAR_ESTADO_RESERVA_HABITACION = "UPDATE reserva_habitaciones SET  estado = ? WHERE id = ?";
     public static final String ELIMINAR_RESERVA_HABITACION = "DELETE FROM reserva_habitaciones WHERE id = ?";
     public static final String SELECT_RESERVA_HABITACION_POR_ID = "SELECT * FROM reserva_habitaciones WHERE id = ?";
-    public static final String SELECT_RESERVA_HABITACIONES = "SELECT * FROM reserva_habitaciones";
-    public static final String ACTUALIZAR_ELIMINADO_RESERVA_HABITACION = "UPDATE reserva_habitaciones SET eliminado = 1 WHERE id = ?";
+    public static final String SELECT_RESERVA_HABITACIONES = "SELECT * FROM reserva_habitaciones WHERE eliminado = 0";
+    public static final String ACTUALIZAR_ELIMINADO_RESERVA_HABITACION = "UPDATE reserva_habitaciones SET eliminado = 1, estado = 'cancelado' WHERE id = ?";
 
     // INSERT:
     public void agregarReservaHabitacion(ReservaHabitacion reservaHabitacion) throws SQLException, ConexionException, ReservaHabitacionException {
@@ -61,6 +62,22 @@ public class ReservaHabitacionDAO {
         }
     }
 
+    // ACTUALIZAR ESTADO:
+    public void actualizarEstadoReservaHabitacion(ReservaHabitacion reservaHabitacion) throws SQLException, ConexionException, ReservaHabitacionException {
+        Conexion conn = new Conexion();
+        try {
+            PreparedStatement ps = conn.conectar().prepareStatement(ACTUALIZAR_ESTADO_RESERVA_HABITACION);
+            ps.setString(1, reservaHabitacion.getEstado().name());
+            ps.setInt(2, reservaHabitacion.getId());
+            ps.executeUpdate();
+            System.out.println("Se ha actualizado el estado de la reserva en la base de datos correctamente!");
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new ReservaHabitacionException(ReservaHabitacionException.ErrorActualizarReserva);
+        } finally {
+            conn.desconectar();
+        }
+    }
+
     // ACTUALIZAR EL ELIMINADO:
     public void actualizarEliminadoReservaHabitacion(int id) throws SQLException, ClassNotFoundException, ConexionException, ReservaHabitacionException {
         Conexion conn = new Conexion();
@@ -74,6 +91,7 @@ public class ReservaHabitacionDAO {
             conn.desconectar();
         }
     }
+
 
     // READ:
     public ArrayList<ReservaHabitacion> listarResevaHabitaciones() throws SQLException, ConexionException, ReservaHabitacionException {
@@ -96,6 +114,8 @@ public class ReservaHabitacionDAO {
 
                 ReservaHabitacion reservaHabitacion = new ReservaHabitacion(idUsuario, estado, fechaReserva, idHabitacion, fechaEntrada, fechaSalida);
                 reservaHabitacions.add(reservaHabitacion);
+
+                System.out.println(reservaHabitacion);
             }
             return reservaHabitacions;
 
