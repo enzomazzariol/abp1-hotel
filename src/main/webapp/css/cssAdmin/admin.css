@@ -1,0 +1,51 @@
+@import url(./adminNavbar.css);
+
+body {
+    background-color: #FAF6F0 !important;
+}
+
+.admin-title {
+    font-weight: 900;
+}
+
+/*Admin Reservas list*/
+
+.admin-reservas-table {
+    border-radius: 10px;
+}
+
+table {
+    color: #FAF6F0;
+    border-collapse: collapse;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+table .user-trow {
+    background-color: var(--background-azul) !important;
+}
+
+/* Admin users lists*/
+
+.user-container {
+    max-width: 793px;
+    margin: 0 auto;
+    border: 2px solid var(--background-azul);
+    border-radius: 10px;
+    color: var(--text-marron);
+    background-color: var(--background-azul);
+    align-items: center;
+}
+
+.user-list-icon {
+    font-size: 30px;
+}
+
+.list-user-button {
+    border: 2px solid var(--text-marron);
+    border-radius: 6px;
+    max-width: 150px !important;
+}
+
+.list-user-button > .eliminar {
+    background-color: rgb(188, 38, 38) !important;
+}

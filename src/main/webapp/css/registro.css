@@ -1,0 +1,94 @@
+:root {
+    --background-azul: #1E212D;
+    --text-rosa: #E78F81;
+    --text-marron: #FAF3E0;
+    --text-blanco: #F5F5F5;
+    --text-negro: #1E1E1E;
+    --background-rosa: #EABF9F;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    background-color: var(--background-azul) !important;
+    color: var(--text-rosa);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-title {
+    color: var(--text-rosa);
+    font-size: 60px;
+    font-family: "Figtree";
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 55px;
+}
+
+.login-container {
+    border: 1px var(--text-blanco) solid;
+    width: 463px;
+    height: 260px;
+    padding: 20px;
+    background-color: var(--text-marron);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.login-label {
+    color: var(--text-negro);
+    margin-bottom: 6px;
+    font-family: "Figtree";
+    font-weight: 400;
+}
+
+.login-input {
+    border: none;
+    color: var(--text-negro);
+    background-color: var(--background-rosa);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 6px
+}
+
+.login-button {
+    border: none;
+    color: var(--text-blanco);
+    background-color: var(--text-rosa);
+    border-radius: 8px;
+    padding: 6px;
+    font-family: "Figtree";
+}
+
+.login-info {
+    text-decoration: none;
+    color: var(--background-rosa);
+    font-family: "Figtree";
+}
+
+.login-icon {
+    font-size: 40px;
+    margin-bottom: 40px;
+    color: var(--text-rosa);
+}
+
+.login-info:hover {
+    text-decoration: underline;
+    color: var(--background-rosa);
+}
+
+.registro-container {
+    border: 1px var(--text-blanco) solid;
+    width: 463px;
+    height: 350px;
+    padding: 20px;
+    background-color: var(--text-marron);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}

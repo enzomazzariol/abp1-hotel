@@ -1,0 +1,140 @@
+:root {
+    --background-azul: #1E212D;
+    --text-rosa: #E78F81;
+    --text-marron: #FAF3E0;
+    --text-blanco: #F5F5F5;
+    --text-negro: #1E1E1E;
+    --background-rosa: #EABF9F;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Figtree";
+}
+
+/*Navbar admin*/
+.admin-navbar {
+    height: 80px;
+    background-color: var(--background-azul);
+}
+
+.admin-logo {
+    font-family: "Figtree";
+    font-weight: 900;
+    font-size: 26px;
+    margin-left: 20px;
+    text-decoration: none;
+    color: var(--text-marron);
+}
+
+.admin-logo:hover, .admin-navbar-link:hover {
+    color: var(--text-rosa);
+}
+
+.admin-navbar-container {
+    margin-right: 40px;
+}
+
+.admin-navbar-link {
+    text-decoration: none;
+    color: var(--text-marron);
+    font-family: "Figtree";
+    list-style: none;
+    font-size: 18px;
+}
+
+/* Hero */
+.hero {
+    height: 228px;
+    background-color: var(--text-marron);
+}
+
+.hero-title {
+    font-weight: 800;
+}
+
+.hero-icon {
+    font-size: 60px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.hero-insignia {
+    font-weight: 900;
+    color: var(--text-rosa);
+}
+
+.hero-insignia-link {
+    text-decoration: none;
+    color: var(--text-rosa);
+}
+
+.hero-insignia-link:hover {
+    color: var(--text-rosa);
+}
+
+.hero-button {
+    text-decoration: none;
+    color: var(--text-negro);
+    text-align: center;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.hero-button.cerrar-sesion {
+    border: 3px solid var(--text-rosa);
+    transition: 0.4s ease-in-out;
+}
+
+.hero-button.cerrar-sesion:hover{
+    background-color: var(--text-rosa);
+    color: var(--background-azul);
+    font-weight: 900;
+}
+
+.hero-button.volver {
+    background-color: var(--text-rosa);
+    transition: 0.2s ease-in-out;
+}
+
+.hero-button.volver:hover {
+    background-color: inherit;
+    border: 3px solid var(--text-rosa);
+    color: var(--background-azul);
+    font-weight: 900;
+}
+
+
+/*Breakpoints*/
+
+@media screen and (max-width: 770px) {
+
+    .hero {
+        text-align: center;
+    }
+
+    .hero-icon {
+       margin: 0;
+       margin-bottom: 10px;
+    }
+
+    .admin-logo {
+        font-size: 16px;
+        margin-left: 0px;
+    }
+
+    .admin-navbar-container {
+        margin-right: 0px;
+    }
+    
+    .admin-navbar-link {
+        font-size: 16px;
+    }
+    
+    .hero {
+        height: 400px;
+        background-color: var(--text-marron);
+    }
+}

@@ -1,0 +1,1269 @@
+{
+	"info": {
+		"_postman_id": "a6a42147-27c4-4fac-a796-498644f327b5",
+		"name": "Sprint 1-2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38535221",
+		"_collection_link": "https://hotel-g4.postman.co/workspace/Hotel~ff2fb8a6-fc82-4b92-8043-93b83a34ebf1/collection/38376066-a6a42147-27c4-4fac-a796-498644f327b5?action=share&source=collection_link&creator=38535221"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "get login",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/untitled/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"untitled",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nombre",
+									"value": "ola",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "ola",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/untitled/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"untitled",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Habitaciones",
+			"item": [
+				{
+					"name": "agregar",
+					"item": [
+						{
+							"name": "insertar habitacion",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "agregar",
+											"type": "text"
+										},
+										{
+											"key": "tipoHabitacion",
+											"value": "suite",
+											"type": "text"
+										},
+										{
+											"key": "imagen",
+											"value": "11",
+											"type": "text"
+										},
+										{
+											"key": "precio",
+											"value": "200",
+											"type": "text"
+										},
+										{
+											"key": "estado",
+											"value": "disponible",
+											"type": "text"
+										},
+										{
+											"key": "eliminado",
+											"value": "false",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/habitacion",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"habitacion"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://localhost:8080/untitled/habitacion Copy",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "agregar",
+											"type": "text"
+										},
+										{
+											"key": "tipoHabitacion",
+											"value": "sencilla",
+											"type": "text"
+										},
+										{
+											"key": "imagen",
+											"value": "6px",
+											"type": "text"
+										},
+										{
+											"key": "precio",
+											"value": "60",
+											"type": "text"
+										},
+										{
+											"key": "estado",
+											"value": "disponible",
+											"type": "text"
+										},
+										{
+											"key": "eliminado",
+											"value": "false",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/habitacion",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"habitacion"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "actualizar",
+					"item": [
+						{
+							"name": "actualizar habitacion",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "actualizar",
+											"type": "text"
+										},
+										{
+											"key": "id",
+											"value": "4",
+											"type": "text"
+										},
+										{
+											"key": "tipoHabitacion",
+											"value": "sencilla",
+											"type": "text"
+										},
+										{
+											"key": "imagen",
+											"value": "6px",
+											"type": "text"
+										},
+										{
+											"key": "precio",
+											"value": "60",
+											"type": "text"
+										},
+										{
+											"key": "estado",
+											"value": "ocupada",
+											"type": "text"
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/habitacion",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"habitacion"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "eliminar",
+					"item": [
+						{
+							"name": "eliminar habitacion",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "eliminar",
+											"type": "text"
+										},
+										{
+											"key": "id",
+											"value": "4",
+											"type": "text"
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/habitacion?action=eliminar&id=4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"habitacion"
+									],
+									"query": [
+										{
+											"key": "action",
+											"value": "eliminar"
+										},
+										{
+											"key": "id",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get habitaciones",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/untitled/habitacion",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"untitled",
+								"habitacion"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Actividades",
+			"item": [
+				{
+					"name": "Agregar",
+					"item": [
+						{
+							"name": "insertar Actividad",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "agregar",
+											"type": "text"
+										},
+										{
+											"key": "nombre_actividad",
+											"value": "test123",
+											"type": "text"
+										},
+										{
+											"key": "descripcion",
+											"value": "test",
+											"type": "text"
+										},
+										{
+											"key": "imagenes",
+											"value": "111",
+											"type": "text"
+										},
+										{
+											"key": "precio",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "cupo",
+											"value": "10",
+											"type": "text"
+										},
+										{
+											"key": "fecha_actividad",
+											"value": "2024-09-30",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/actividades",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"actividades"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "actualizar",
+					"item": [
+						{
+							"name": "Actualizar actividad",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "actualizar",
+											"type": "text"
+										},
+										{
+											"key": "id",
+											"value": "3",
+											"type": "text"
+										},
+										{
+											"key": "nombre_actividad",
+											"value": "prueba",
+											"type": "text"
+										},
+										{
+											"key": "descripcion",
+											"value": "actualizando",
+											"type": "text"
+										},
+										{
+											"key": "imagenes",
+											"value": "10",
+											"type": "text"
+										},
+										{
+											"key": "precio",
+											"value": "30",
+											"type": "text"
+										},
+										{
+											"key": "cupo",
+											"value": "30",
+											"type": "text"
+										},
+										{
+											"key": "fecha_actividad",
+											"value": "2024-09-30",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/actividades",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"actividades"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "eliminar",
+					"item": [
+						{
+							"name": "Eliminar actividad",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "eliminar",
+											"type": "text"
+										},
+										{
+											"key": "id",
+											"value": "3",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/actividades",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"actividades"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get actividades",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/untitled/actividades",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"untitled",
+								"actividades"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reserva Habitacion",
+			"item": [
+				{
+					"name": "agregar",
+					"item": [
+						{
+							"name": "insert reserva habitacion",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "agregar",
+											"type": "text"
+										},
+										{
+											"key": "idUsuario",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "estado",
+											"value": "Reservado",
+											"type": "text"
+										},
+										{
+											"key": "fechaReserva",
+											"value": "2024-03-03",
+											"type": "text"
+										},
+										{
+											"key": "fechaEntrada",
+											"value": "2024-03-03",
+											"type": "text"
+										},
+										{
+											"key": "fechaSalida",
+											"value": "2024-03-15",
+											"type": "text"
+										},
+										{
+											"key": "idHabitacion",
+											"value": "2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/reservaHabitacion?action=agregar&idUsuario=2&estado=reservado&fechaReserva=2024-10-30&idHabitacion=2&fechaEntrada=2024-10-30&fechaSalida=2024-11-07",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"reservaHabitacion"
+									],
+									"query": [
+										{
+											"key": "action",
+											"value": "agregar"
+										},
+										{
+											"key": "idUsuario",
+											"value": "2"
+										},
+										{
+											"key": "estado",
+											"value": "reservado"
+										},
+										{
+											"key": "fechaReserva",
+											"value": "2024-10-30"
+										},
+										{
+											"key": "idHabitacion",
+											"value": "2"
+										},
+										{
+											"key": "fechaEntrada",
+											"value": "2024-10-30"
+										},
+										{
+											"key": "fechaSalida",
+											"value": "2024-11-07"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "actualizar",
+					"item": [
+						{
+							"name": "actualizar reserva habitacion",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "actualizar",
+											"type": "text"
+										},
+										{
+											"key": "id",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "idUsuario",
+											"value": "1",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "estado",
+											"value": "completado",
+											"type": "text"
+										},
+										{
+											"key": "fechaReserva",
+											"value": "2024-03-05",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "fechaEntrada",
+											"value": "2024-03-03",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "fechaSalida",
+											"value": "2024-03-13",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "idHabitacion",
+											"value": "2",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/reservaHabitacion",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"reservaHabitacion"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "eliminar",
+					"item": [
+						{
+							"name": "eliminar reserva habitacion",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "eliminar",
+											"type": "text"
+										},
+										{
+											"key": "id",
+											"value": "2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/reservaHabitacion?action=eliminar&id=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"reservaHabitacion"
+									],
+									"query": [
+										{
+											"key": "action",
+											"value": "eliminar"
+										},
+										{
+											"key": "id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get reserva habitaciones",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/untitled/reservaHabitacion",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"untitled",
+								"reservaHabitacion"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reserva Actividad",
+			"item": [
+				{
+					"name": "agregar",
+					"item": [
+						{
+							"name": "insert reserva actividad",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "agregar",
+											"type": "text"
+										},
+										{
+											"key": "id_usuario",
+											"value": "4",
+											"type": "text"
+										},
+										{
+											"key": "id_actividad",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "estado",
+											"value": "reservado",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/reservaActividad",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"reservaActividad"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "actualizar",
+					"item": [
+						{
+							"name": "actualizar reserva actividad",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "actualizar",
+											"type": "text"
+										},
+										{
+											"key": "id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "estado",
+											"value": "completado",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/reservaActividad",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"reservaActividad"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "eliminar",
+					"item": [
+						{
+							"name": "eliminar reserva actividad",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "eliminar",
+											"type": "text"
+										},
+										{
+											"key": "id",
+											"value": "2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/reservaActividad",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"reservaActividad"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get reserva actividad",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/untitled/reservaActividad",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"untitled",
+								"reservaActividad"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "get admin",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://localhost:8080/untitled/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"untitled",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/untitled",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/untitled/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"untitled",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Registro",
+			"item": [
+				{
+					"name": "get registro",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/untitled/registro",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"untitled",
+								"registro"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insert registro",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nombre",
+									"value": "ola",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "ola",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "ola",
+									"type": "text"
+								},
+								{
+									"key": "rol",
+									"value": "cliente",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/untitled/registro",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"untitled",
+								"registro"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Agregar",
+					"item": [
+						{
+							"name": "insertar usuario",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "agregar",
+											"type": "text"
+										},
+										{
+											"key": "nombre",
+											"value": "test123",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "test@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "test",
+											"type": "text"
+										},
+										{
+											"key": "rol",
+											"value": "cliente",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/usuarios",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "actualizar",
+					"item": [
+						{
+							"name": "Actualizar usuario",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "actualizar",
+											"type": "text"
+										},
+										{
+											"key": "id",
+											"value": "5",
+											"type": "text"
+										},
+										{
+											"key": "nombre",
+											"value": "prueba12",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "test",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "actualizando",
+											"type": "text"
+										},
+										{
+											"key": "rol",
+											"value": "admin",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/usuarios",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "eliminar",
+					"item": [
+						{
+							"name": "Eliminar usuario",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "action",
+											"value": "eliminar",
+											"type": "text"
+										},
+										{
+											"key": "id",
+											"value": "9",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/untitled/usuarios?action=eliminar&id=5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"untitled",
+										"usuarios"
+									],
+									"query": [
+										{
+											"key": "action",
+											"value": "eliminar"
+										},
+										{
+											"key": "id",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get usuarios",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://localhost:8080/untitled/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"untitled",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
