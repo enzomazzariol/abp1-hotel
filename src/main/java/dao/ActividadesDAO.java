@@ -27,8 +27,7 @@ public class ActividadesDAO extends Conexion {
                 int id = rs.getInt("id");
                 String nombre = rs.getString("nombre_actividad");
                 String descripcion = rs.getString("descripcion");
-                Blob blobImagen = rs.getBlob("imagen");
-                byte[] imagen = blobImagen.getBytes(1, (int) blobImagen.length());
+                String imagen = rs.getString("imagen");
                 double precio = rs.getDouble("precio");
                 int cupo = rs.getInt("cupo");
                 String fecha_actividad = rs.getString("fecha_actividad");
@@ -52,7 +51,7 @@ public class ActividadesDAO extends Conexion {
             PreparedStatement ps = conn.conectar().prepareStatement(INSERT_ACTIVIDADES);
             ps.setString(1, actividad.getNombre_actividad());
             ps.setString(2, actividad.getDescripcion());
-            ps.setBytes(3, actividad.getImagen()); // Insertar el array de bytes para la imagen
+            ps.setString(3, actividad.getImagen());
             ps.setDouble(4, actividad.getPrecio());
             ps.setInt(5, actividad.getCupo());
             ps.setString(6, actividad.getFecha_actividad());
@@ -72,7 +71,7 @@ public class ActividadesDAO extends Conexion {
             PreparedStatement ps = conn.conectar().prepareStatement(UPDATE_ACTIVIDADES);
             ps.setString(1, actividad.getNombre_actividad());
             ps.setString(2, actividad.getDescripcion());
-            ps.setBytes(3, actividad.getImagen());
+            ps.setString(3, actividad.getImagen());
             ps.setDouble(4, actividad.getPrecio());
             ps.setInt(5, actividad.getCupo());
             ps.setString(6, actividad.getFecha_actividad());

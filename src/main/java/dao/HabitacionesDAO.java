@@ -23,7 +23,7 @@ public class HabitacionesDAO {
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(AGREGAR_HABITACION);
             ps.setString(1, habitacion.getTipoHabitacion().name());
-            ps.setBytes(2, habitacion.getImagen());
+            ps.setString(2, habitacion.getImagen());
             ps.setDouble(3, habitacion.getPrecio());
             ps.setString(4, habitacion.getEstado().name());
             ps.executeUpdate();
@@ -41,7 +41,7 @@ public class HabitacionesDAO {
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(ACTUALIZAR_HABITACION);
             ps.setString(1, habitacion.getTipoHabitacion().name());
-            ps.setBytes(2, habitacion.getImagen());
+            ps.setString(2, habitacion.getImagen());
             ps.setDouble(3, habitacion.getPrecio());
             ps.setString(4, habitacion.getEstado().name());
             ps.setInt(5, habitacion.getId());
@@ -79,8 +79,7 @@ public class HabitacionesDAO {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String tipoHabitacionParam = rs.getString("tipo_habitacion");
-                Blob blobImagen = rs.getBlob("imagen");
-                byte[] imagen = blobImagen.getBytes(1, (int) blobImagen.length());
+                String imagen = rs.getString("imagen");
                 double precio = rs.getDouble("precio");
                 String estadoParam = rs.getString("estado");
 

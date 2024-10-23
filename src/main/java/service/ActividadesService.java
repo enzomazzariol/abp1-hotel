@@ -45,7 +45,7 @@ public class ActividadesService {
         double precio = Double.parseDouble(req.getParameter("precio"));
         int cupo = Integer.parseInt(req.getParameter("cupo"));
         String fecha = req.getParameter("fecha_actividad");
-        byte[] imagen = req.getParameter("imagenes").getBytes();
+        String imagen = req.getParameter("imagen");
 
         Actividad nuevaActividad = new Actividad(nombre, descripcion, imagen, precio, cupo, fecha);
 
@@ -60,7 +60,7 @@ public class ActividadesService {
         double precio = Double.parseDouble(req.getParameter("precio"));
         int cupo = Integer.parseInt(req.getParameter("cupo"));
         String fecha = req.getParameter("fecha_actividad");
-        byte[] imagen = req.getParameter("imagenes").getBytes();
+        String imagen = req.getParameter("imagenes");
 
         Actividad actividad = new Actividad(id, nombre, descripcion, imagen, precio, cupo, fecha);
         actividadesDAO.actualizarActividad(actividad);

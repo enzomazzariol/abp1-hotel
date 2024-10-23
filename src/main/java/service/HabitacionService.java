@@ -42,7 +42,7 @@ public class HabitacionService {
     public void agregarHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException, HabitacionException, ConexionException {
         // Obtener los parámetros de la solicitud.
         String tipoHabitacionParam = req.getParameter("tipoHabitacion");
-        byte[] imagen = req.getParameter("imagen").getBytes();
+        String imagen = req.getParameter("imagen");
         double precio = Double.parseDouble(req.getParameter("precio"));
         String estadoParam = req.getParameter("estado");
 
@@ -63,7 +63,7 @@ public class HabitacionService {
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
         String tipoHabitacionParam = req.getParameter("tipoHabitacion");
-        byte[] imagen = req.getParameter("imagen").getBytes();
+        String imagen = req.getParameter("imagen");
         double precio = Double.parseDouble(req.getParameter("precio"));
         String estadoParam = req.getParameter("estado");
 
