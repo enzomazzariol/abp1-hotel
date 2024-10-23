@@ -58,7 +58,8 @@ public class ReservaActividadService {
     public void actualizarReservaActividad(HttpServletRequest req) throws SQLException, ConexionException, ReservaActividadesException {
         // Obtiene el índice y los datos de la reserva de actividad a actualizar
         int id = Integer.parseInt(req.getParameter("id"));
-        String estadoParam = req.getParameter("estado");
+        /* String estadoParam = req.getParameter("estado"); Para el Postman*/
+        String estadoParam = "completado";
         Estado estado = Estado.valueOf(estadoParam.toUpperCase());
 
         ReservaActividad reservaActividad = new ReservaActividad(id, estado);
@@ -68,7 +69,7 @@ public class ReservaActividadService {
         System.out.println("Reserva de la actividad " + id + " actualizada correctamente en la base de datos");
     }
 
-    private void eliminarReservaActividad(HttpServletRequest req) throws SQLException, ClassNotFoundException, ConexionException, ReservaActividadesException {
+    public void eliminarReservaActividad(HttpServletRequest req) throws SQLException, ClassNotFoundException, ConexionException, ReservaActividadesException {
         // Obtenemos el id a eliminar en la BD
         int id = Integer.parseInt(req.getParameter("id"));
         reservaActividadesDAO.eliminarReservaActividad(id);

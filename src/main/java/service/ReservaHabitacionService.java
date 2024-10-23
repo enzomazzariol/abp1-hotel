@@ -82,10 +82,11 @@ public class ReservaHabitacionService {
         System.out.println("Reserva de habitación actualizada: " + nuevaReservaHabitacion);
     }
 
-    public void actualizarEstadoReservaHabitacion(HttpServletRequest req) throws SQLException, ReservaHabitacionException, ConexionException {
+    public void actualizarEstadoReservaHabitacion(HttpServletRequest req) throws SQLException, ReservaHabitacionException, ConexionException, ServletException, IOException {
         // Obtiene el índice y los datos de la reserva de habitación a actualizar
         int id = Integer.parseInt(req.getParameter("id"));
-        String estadoParam = req.getParameter("estado");
+        /*String estadoParam = req.getParameter("estado"); Para el Postman*/
+        String estadoParam = "completado";
 
         Estado estado = Estado.valueOf(estadoParam.toUpperCase());
 
@@ -97,6 +98,7 @@ public class ReservaHabitacionService {
 
         // Imprime por consola la Habitacion actualiza.
         System.out.println("Reserva de habitación actualizada: " + nuevaReservaHabitacion);
+
     }
 
     public void eliminarReservaHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException, ReservaHabitacionException, ConexionException {

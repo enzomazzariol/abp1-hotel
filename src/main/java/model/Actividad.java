@@ -6,13 +6,13 @@ public class Actividad {
     private int id;
     private String nombre_actividad;
     private String descripcion;
-    private byte[] imagen;
+    private String imagen;
     private double precio;
     private int cupo;
     private String fecha_actividad;
     private boolean eliminado;
 
-    public Actividad(int id, String nombre_actividad, String descripcion, byte[] imagen, double precio, int cupo, String fecha_actividad) {
+    public Actividad(int id, String nombre_actividad, String descripcion, String imagen, double precio, int cupo, String fecha_actividad) {
         this.id = id;
         this.nombre_actividad = nombre_actividad;
         this.descripcion = descripcion;
@@ -23,7 +23,7 @@ public class Actividad {
         this.eliminado = false; // Inicialmente no eliminada
     }
 
-    public Actividad(int id, String nombre_actividad, String descripcion, byte[] imagen, double precio, int cupo, String fecha_actividad, boolean eliminado) {
+    public Actividad(int id, String nombre_actividad, String descripcion, String imagen, double precio, int cupo, String fecha_actividad, boolean eliminado) {
         this.id = id;
         this.nombre_actividad = nombre_actividad;
         this.descripcion = descripcion;
@@ -34,7 +34,7 @@ public class Actividad {
         this.eliminado = eliminado;
     }
 
-    public Actividad(String nombre_actividad, String descripcion, byte[] imagen, double precio, int cupo, String fecha_actividad) {
+    public Actividad(String nombre_actividad, String descripcion, String imagen, double precio, int cupo, String fecha_actividad) {
         this.nombre_actividad = nombre_actividad;
         this.descripcion = descripcion;
         this.imagen = imagen;
@@ -68,11 +68,11 @@ public class Actividad {
         this.descripcion = descripcion;
     }
 
-    public byte[] getImagen() {
+    public String getImagen() {
         return imagen;
     }
 
-    public void setImagen(byte[] imagen) {
+    public void setImagen(String imagen) {
         this.imagen = imagen;
     }
 
@@ -113,7 +113,7 @@ public class Actividad {
         return "Actividad{" +
                 "nombre_actividad='" + nombre_actividad + '\'' +
                 ", descripcion='" + descripcion + '\'' +
-                ", imagen=" + Arrays.toString(imagen) + // Mostrar array de bytes
+                ", imagen=" + imagen +
                 ", precio=" + precio +
                 ", cupo=" + cupo +
                 ", fecha_actividad='" + fecha_actividad + '\'' +

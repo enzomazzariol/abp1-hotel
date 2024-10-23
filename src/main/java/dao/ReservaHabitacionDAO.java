@@ -112,7 +112,7 @@ public class ReservaHabitacionDAO {
 
                 Estado estado = Estado.valueOf(estadoParam.toUpperCase());
 
-                ReservaHabitacion reservaHabitacion = new ReservaHabitacion(idUsuario, estado, fechaReserva, idHabitacion, fechaEntrada, fechaSalida);
+                ReservaHabitacion reservaHabitacion = new ReservaHabitacion(id, idUsuario, estado, fechaReserva, idHabitacion, fechaEntrada, fechaSalida);
                 reservaHabitacions.add(reservaHabitacion);
 
                 System.out.println(reservaHabitacion);

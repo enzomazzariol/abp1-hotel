@@ -16,8 +16,16 @@ public class UsuariosDAO extends Conexion {
     public static final String INSERT_USUARIO = "INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)";
     public static final String UPDATE_USUARIO = "UPDATE usuarios SET nombre = ?, email = ?, password = ?, rol = ? WHERE id = ?";
     public static final String DELETE_USUARIO = "UPDATE usuarios SET eliminado = 1 WHERE id = ?"; // Marcar como eliminado
+    public static final String UPDATE_IMAGEN_USUARIO = "UPDATE usuarios SET imagen = ? WHERE id = ?";
+    public static final String RECOGER_DATOS_BY_USUARIO = "SELECT id, nombre, email, password, rol, fecha_registro, imagen, eliminado FROM usuarios WHERE id = ?";
+    public static final String UPDATE_NOMBRE_USUARIO = "UPDATE usuarios SET nombre = ? WHERE id = ?";
+    public static final String UPDATE_EMAIL_USUARIO = "UPDATE usuarios SET email = ? WHERE id = ?";
+    public static final String UPDATE_CONTRASEÑA_USUARIO = "UPDATE usuarios SET password = ? WHERE id = ?";
+    public static final String UPDATE_ALL_USUARIO = "UPDATE usuarios SET nombre = ?, email = ?, password = ?, imagen = ?, rol = ? WHERE id = ?";
 
-    // Método para listar todos los usuarios de la base de datos
+    // -----------------------------------------SELECTS------------------------------------------------------
+
+    // LISTAR TODOS LOS USUARIOS
     public ArrayList<Usuario> listarUsuarios() throws SQLException, UsuariosException, ConexionException {
         ArrayList<Usuario> listaUsuarios = new ArrayList<>();
         Conexion conn = new Conexion();
@@ -50,7 +58,50 @@ public class UsuariosDAO extends Conexion {
         return listaUsuarios;
     }
 
-    // Método para insertar un nuevo usuario en la base de datos
+    // SELECT USUARIO POR ID
+    public Usuario usuarioById(int idUsuario) throws ConexionException, SQLException {
+        Usuario nuevoUsuario = null;
+        Conexion conn = new Conexion();
+        try {
+            PreparedStatement ps = conn.conectar().prepareStatement(RECOGER_DATOS_BY_USUARIO);
+
+            // Configura el parámetro de la consulta (id)
+            ps.setInt(1, idUsuario);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) { // Si encuentra un resultado
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String rolParam = rs.getString("rol");
+                String fechaRegistro = rs.getString("fecha_registro");
+                String imagen = rs.getString("imagen");
+                boolean eliminado = rs.getBoolean("eliminado");
+
+                // Convierte el rol a Enum, asegurando que el string esté en mayúsculas
+                Rol rol = Rol.valueOf(rolParam.toUpperCase());
+
+                // Crea el objeto Usuario
+                nuevoUsuario = new Usuario(id, nombre, email, password, rol, fechaRegistro, eliminado, imagen);
+
+                System.out.println(nuevoUsuario); // Imprime el usuario encontrado
+            }
+
+        } catch (ConexionException | ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            // Cerrar recursos
+            conn.desconectar(); // Asegúrate de tener un método para cerrar la conexión
+        }
+
+        return nuevoUsuario; // Retorna el usuario, o null si no encontró nada
+    }
+
+    // -----------------------------------------INSERTS------------------------------------------------------
+
+    // INSERTAR NUEVO USUARIO
     public void insertarUsuario(Usuario usuario) throws SQLException, ClassNotFoundException, UsuariosException, ConexionException  {
         try (Connection connection = new Conexion().conectar();
              PreparedStatement ps = connection.prepareStatement(INSERT_USUARIO)) {
@@ -66,6 +117,28 @@ public class UsuariosDAO extends Conexion {
             ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException("Error al insertar el usuario", e);
+        }
+    }
+
+    // -----------------------------------------UPDATES------------------------------------------------------
+
+    // ACTUALIZAR USUARIO
+    public void actualizarAllUsuario(Usuario usuario) throws SQLException, UsuariosException, ConexionException  {
+        try (Connection connection = new Conexion().conectar();
+             PreparedStatement ps = connection.prepareStatement(UPDATE_ALL_USUARIO)) {
+
+            // Asignar los valores a la consulta SQL
+            ps.setString(1, usuario.getNombre());
+            ps.setString(2, usuario.getEmail());
+            ps.setString(3, usuario.getPassword());
+            ps.setString(4, usuario.getImagen());
+            ps.setString(5, usuario.getRol().name()); // Convertir Rol a String usando .name()
+            ps.setInt(6, usuario.getId());
+
+            // Ejecutar la actualización
+            ps.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException("Error al actualizar el usuario", e);
         }
     }
 
@@ -87,6 +160,8 @@ public class UsuariosDAO extends Conexion {
             throw new RuntimeException("Error al actualizar el usuario", e);
         }
     }
+
+    // -----------------------------------------DELETES------------------------------------------------------
 
     // Método para eliminar (marcar como eliminado) un usuario
     public void eliminarUsuario(int id) throws UsuariosException {

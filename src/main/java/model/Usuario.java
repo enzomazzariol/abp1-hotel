@@ -10,7 +10,38 @@ public class Usuario {
     private String password;
     private Rol rol;
     private String fechaRegistro;
+    private String imagen;
     private boolean eliminado;
+
+    public Usuario(int id, String nombre, String email, String password, Rol rol, String fechaRegistro, boolean eliminado, String imagen) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.password = password;
+        this.rol = rol;
+        this.fechaRegistro = fechaRegistro;
+        this.eliminado = eliminado;
+        this.imagen = imagen;
+    }
+
+    public Usuario(int id, String nombre, String email, String password, String imagen, Rol rol) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.password = password;
+        this.imagen = imagen;
+        this.rol = rol;
+    }
+
+    public Usuario(int id, String nombre, String email, String password, Rol rol, String fechaRegistro, boolean eliminado) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.password = password;
+        this.rol = rol;
+        this.fechaRegistro = fechaRegistro;
+        this.eliminado =eliminado;
+    }
 
     public Usuario(int id, String nombre, String email, String password, Rol rol) {
         this.id = id;
@@ -29,16 +60,6 @@ public class Usuario {
         this.email = email;
         this.password = password;
         this.rol = rol;
-    }
-
-    public Usuario(int id, String nombre, String email, String password, Rol rol, String fechaRegistro, boolean eliminado) {
-        this.id = id;
-        this.nombre = nombre;
-        this.email = email;
-        this.password = password;
-        this.rol = rol;
-        this.fechaRegistro = fechaRegistro;
-        this.eliminado =eliminado;
     }
 
     public Usuario() {
@@ -90,6 +111,14 @@ public class Usuario {
 
     public void setFechaRegistro(String fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public boolean isEliminado() {
