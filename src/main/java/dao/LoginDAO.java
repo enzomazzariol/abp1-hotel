@@ -28,8 +28,6 @@ public class LoginDAO {
                 usuario.setNombre(rs.getString("nombre"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setEliminado(rs.getBoolean("eliminado"));
-            } else {
-                throw new LoginException(LoginException.ErrorCredencialesInvalidas);
             }
             return usuario;
         } catch (SQLException | ClassNotFoundException e) {

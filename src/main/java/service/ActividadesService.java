@@ -35,7 +35,7 @@ public class ActividadesService {
         } else if ("actualizar".equals(action)) {
             actualizarActividad(req, resp);
         } else if ("eliminar".equals(action)) {
-            eliminarActividad(req);
+            eliminarActividad(req, resp);
         }
     }
 
@@ -48,8 +48,8 @@ public class ActividadesService {
         String imagen = req.getParameter("imagen");
 
         Actividad nuevaActividad = new Actividad(nombre, descripcion, imagen, precio, cupo, fecha);
-
         actividadesDAO.insertarActividad(nuevaActividad);
+        resp.sendRedirect("admin?success=true");
         System.out.println("Actividad insertada correctamente en la base de datos");
     }
 
@@ -64,12 +64,14 @@ public class ActividadesService {
 
         Actividad actividad = new Actividad(id, nombre, descripcion, imagen, precio, cupo, fecha);
         actividadesDAO.actualizarActividad(actividad);
+        resp.sendRedirect("admin?success=true");
         System.out.println("Actividad actualizada correctamente en la base de datos");
     }
 
-    public void eliminarActividad(HttpServletRequest req) throws SQLException, ClassNotFoundException, ConexionException, ActividadesException {
+    public void eliminarActividad(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException, ConexionException, ActividadesException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         actividadesDAO.eliminarActividad(id);
+        resp.sendRedirect("admin?success=true");
         System.out.println("Se ha eliminado la actividad con el id: " + id);
     }
 }

@@ -19,4 +19,5 @@ public enum Estado {
     public String getEstado() {
         return estado;
     }
+
 }

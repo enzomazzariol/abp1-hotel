@@ -12,8 +12,9 @@ import excepciones.ConexionException;
 public class UsuariosDAO extends Conexion {
 
     // Constantes SQL para el CRUD
-    public static final String SELECT_USUARIOS = "SELECT id, nombre, email, password, rol, fecha_registro, eliminado FROM usuarios";
-    public static final String INSERT_USUARIO = "INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)";
+    public static final String SELECT_USUARIOS = "SELECT id, nombre, email, password, rol, fecha_registro, eliminado FROM usuarios where eliminado = 0";
+    public static final String INSERT_USUARIO = "INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, 'cliente')";
+    public static final String INSERT_USUARIO_ROL = "INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, '?')";
     public static final String UPDATE_USUARIO = "UPDATE usuarios SET nombre = ?, email = ?, password = ?, rol = ? WHERE id = ?";
     public static final String DELETE_USUARIO = "UPDATE usuarios SET eliminado = 1 WHERE id = ?"; // Marcar como eliminado
     public static final String UPDATE_IMAGEN_USUARIO = "UPDATE usuarios SET imagen = ? WHERE id = ?";
@@ -110,7 +111,7 @@ public class UsuariosDAO extends Conexion {
             ps.setString(1, usuario.getNombre());
             ps.setString(2, usuario.getEmail());
             ps.setString(3, usuario.getPassword());
-            ps.setString(4, usuario.getRol().name()); // Convertir Rol a String usando .name()
+            //ps.setString(4, usuario.getRol().name()); // Convertir Rol a String usando .name()
             //ps.setString(5, usuario.getFechaRegistro()); // Agregar la fecha de registro
 
             // Ejecutar la consulta

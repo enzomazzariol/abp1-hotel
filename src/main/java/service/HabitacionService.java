@@ -27,7 +27,7 @@ public class HabitacionService {
         dispatcher.forward(req, resp);
     }
 
-    public void menuPostHabitacion(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException, HabitacionException, ConexionException {
+    public void menuPostHabitacion(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException, HabitacionException, ConexionException, IOException {
         String action = req.getParameter("action");
 
         if ("agregar".equals(action)) {
@@ -35,7 +35,7 @@ public class HabitacionService {
         } else if ("actualizar".equals(action)) {
             actualizarHabitacion(req);
         } else if ("eliminar".equals(action)) {
-            eliminarHabitacion(req);
+            eliminarHabitacion(req, resp);
         }
     }
 
@@ -80,13 +80,13 @@ public class HabitacionService {
         System.out.println("Habitación actualizada: " + nuevaHabitacion);
     }
 
-    public void eliminarHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException, HabitacionException, ConexionException {
+    public void eliminarHabitacion(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException, HabitacionException, ConexionException, IOException {
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
 
         // Se elimina la habitacion con el id.
         habitacionesDAO.actualizarEliminadoHabitacion(id);
-
+        resp.sendRedirect("admin?success=true");
         // Imprime por consola la Habitacion actualiza.
         System.out.println("Se ha eliminado la habitacion con id " + id);
     }

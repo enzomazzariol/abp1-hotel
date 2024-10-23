@@ -9,8 +9,10 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class LoginService {
 
@@ -25,22 +27,41 @@ public class LoginService {
         String nombre = req.getParameter("nombre");
         String password = req.getParameter("password");
 
+        // Lista para acumular errores en el front
+        ArrayList<String> errores = new ArrayList<>();
+
+        // Validar campos vacios
+        if (nombre == null || nombre.trim().isEmpty()) {
+            errores.add("El campo 'nombre' es obligatorio.");
+        }
+        if (password == null || password.trim().isEmpty()) {
+            errores.add("El campo 'contraseña' es obligatorio.");
+        }
+
+        // Si hay errores, reenviarlos al formulario de login
+        if (!errores.isEmpty()) {
+            req.setAttribute("errores", errores);
+            req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
+            return;
+        }
+
         // Logica para comprobar el nombre y la contraseña.
         Usuario usuarioActual = this.loginDAO.checklogin(nombre, password);
         if (usuarioActual.getId() == 0) {
-            System.out.println(LoginException.ErrorUsuarioContraseña);
-            req.setAttribute("error", LoginException.ErrorUsuarioContraseña);
-            req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
-        } else if(usuarioActual.isEliminado()){
-            System.out.println("usuario eliminado");
-            req.setAttribute("error", LoginException.ErrorUsuarioEliminado);
-            req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+            errores.add("Usuario o contraseña incorrecto");
+        } else if (usuarioActual.isEliminado()) {
+            errores.add("El usuario ha sido eliminado");
         }
-        else {
-            System.out.println("El usuario es " + nombre + " y la contraseña es " + password);
+
+        if (!errores.isEmpty()) {
+            req.setAttribute("errores", errores);
+            req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
+        } else {
+            // Si no hay errores, el usuario es válido
             req.setAttribute("usuario", usuarioActual);
+            HttpSession session = req.getSession();
+            session.setAttribute("user", usuarioActual);
             req.getRequestDispatcher("/index.jsp").forward(req, resp);
-            //req.getRequestDispatcher("/perfil.jsp").forward(req, resp);
         }
     }
 

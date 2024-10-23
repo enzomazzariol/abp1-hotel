@@ -1,5 +1,6 @@
 package service;
 
+import dao.AdminDAO;
 import dao.UsuariosDAO;
 import model.Usuario;
 import utils.Rol;
@@ -16,16 +17,17 @@ import java.sql.SQLException;
 
 public class UsuarioService {
     UsuariosDAO usuariosDAO;
+    AdminService adminService;
 
     public UsuarioService() {
         this.usuariosDAO = new UsuariosDAO();
+        adminService = new AdminService();
     }
 
     public void forwardUsuarios(HttpServletRequest req, HttpServletResponse resp) {
         try {
             int id = 1;
             Usuario usuario = usuariosDAO.usuarioById(id);
-
             req.setAttribute("usuario", usuario);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/perfil.jsp");
             dispatcher.forward(req, resp);
@@ -43,7 +45,7 @@ public class UsuarioService {
             } else if ("actualizar".equals(action)) {
                 actualizarUsuario(req);
             } else if ("eliminar".equals(action)) {
-                eliminarUsuario(req);
+                eliminarUsuario(req, resp);
             }
 
             forwardUsuarios(req, resp);
@@ -60,12 +62,12 @@ public class UsuarioService {
         String nombre = req.getParameter("nombre");
         String email = req.getParameter("email");
         String password = req.getParameter("password"); // Obtener la contraseña
-        String rolParam = req.getParameter("rol");
+        //String rolParam = req.getParameter("rol");
 
-        Rol rol = Rol.valueOf(rolParam.toUpperCase());
+       // Rol rol = Rol.valueOf(rolParam.toUpperCase());
 
         // Crear nuevo usuario con ID (puedes generarlo en la base de datos)
-        Usuario nuevoUsuario = new Usuario(nombre, email, password, rol);
+        Usuario nuevoUsuario = new Usuario(nombre, email, password);
         usuariosDAO.insertarUsuario(nuevoUsuario);
         System.out.println("Nuevo usuario insertado: " + nuevoUsuario);
     }
@@ -109,16 +111,17 @@ public class UsuarioService {
         System.out.println("Usuario actualizado: " + usuarioActualizado);
     }
 
+
     // -----------------------------------------DELETES------------------------------------------------------
 
     // ELIMINAR USUARIO
-    public void eliminarUsuario(HttpServletRequest req) throws SQLException, ClassNotFoundException, UsuariosException, ConexionException{
+    public void eliminarUsuario(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException, UsuariosException, ConexionException{
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
 
         // Se elimina el usuario con el id.
         usuariosDAO.eliminarUsuario(id);
-
+        adminService.fowardAdmin(req, resp);
         // Imprime por consola la eliminación del usuario.
         System.out.println("Se ha eliminado el usuario con id " + id);
     }
