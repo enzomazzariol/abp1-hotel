@@ -1,5 +1,9 @@
  <style>
     /* Footer */
+    footer {
+        font-family: "Figtree";
+    }
+
     .footer-background {
                         background-color: #F5EFE6;
                         color: #1E212D;

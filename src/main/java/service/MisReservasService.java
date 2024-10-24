@@ -4,6 +4,8 @@ import dao.MisReservasDAO;
 import excepciones.ConexionException;
 import excepciones.ReservaActividadesException;
 import excepciones.ReservaHabitacionException;
+import model.Usuario;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,12 +29,23 @@ public class MisReservasService {
 
     public void fowardReservaActividad(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            int idUsuario = 1;
+            HttpSession session = req.getSession(false); // false: No crea una nueva sesión si no existe
+            if (session != null) {
+                Usuario usuario = (Usuario) session.getAttribute("usuario");
+                if (usuario != null) {
+                    int idUsuario = usuario.getId();
 
-            req.setAttribute("reservaActividadById",  misReservasDAO.reservaActividadesById(idUsuario));
-            req.setAttribute("reservaHabitacionById", misReservasDAO.reservaHabitacionesById(idUsuario));
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/misReservas.jsp");
-            dispatcher.forward(req, resp);
+                    // Obtener las reservas del usuario
+                    req.setAttribute("reservaActividadById", misReservasDAO.reservaActividadesById(idUsuario));
+                    req.setAttribute("reservaHabitacionById", misReservasDAO.reservaHabitacionesById(idUsuario));
+
+                    // Redirigir a la JSP
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/misReservas.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    resp.sendRedirect("jsp/error.jsp");
+                }
+            }
 
         /*
         // Obtener la sesión actual

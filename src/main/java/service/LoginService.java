@@ -1,6 +1,7 @@
 package service;
 
 import dao.LoginDAO;
+import dao.UsuariosDAO;
 import model.Usuario;
 import excepciones.ConexionException;
 import excepciones.LoginException;
@@ -17,9 +18,17 @@ import java.util.ArrayList;
 public class LoginService {
 
     LoginDAO loginDAO;
+    UsuariosDAO usuariosDAO;
 
     public LoginService() {
         this.loginDAO = new LoginDAO();
+        this.usuariosDAO = new UsuariosDAO();
+    }
+
+    // GET
+    public void forwardLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/login.jsp");
+        dispatcher.forward(req, resp);
     }
 
     // POST
@@ -58,18 +67,12 @@ public class LoginService {
             req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
         } else {
             // Si no hay errores, el usuario es válido
-            req.setAttribute("usuario", usuarioActual);
+            Usuario usuario = usuariosDAO.usuarioById(usuarioActual.getId());
+            // req.setAttribute("usuario", usuario);
             HttpSession session = req.getSession();
-            session.setAttribute("user", usuarioActual);
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            session.setAttribute("usuario", usuario);
+            req.getRequestDispatcher("/jsp/perfil.jsp").forward(req, resp);
+
         }
     }
-
-    // GET
-    public void forwardLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/login.jsp");
-        dispatcher.forward(req, resp);
-    }
-
-
 }

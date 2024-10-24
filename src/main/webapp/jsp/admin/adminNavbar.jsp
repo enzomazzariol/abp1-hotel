@@ -49,7 +49,7 @@
 
             <div class="col-md-2 col-sm-12 col-12 col-2 d-flex flex-column">
                 <a href="home" class="hero-button cerrar-sesion mb-4">Cerrar sesion</a>
-                <a href="perfil" class="hero-button volver">Volver</a>
+                <a href="perfil" class="hero-button volver">Volver al perfil</a>
             </div>
         </div>
     </section>

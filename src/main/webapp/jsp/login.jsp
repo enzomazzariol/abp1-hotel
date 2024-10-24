@@ -27,8 +27,8 @@
 
         <form action="login" method="post" class="login-form">
             <div class="login-container d-flex flex-column">
-                <label for="email" class="login-label">Correo electrónico</label>
-                <input type="text" id="email" name="nombre" class="login-input" placeholder="Tu nombre...">
+                <label for="nombre" class="login-label">Nombre</label>
+                <input type="text" id="nombre" name="nombre" class="login-input" placeholder="Tu nombre...">
 
                 <label for="password" class="login-label">Contraseña</label>
                 <input type="password" id="password" name="password" class="login-input" placeholder="Tu contraseña...">
