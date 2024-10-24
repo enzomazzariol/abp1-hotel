@@ -9,6 +9,8 @@
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <title>Bellmunt Hotel</title>
+                <!--Import css-->
+                <link rel="stylesheet" href="css/hom.css">
 
                 <!-- Bootstrap CSS -->
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -20,16 +22,26 @@
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
                     rel="stylesheet">
 
-
-                <!--Fuentes para las letras-->
+                <!--Animaciones-->
                 <link rel="stylesheet"
                     href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+                <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+                <!--Fuentes para las letras-->
                 <link rel="preconnect" href="https://fonts.googleapis.com">
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                 <link href="https://fonts.googleapis.com/css2?family=Seymour+One&display=swap" rel="stylesheet">
                 <link href="https://fonts.googleapis.com/css2?family=Sigmar+One&display=swap" rel="stylesheet">
                 <link
                     href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ribeye+Marrow&family=Seymour+One&display=swap"
+                    rel="stylesheet">
+
+                <!--Fuente Tigtree-->
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap"
                     rel="stylesheet">
 
                 <style>
@@ -47,7 +59,7 @@
                         background-repeat: no-repeat;
                         background-position: center;
                         color: #E78F81;
-                        font-family: 'Merriweather', serif;
+                        font-family: '' Merriweather', serif';
                         font-weight: 900;
                         padding: 20px;
                         height: 350px;
@@ -68,6 +80,7 @@
 
                     /* Estilo para los títulos y enlaces del navbar */
                     .navbar-title,
+                    .navbar-icon,
                     .navbar-link {
                         position: relative;
                         z-index: 2;
@@ -77,17 +90,9 @@
                         font-size: 50px;
                     }
 
+                    .navbar-icon,
                     .navbar-link {
                         font-size: 30px;
-                    }
-
-                    /* Estilo para los iconos en el navbar */
-                    .navbar-icon {
-                        font-size: 40px;
-                        color: #E78F81;
-                        margin-top: 20px;
-                        position: relative;
-                        z-index: 2;
                     }
 
                     /* Fondo claro para la sección de información */
@@ -130,9 +135,9 @@
 
                     .info-datos {
                         margin-right: 20px;
-                        font-family: 'Merriweather', serif;
-                        font-size: 15px;
-                        font-weight: 900;
+                        font-family: 'Figtree', serif;
+                        font-size: 16px;
+                        font-weight: 500;
                     }
 
                     .info-color {
@@ -244,14 +249,14 @@
                         font-family: "Montserrat Alternates", sans-serif;
                         font-size: 17px;
                         font-weight: 900;
-                        color:#E78F81;
+                        color: #E78F81;
                     }
 
                     .card-price {
                         font-family: "Montserrat Alternates", sans-serif;
                         font-size: 15px;
                         font-weight: 600;
-                        color:#E78F81;
+                        color: #E78F81;
                     }
 
                     .card-button {
@@ -267,6 +272,8 @@
                         background-color: #E78F81;
                         color: white;
                     }
+
+
 
                     /* Media Queries para ajustar tamaños en pantallas pequeñas */
                     @media (max-width: 1200px) {
@@ -372,11 +379,11 @@
                             <a href="#actividades" class="navbar-link">Actividades</a>
                         </div>
                         <div class="col-3">
-                            <a href="jsp/login.jsp" class="navbar-link">Login</a>
+                            <a href="login" class="navbar-link">Login</a>
                         </div>
                     </div>
                     <div class="row">
-                        <a href="jsp/login.jsp"><i class="fa-regular fa-user navbar-icon"></i></a>
+                        <a href="login"><i class="fa-regular fa-user navbar-icon"></i></a>
                     </div>
                 </div>
 
@@ -408,7 +415,8 @@
                     </div>
                     <div class="row info-contenido">
                         <div class="col-12 col-md-6 d-flex justify-content-center align-items-center">
-                            <img class="info-image" src="img/habitaciones/Habitacion_sencilla.jpg" alt="Habitacion_sencilla">
+                            <img class="info-image" src="img/habitaciones/Habitacion_sencilla.jpg"
+                                alt="Habitacion_sencilla">
                         </div>
                         <div class="col-12 col-md-6 info-color mt-3">
                             <div class="">
@@ -478,7 +486,7 @@
                                     if(habitaciones != null) {
                                     for (Habitacion habitacion: habitaciones) {
                                     %>
-                                    <div class="card col-4">
+                                    <div class="card col-4" data-aos="zoom-in">
                                         <div class="card-img">
                                             <img src="img/habitaciones/<%= habitacion.getImagen() %>"
                                                 alt="Imagen de la habitacion" class="">
@@ -493,8 +501,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-5 d-flex justify-content-end align-items-center">
-                                                <button class="card-button"
-                                                    onclick="alert('¡Botón presionado!')">Reservar</button>
+                                                <button class="card-button" href="login"
+                                                onclick="mostrarAlerta()">Reservar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -519,10 +527,10 @@
                                     if(actividades != null) {
                                     for (Actividad actividad: actividades) {
                                     %>
-                                    <div class="card col-4">
+                                    <div class="card col-4" data-aos="zoom-in-down">
                                         <div class="card-img">
-                                            <img src="img/actividades/<%= actividad.getImagen() %>" alt="Imagen de la actividades"
-                                                class="imagen">
+                                            <img src="img/actividades/<%= actividad.getImagen() %>"
+                                                alt="Imagen de la actividades" class="imagen">
                                         </div>
                                         <div class="card-body row">
                                             <div class="col-7">
@@ -534,8 +542,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-5 d-flex justify-content-end align-items-center">
-                                                <button class="card-button"
-                                                    onclick="alert('¡Botón presionado!')">Reservar</button>
+                                                <button class="card-button" onclick="mostrarAlerta()">Reservar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -553,4 +560,22 @@
 
             </body>
 
+            <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+            <script>
+                // Inicializa AOS (debe ir primero si necesitas que la animación se active al cargar la página)
+                AOS.init();
+            
+                // Función para mostrar alerta y manejar redirección
+                function mostrarAlerta() {
+                    const mensaje = "Debes iniciar sesión para reservar. ¿Quieres ir al login?";
+                    
+                    if (confirm(mensaje)) {
+                        // Redirige al usuario a la página de login
+                        window.location.href = "login"; // Cambia esto por la URL de tu página de login
+                    } else {
+                        // Si el usuario cancela
+                        alert("Has cancelado la acción.");
+                    }
+                }
+            </script>
             </html>

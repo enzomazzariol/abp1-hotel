@@ -23,7 +23,7 @@ public class UsuariosServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        us.forwardUsuarios(req, resp);
+        us.manejarPerfil(req, resp);
     }
 
     @Override

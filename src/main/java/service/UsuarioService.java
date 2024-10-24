@@ -24,16 +24,49 @@ public class UsuarioService {
         adminService = new AdminService();
     }
 
-    public void forwardUsuarios(HttpServletRequest req, HttpServletResponse resp) {
+    // Método principal para manejar el acceso al perfil
+    public void manejarPerfil(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            int id = 1;
-            Usuario usuario = usuariosDAO.usuarioById(id);
-            req.setAttribute("usuario", usuario);
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/perfil.jsp");
-            dispatcher.forward(req, resp);
-        } catch (SQLException | IOException | ServletException | ConexionException e) {
+            // Obtenemos el parámetro "id" de la solicitud
+            String userIdParam = req.getParameter("id");
+
+            // Si el parámetro "id" es nulo, accedemos al perfil del usuario logueado (desde la sesión)
+            if (userIdParam == null) {
+                forwardUsuarioSesion(req, resp);
+            } else {
+                // Si se pasa un id de usuario, cargamos el perfil de ese usuario
+                int userId = Integer.parseInt(userIdParam);
+                forwardUsuarioById(req, resp, userId);
+            }
+        } catch (IOException | ServletException | SQLException | ConexionException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    // Método para cargar el perfil del usuario logueado (desde la sesión)
+    public void forwardUsuarioSesion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            /*int id = 1;
+            Usuario usuario = usuariosDAO.usuarioById(id);
+            req.setAttribute("usuario", usuario);*/
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/perfil.jsp");
+            dispatcher.forward(req, resp);
+        } catch (IOException | ServletException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    // Método para cargar el perfil de otro usuario (desde el admin)
+    public void forwardUsuarioById(HttpServletRequest req, HttpServletResponse resp, int userId) throws ServletException, IOException, SQLException, ConexionException {
+        Usuario usuario = usuariosDAO.usuarioById(userId);
+        if (usuario == null) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado");
+            return;
+        }
+        req.setAttribute("usuario", usuario);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/perfil.jsp");
+        dispatcher.forward(req, resp);
     }
 
     public void menuPostUsuario(HttpServletRequest req, HttpServletResponse resp) {
@@ -48,7 +81,7 @@ public class UsuarioService {
                 eliminarUsuario(req, resp);
             }
 
-            forwardUsuarios(req, resp);
+            manejarPerfil(req, resp);
         } catch (SQLException | ClassNotFoundException | UsuariosException | ConexionException e) {
             throw new RuntimeException(e);
         }

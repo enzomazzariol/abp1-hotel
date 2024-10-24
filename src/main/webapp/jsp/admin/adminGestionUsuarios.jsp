@@ -19,7 +19,7 @@
                 <%= usuario.getRol() == Rol.ADMIN ? "admin" : "Hacer admin" %>
             </button>
 
-            <form action="jsp/perfil.jsp" method="get" class="d-inline">
+            <form action="perfil" method="get" class="d-inline">
                 <input type="hidden" name="id" value="<%= usuario.getId() %>">
                 <button type="submit" class="list-user-button mostrar-button btn btn-light me-3" id="mostrar-button">
                     Mostrar
