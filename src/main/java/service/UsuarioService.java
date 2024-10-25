@@ -25,7 +25,7 @@ public class UsuarioService {
     }
 
     // Método principal para manejar el acceso al perfil
-    public void manejarPerfil(HttpServletRequest req, HttpServletResponse resp) {
+    public void manejarPerfil(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             // Obtenemos el parámetro "id" de la solicitud
             String userIdParam = req.getParameter("id");
@@ -39,7 +39,10 @@ public class UsuarioService {
                 forwardUsuarioById(req, resp, userId);
             }
         } catch (IOException | ServletException | SQLException | ConexionException e) {
-            throw new RuntimeException(e);
+            // Enviar a la página de error en caso de excepción
+            req.setAttribute("error",  e.getMessage());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+            dispatcher.forward(req, resp);
         }
     }
 
@@ -52,7 +55,10 @@ public class UsuarioService {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/perfil.jsp");
             dispatcher.forward(req, resp);
         } catch (IOException | ServletException e) {
-            throw new RuntimeException(e);
+            // Enviar a la página de error en caso de excepción
+            req.setAttribute("error",  e.getMessage());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+            dispatcher.forward(req, resp);
         }
 
     }
@@ -69,7 +75,7 @@ public class UsuarioService {
         dispatcher.forward(req, resp);
     }
 
-    public void menuPostUsuario(HttpServletRequest req, HttpServletResponse resp) {
+    public void menuPostUsuario(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             String action = req.getParameter("action");
 
@@ -82,8 +88,12 @@ public class UsuarioService {
             }
 
             manejarPerfil(req, resp);
-        } catch (SQLException | ClassNotFoundException | UsuariosException | ConexionException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException | ClassNotFoundException | UsuariosException | ConexionException | ServletException |
+                 IOException e) {
+            // Enviar a la página de error en caso de excepción
+            req.setAttribute("error",  e.getMessage());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+            dispatcher.forward(req, resp);
         }
 
     }

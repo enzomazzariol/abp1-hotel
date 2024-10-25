@@ -24,10 +24,6 @@ public class RegistroServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            registroService.registroUsuario(req, resp);
-        } catch (ConexionException | UsuariosException | ClassNotFoundException | SQLException e) {
-            throw new RuntimeException(e);
-        }
+        registroService.registroUsuario(req, resp);
     }
 }

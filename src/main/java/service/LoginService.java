@@ -32,47 +32,54 @@ public class LoginService {
     }
 
     // POST
-    public void comprobarLogin(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException, ServletException, IOException, LoginException, ConexionException {
-        String nombre = req.getParameter("nombre");
-        String password = req.getParameter("password");
+    public void comprobarLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String nombre = req.getParameter("nombre");
+            String password = req.getParameter("password");
 
-        // Lista para acumular errores en el front
-        ArrayList<String> errores = new ArrayList<>();
+            // Lista para acumular errores en el front
+            ArrayList<String> errores = new ArrayList<>();
 
-        // Validar campos vacios
-        if (nombre == null || nombre.trim().isEmpty()) {
-            errores.add("El campo 'nombre' es obligatorio.");
-        }
-        if (password == null || password.trim().isEmpty()) {
-            errores.add("El campo 'contraseña' es obligatorio.");
-        }
+            // Validar campos vacios
+            if (nombre == null || nombre.trim().isEmpty()) {
+                errores.add("El campo 'nombre' es obligatorio.");
+            }
+            if (password == null || password.trim().isEmpty()) {
+                errores.add("El campo 'contraseña' es obligatorio.");
+            }
 
-        // Si hay errores, reenviarlos al formulario de login
-        if (!errores.isEmpty()) {
-            req.setAttribute("errores", errores);
-            req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
-            return;
-        }
+            // Si hay errores, reenviarlos al formulario de login
+            if (!errores.isEmpty()) {
+                req.setAttribute("errores", errores);
+                req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
+                return;
+            }
 
-        // Logica para comprobar el nombre y la contraseña.
-        Usuario usuarioActual = this.loginDAO.checklogin(nombre, password);
-        if (usuarioActual.getId() == 0) {
-            errores.add("Usuario o contraseña incorrecto");
-        } else if (usuarioActual.isEliminado()) {
-            errores.add("El usuario ha sido eliminado");
-        }
+            // Logica para comprobar el nombre y la contraseña.
+            Usuario usuarioActual = this.loginDAO.checklogin(nombre, password);
+            if (usuarioActual.getId() == 0) {
+                errores.add("Usuario o contraseña incorrecto");
+            } else if (usuarioActual.isEliminado()) {
+                errores.add("El usuario ha sido eliminado");
+            }
 
-        if (!errores.isEmpty()) {
-            req.setAttribute("errores", errores);
-            req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
-        } else {
-            // Si no hay errores, el usuario es válido
-            Usuario usuario = usuariosDAO.usuarioById(usuarioActual.getId());
-            // req.setAttribute("usuario", usuario);
-            HttpSession session = req.getSession();
-            session.setAttribute("usuario", usuario);
-            req.getRequestDispatcher("/jsp/perfil.jsp").forward(req, resp);
+            if (!errores.isEmpty()) {
+                req.setAttribute("errores", errores);
+                req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
+            } else {
+                // Si no hay errores, el usuario es válido
+                Usuario usuario = usuariosDAO.usuarioById(usuarioActual.getId());
+                // req.setAttribute("usuario", usuario);
+                HttpSession session = req.getSession();
+                session.setAttribute("usuario", usuario);
+                req.getRequestDispatcher("/jsp/perfil.jsp").forward(req, resp);
 
+            }
+        } catch(SQLException | ServletException | IOException | LoginException | ConexionException e) {
+            // Enviar a la página de error en caso de excepción
+            req.setAttribute("error",  e.getMessage());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+            dispatcher.forward(req, resp);
         }
     }
 }

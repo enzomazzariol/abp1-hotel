@@ -23,20 +23,11 @@ public class ReservaHabitacionServlet extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            rhs.forwardReservaHabitacion(req, resp);
-        } catch (SQLException | ReservaHabitacionException | ConexionException e) {
-            throw new RuntimeException(e);
-        }
-
+        rhs.forwardReservaHabitacion(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            rhs.menuPostReservaHabitacion(req, resp);
-        } catch (SQLException | ClassNotFoundException | ReservaHabitacionException | ConexionException e) {
-            throw new RuntimeException(e);
-        }
+        rhs.menuPostReservaHabitacion(req, resp);
     }
 }

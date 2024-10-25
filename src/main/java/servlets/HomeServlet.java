@@ -23,11 +23,6 @@ public class HomeServlet extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
             homeService.forwardHome(req, resp);
-        } catch (ConexionException | SQLException | HabitacionException | ActividadesException |
-                 ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

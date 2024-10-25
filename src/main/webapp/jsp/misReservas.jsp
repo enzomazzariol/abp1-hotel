@@ -1,7 +1,7 @@
 <%@ page import="java.util.ArrayList" %>
-    <%@ page import="model.DetalleReservaHabitacion" %>
-        <%@ page import="model.DetalleReservaActividad" %>
-            <%@ page import="model.Usuario" %>
+<%@ page import="model.DetalleReservaHabitacion" %>
+<%@ page import="model.DetalleReservaActividad" %>
+<%@ page import="model.Usuario" %>
 
                 <!DOCTYPE html>
                 <html lang="en">
@@ -14,6 +14,10 @@
                     <!--Animaciones-->
                     <link rel="stylesheet"
                         href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+                    <!--Fuente Tigtree-->
+                    <link rel="preconnect" href="https://fonts.googleapis.com">
+                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
                 </head>
                 <style>
                     body {
@@ -207,14 +211,13 @@
                         color: white;
                     }
 
-
-
-                    /* Mensaje cuando no hay reservas */
-                    .col-12 p {
-                        color: #1E212D;
+                    .mensaje-error {
+                        color: #FAF3E0;
+                        font-size: 20px;
                         text-align: center;
-                        font-size: 30px;
+                        font-family: "Figtree";
                     }
+
 
                     /* Responsive */
                     @media (max-width: 800px) {
@@ -292,7 +295,7 @@
                                         <% ArrayList<DetalleReservaActividad> reservas = (ArrayList
                                             <DetalleReservaActividad>
                                                 ) request.getAttribute("reservaActividadById");
-                                                if (reservas != null) { %>
+                                                if (reservas != null  && !reservas.isEmpty()) { %>
                                                 <div class="table">
                                                     <div class="table-thead">
                                                         <div class="table-row">
@@ -348,7 +351,7 @@
                                                     </div>
                                                     <% } else { %>
                                                         <div class="col-12">
-                                                            <p>No tienes ninguna actividad reservada.</p>
+                                                            <p class="mensaje-error">No tienes ninguna actividad reservada.</p>
                                                         </div>
                                                         <% } %>
                                                 </div>
@@ -365,7 +368,7 @@
                                         <% ArrayList<DetalleReservaHabitacion> reservahabitaciones = (ArrayList
                                             <DetalleReservaHabitacion>)
                                                 request.getAttribute("reservaHabitacionById");
-                                                if (reservahabitaciones != null) { %>
+                                                if (reservahabitaciones != null && !reservahabitaciones.isEmpty()) { %>
 
                                                 <div class="table">
                                                     <div class="table-thead">
@@ -424,7 +427,7 @@
                                                     </div>
                                                     <% } else { %>
                                                         <div class="col-12">
-                                                            <p>No tienes ninguna habitación reservada.</p>
+                                                            <p class="mensaje-error">No tienes ninguna habitacion reservada.</p>
                                                         </div>
                                                         <% } %>
                                                 </div>

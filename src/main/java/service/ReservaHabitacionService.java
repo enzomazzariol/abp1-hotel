@@ -21,21 +21,38 @@ public class ReservaHabitacionService {
         this.reservaHabitacionDAO = new ReservaHabitacionDAO();
     }
 
-    public void forwardReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ReservaHabitacionException, ConexionException {
-        req.setAttribute("reservahabitaciones", reservaHabitacionDAO.listarResevaHabitaciones());
-        RequestDispatcher dispatcher= req.getRequestDispatcher("/jsp/reservaHabitacion.jsp");
-        dispatcher.forward(req, resp);
+    public void forwardReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            req.setAttribute("reservahabitaciones", reservaHabitacionDAO.listarResevaHabitaciones());
+            RequestDispatcher dispatcher= req.getRequestDispatcher("/jsp/reservaHabitacion.jsp");
+            dispatcher.forward(req, resp);
+        } catch(ServletException | IOException| SQLException| ReservaHabitacionException| ConexionException e){
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+            dispatcher.forward(req, resp);
+        }
     }
 
-    public void menuPostReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ClassNotFoundException, ReservaHabitacionException, ConexionException {
-        String action = req.getParameter("action");
+    public void menuPostReservaHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String action = req.getParameter("action");
 
-        if ("agregar".equals(action)) {
-            agregarReservaHabitacion(req);
-        } else if ("actualizar".equals(action)) {
-            actualizarEstadoReservaHabitacion(req);
-        } else if ("eliminar".equals(action)) {
-            eliminarReservaHabitacion(req);
+            if ("agregar".equals(action)) {
+                agregarReservaHabitacion(req);
+            } else if ("actualizar".equals(action)) {
+                actualizarEstadoReservaHabitacion(req);
+            } else if ("eliminar".equals(action)) {
+                eliminarReservaHabitacion(req);
+            }   else {
+                // Manejo en caso de acción no reconocida o inválida
+                req.setAttribute("error", "Acción no reconocida: " + action);
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+                dispatcher.forward(req, resp);
+            }
+        } catch(ServletException | IOException| SQLException| ClassNotFoundException| ReservaHabitacionException| ConexionException e){
+            // Enviar a la página de error en caso de excepción
+            req.setAttribute("error",  e.getMessage());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+            dispatcher.forward(req, resp);
         }
     }
     public void agregarReservaHabitacion(HttpServletRequest req) throws SQLException, ReservaHabitacionException, ConexionException {

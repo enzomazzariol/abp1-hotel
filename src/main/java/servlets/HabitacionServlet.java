@@ -23,20 +23,12 @@ public class HabitacionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
             hs.forwardHabitacion(req, resp);
-        } catch (SQLException | HabitacionException | ConexionException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
             hs.menuPostHabitacion(req, resp);
-        } catch (SQLException | ClassNotFoundException | HabitacionException | ConexionException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

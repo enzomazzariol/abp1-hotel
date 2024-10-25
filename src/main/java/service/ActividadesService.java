@@ -20,22 +20,39 @@ public class ActividadesService {
         this.actividadesDAO = new ActividadesDAO();
     }
 
-    public void fowardActividades(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, ClassNotFoundException, ConexionException, ActividadesException {
-        req.setAttribute("actividades", actividadesDAO.listarActividades());
-        //foward a la pagina de actividades
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/actividades.jsp");
-        dispatcher.forward(req, resp);
+    public void fowardActividades(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            req.setAttribute("actividades", actividadesDAO.listarActividades());
+            //foward a la pagina de actividades
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/actividades.jsp");
+            dispatcher.forward(req, resp);
+        } catch(SQLException | ClassNotFoundException | ConexionException | ActividadesException | ServletException | IOException e){
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+            dispatcher.forward(req, resp);
+        }
     }
 
-    public void menuPostActividad(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException, ConexionException, ActividadesException, ServletException, IOException {
-        String action = req.getParameter("action");
+    public void menuPostActividad(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String action = req.getParameter("action");
 
-        if ("agregar".equals(action)) {
-            agregarActividad(req, resp);
-        } else if ("actualizar".equals(action)) {
-            actualizarActividad(req, resp);
-        } else if ("eliminar".equals(action)) {
-            eliminarActividad(req, resp);
+            if ("agregar".equals(action)) {
+                agregarActividad(req, resp);
+            } else if ("actualizar".equals(action)) {
+                actualizarActividad(req, resp);
+            } else if ("eliminar".equals(action)) {
+                eliminarActividad(req, resp);
+            } else {
+                // Manejo en caso de acción no reconocida o inválida
+                req.setAttribute("error", "Acción no reconocida: " + action);
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+                dispatcher.forward(req, resp);
+            }
+        } catch(SQLException |ClassNotFoundException | ConexionException| ActividadesException| ServletException | IOException e){
+            // Enviar a la página de error en caso de excepción
+            req.setAttribute("error",  e.getMessage());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+            dispatcher.forward(req, resp);
         }
     }
 
