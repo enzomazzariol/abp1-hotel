@@ -22,10 +22,15 @@ public class HomeService {
         actividadesDAO = new ActividadesDAO();
     }
 
-    public void forwardHome(HttpServletRequest req, HttpServletResponse resp) throws ConexionException, SQLException, HabitacionException, ServletException, IOException, ActividadesException, ClassNotFoundException {
-        req.setAttribute("habitaciones", habitacionesDAO.listarHabitaciones());
-        req.setAttribute("actividades", actividadesDAO.listarActividades());
-        RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
-        dispatcher.forward(req, resp);
+    public void forwardHome(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            req.setAttribute("habitaciones", habitacionesDAO.listarHabitaciones());
+            req.setAttribute("actividades", actividadesDAO.listarActividades());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+            dispatcher.forward(req, resp);
+        } catch(ConexionException | SQLException| HabitacionException | ServletException | IOException | ActividadesException | ClassNotFoundException e){
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+            dispatcher.forward(req, resp);
+        }
     }
 }

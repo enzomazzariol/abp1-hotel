@@ -37,7 +37,7 @@ public class AdminService {
         habitacionesDAO = new HabitacionesDAO();
     }
 
-    public void menuPostAdmin(HttpServletRequest req, HttpServletResponse resp) {
+    public void menuPostAdmin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         try {
             if ("actualizarUsuarioRol".equals(action)) {
@@ -48,10 +48,17 @@ public class AdminService {
                 insertarHabitacion(req, resp);
             } else if ("actualizarHabitacionAdmin".equals(action)) {
                 actualizarHabitacion(req, resp);
+            } else {
+                // Manejo en caso de acción no reconocida o inválida
+                req.setAttribute("error", "Acción no reconocida: " + action);
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+                dispatcher.forward(req, resp);
             }
-        } catch (ConexionException | SQLException | UsuariosException | ClassNotFoundException | IOException |
-                 HabitacionException e){
-            e.printStackTrace();
+        } catch (ConexionException | SQLException | UsuariosException | ClassNotFoundException | IOException | HabitacionException e){
+            // Enviar a la página de error en caso de excepción
+            req.setAttribute("error", "Error al procesar la acción: " + e.getMessage());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+            dispatcher.forward(req, resp);
         }
     }
 

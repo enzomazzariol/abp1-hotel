@@ -25,19 +25,11 @@ public class ReservaActividadServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            ras.fowardReservaActividad(req, resp);
-        } catch (SQLException | ClassNotFoundException | ConexionException | ReservaActividadesException e) {
-            throw new RuntimeException(e);
-        }
+        ras.fowardReservaActividad(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            ras.menuPostReservaActividad(req, resp);
-        } catch (SQLException | ClassNotFoundException | ConexionException | ReservaActividadesException e) {
-            throw new RuntimeException(e);
-        }
+        ras.menuPostReservaActividad(req, resp);
     }
 }

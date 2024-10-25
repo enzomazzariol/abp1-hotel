@@ -23,10 +23,6 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            ls.comprobarLogin(req, resp);
-        } catch (SQLException | ClassNotFoundException | LoginException | ConexionException e) {
-            throw new RuntimeException(e);
-        }
+        ls.comprobarLogin(req, resp);
     }
 }

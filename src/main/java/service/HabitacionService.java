@@ -21,21 +21,39 @@ public class HabitacionService {
         this.habitacionesDAO = new HabitacionesDAO();
     }
 
-    public void forwardHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException, HabitacionException, ConexionException {
-        req.setAttribute("habitaciones", habitacionesDAO.listarHabitaciones());
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/habitacion.jsp");
-        dispatcher.forward(req, resp);
+    public void forwardHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            req.setAttribute("habitaciones", habitacionesDAO.listarHabitaciones());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/habitacion.jsp");
+            dispatcher.forward(req, resp);
+        } catch(ServletException | IOException | SQLException | HabitacionException | ConexionException e) {
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+            dispatcher.forward(req, resp);
+        }
+
     }
 
-    public void menuPostHabitacion(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException, HabitacionException, ConexionException, IOException {
-        String action = req.getParameter("action");
+    public void menuPostHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String action = req.getParameter("action");
 
-        if ("agregar".equals(action)) {
-            agregarHabitacion(req);
-        } else if ("actualizar".equals(action)) {
-            actualizarHabitacion(req);
-        } else if ("eliminar".equals(action)) {
-            eliminarHabitacion(req, resp);
+            if ("agregar".equals(action)) {
+                agregarHabitacion(req);
+            } else if ("actualizar".equals(action)) {
+                actualizarHabitacion(req);
+            } else if ("eliminar".equals(action)) {
+                eliminarHabitacion(req, resp);
+            } else {
+                // Manejo en caso de acción no reconocida o inválida
+                req.setAttribute("error", "Acción no reconocida: " + action);
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+                dispatcher.forward(req, resp);
+            }
+        } catch(SQLException | ClassNotFoundException | HabitacionException| ConexionException| IOException | ServletException e) {
+            // Enviar a la página de error en caso de excepción
+            req.setAttribute("error",  e.getMessage());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+            dispatcher.forward(req, resp);
         }
     }
 
