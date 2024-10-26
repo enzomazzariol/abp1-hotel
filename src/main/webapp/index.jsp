@@ -10,7 +10,7 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <title>Bellmunt Hotel</title>
                 <!--Import css-->
-                <link rel="stylesheet" href="css/hom.css">
+                <link rel="stylesheet" href="css/home.css">
 
                 <!-- Bootstrap CSS -->
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,6 +21,13 @@
                 <!-- Iconos Awesome -->
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
                     rel="stylesheet">
+
+                <!-- SweetAlert CSS -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+                <!-- SweetAlert JS -->
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
                 <!--Animaciones-->
                 <link rel="stylesheet"
@@ -90,7 +97,10 @@
                         font-size: 50px;
                     }
 
-                    .navbar-icon,
+                    .navbar-icon {
+                        font: 40px;
+                    }
+                    
                     .navbar-link {
                         font-size: 30px;
                     }
@@ -502,7 +512,7 @@
                                             </div>
                                             <div class="col-5 d-flex justify-content-end align-items-center">
                                                 <button class="card-button" href="login"
-                                                onclick="mostrarAlerta()">Reservar</button>
+                                                    onclick="mostrarAlerta()">Reservar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -564,18 +574,29 @@
             <script>
                 // Inicializa AOS (debe ir primero si necesitas que la animación se active al cargar la página)
                 AOS.init();
-            
+
                 // Función para mostrar alerta y manejar redirección
                 function mostrarAlerta() {
                     const mensaje = "Debes iniciar sesión para reservar. ¿Quieres ir al login?";
-                    
-                    if (confirm(mensaje)) {
-                        // Redirige al usuario a la página de login
-                        window.location.href = "login"; // Cambia esto por la URL de tu página de login
-                    } else {
-                        // Si el usuario cancela
-                        alert("Has cancelado la acción.");
-                    }
+
+                    Swal.fire({
+                        title: 'Informacón',
+                        text: mensaje,
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonText: 'Ir al login',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirige al usuario a la página de login
+                            window.location.href = "login"; // Cambia esto por la URL de tu página de login
+                        } else {
+                            // Si el usuario cancela
+                            Swal.fire('Acción cancelada', 'Has cancelado la acción.', 'info');
+                        }
+                    });
                 }
+
             </script>
+
             </html>
