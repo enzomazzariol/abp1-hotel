@@ -1,9 +1,13 @@
 package service;
 
 import dao.ActividadesDAO;
+import dao.ReservaActividadesDAO;
+import excepciones.ReservaActividadesException;
 import model.Actividad;
 import excepciones.ActividadesException;
 import excepciones.ConexionException;
+import model.ReservaActividad;
+import utils.Estado;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,9 +19,11 @@ import java.sql.SQLException;
 public class ActividadesService {
 
     ActividadesDAO actividadesDAO;
+    ReservaActividadesDAO reservaActividadesDAO;
 
     public ActividadesService(){
         this.actividadesDAO = new ActividadesDAO();
+        this.reservaActividadesDAO = new ReservaActividadesDAO();
     }
 
     public void fowardActividades(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,6 +33,7 @@ public class ActividadesService {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/actividades.jsp");
             dispatcher.forward(req, resp);
         } catch(SQLException | ClassNotFoundException | ConexionException | ActividadesException | ServletException | IOException e){
+            req.setAttribute("error", e.getMessage());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
             dispatcher.forward(req, resp);
         }
@@ -42,17 +49,23 @@ public class ActividadesService {
                 actualizarActividad(req, resp);
             } else if ("eliminar".equals(action)) {
                 eliminarActividad(req, resp);
+            } else if ("reservar".equals(action)) {
+                agregarReservaActividad(req);
             } else {
                 // Manejo en caso de acción no reconocida o inválida
                 req.setAttribute("error", "Acción no reconocida: " + action);
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
                 dispatcher.forward(req, resp);
             }
+
+            fowardActividades(req, resp);
         } catch(SQLException |ClassNotFoundException | ConexionException| ActividadesException| ServletException | IOException e){
             // Enviar a la página de error en caso de excepción
             req.setAttribute("error",  e.getMessage());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
             dispatcher.forward(req, resp);
+        } catch (ReservaActividadesException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -90,5 +103,23 @@ public class ActividadesService {
         actividadesDAO.eliminarActividad(id);
         resp.sendRedirect("admin?success=true");
         System.out.println("Se ha eliminado la actividad con el id: " + id);
+    }
+
+    public void agregarReservaActividad(HttpServletRequest req) throws ServletException, IOException, SQLException, ConexionException, ReservaActividadesException {
+        // Obtiene los datos de la nueva reserva de actividad
+        int idUsuario = Integer.parseInt(req.getParameter("id_usuario"));
+        int idActividad = Integer.parseInt(req.getParameter("id_actividad"));
+        String estadoParam = req.getParameter("estado");
+
+        Estado estado = Estado.valueOf(estadoParam.toUpperCase());
+
+        // Crea la nueva instancia de Reserva Actividad
+        ReservaActividad reservaActividad = new ReservaActividad(idUsuario, idActividad, estado);
+
+        // insertamos la actividad en la BD
+        reservaActividadesDAO.insertarActividad(reservaActividad);
+        System.out.println("Se ha creado la reserva de la actividad: " + reservaActividad.getIdActividad());
+
+
     }
 }

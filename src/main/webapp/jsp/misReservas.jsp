@@ -25,50 +25,6 @@
                         background-color: #1E212D;
                     }
 
-                    /* Eliminación del subrayado en los enlaces y color heredado */
-                    a {
-                        text-decoration: none;
-                        color: inherit;
-                    }
-
-                    /* Navbar */
-                    .navbar {
-                        background-color: #FAF3E0;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        padding: 15px;
-                    }
-
-                    .navbar-title {
-                        color: #E78F81;
-                        font-family: 'Merriweather', serif;
-                        font-size: 30px;
-                        font-weight: 900;
-                    }
-
-                    .navbar-option {
-                        color: #E78F81;
-                        font-family: 'Merriweather', serif;
-                        font-size: 25px;
-                        font-weight: 900;
-                    }
-
-                    .navbar-option-select {
-                        color: #ED3E22;
-                    }
-
-                    .navbar ul {
-                        list-style-type: none;
-                        margin: 0;
-                        padding: 0;
-                        display: flex;
-                    }
-
-                    .navbar ul li {
-                        margin-left: 20px;
-                    }
-
                     /* Contenido */
 
                     .title {
@@ -261,19 +217,7 @@
                 <body>
                     <% Usuario usuario=(Usuario) session.getAttribute("usuario"); %>
                         <!--Navbar-->
-                        <div class="navbar container-fluid">
-                            <div class="navbar-title">
-                                <a href="">Bellmunt Hotel</a>
-                            </div>
-                            <div class="navbar-option">
-                                <ul>
-                                    <li><a href="">Habitaciones</a></li>
-                                    <li><a href="">Actividades</a></li>
-                                    <li><a href="" class="navbar-option-select">Mis Reservas</a></li>
-                                    <li><a href="perfil">Perfil</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <%@include file="/jsp/componentes/navbar.jsp" %>
                         <!--Contenido-->
                         <div class="row">
                             <div class="title">

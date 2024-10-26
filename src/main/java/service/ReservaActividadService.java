@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 
 
 public class ReservaActividadService {
@@ -62,6 +63,7 @@ public class ReservaActividadService {
         int idUsuario = Integer.parseInt(req.getParameter("id_usuario"));
         int idActividad = Integer.parseInt(req.getParameter("id_actividad"));
         String estadoParam = req.getParameter("estado");
+
         Estado estado = Estado.valueOf(estadoParam.toUpperCase());
 
         // Crea la nueva instancia de Reserva Actividad
@@ -70,6 +72,8 @@ public class ReservaActividadService {
         // insertamos la actividad en la BD
         reservaActividadesDAO.insertarActividad(reservaActividad);
         System.out.println("Se ha creado la reserva de la actividad: " + reservaActividad.getIdActividad());
+
+
     }
 
     public void actualizarReservaActividad(HttpServletRequest req) throws SQLException, ConexionException, ReservaActividadesException {

@@ -1,7 +1,9 @@
 package service;
 
+import dao.LoginDAO;
 import dao.UsuariosDAO;
 import excepciones.ConexionException;
+import excepciones.LoginException;
 import excepciones.UsuariosException;
 import model.Usuario;
 import utils.Rol;
@@ -10,6 +12,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,9 +20,11 @@ import java.util.ArrayList;
 public class RegistroService {
 
     private UsuariosDAO usuariosDAO;
+    private LoginDAO loginDAO;
 
     public RegistroService(){
         usuariosDAO = new UsuariosDAO();
+        loginDAO = new LoginDAO();
     }
 
     public void fowardRegistro(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -67,15 +72,19 @@ public class RegistroService {
                Usuario nuevoUsuario = new Usuario(nombre, email, password);
                usuariosDAO.insertarUsuario(nuevoUsuario);
 
-               // Redirigir al home después de registrarse
-               req.setAttribute("nombreUsuario", nuevoUsuario.getNombre());
-               RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
-               dispatcher.forward(req, resp);
+               Usuario usuarioId = loginDAO.checklogin(nuevoUsuario.getNombre(), nuevoUsuario.getPassword());
+               Usuario usuario = usuariosDAO.usuarioById(usuarioId.getId());
+
+               HttpSession session = req.getSession();
+               session.setAttribute("usuario", usuario);
+               req.getRequestDispatcher("/jsp/perfil.jsp").forward(req, resp);
 
            } catch (SQLException | ClassNotFoundException | UsuariosException | ConexionException e) {
                req.setAttribute("error",  e.getMessage());
                RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
                dispatcher.forward(req, resp);
+           } catch (LoginException e) {
+               throw new RuntimeException(e);
            }
        } catch(ServletException | IOException e){
            // Enviar a la página de error en caso de excepción
