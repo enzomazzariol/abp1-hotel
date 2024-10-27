@@ -10,7 +10,8 @@
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>Mis Reservas - Bellmunt Hotel</title>
-
+                    <!--Bootstrap 5-->
+                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
                     <!--Animaciones-->
                     <link rel="stylesheet"
                         href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
@@ -23,13 +24,13 @@
                     body {
                         margin: 0;
                         background-color: #1E212D;
+                        font-family: "Figtree"
                     }
 
                     /* Contenido */
 
                     .title {
                         color: #E78F81;
-                        font-family: 'Merriweather', serif;
                         font-size: 30px;
                         font-weight: 900;
                         text-align: center;
@@ -42,7 +43,6 @@
 
                     .title2 {
                         color: #E78F81;
-                        font-family: 'Merriweather', serif;
                         font-size: 20px;
                         font-weight: 900;
                         margin-bottom: 5px;
@@ -56,7 +56,6 @@
 
                     .subtitle {
                         color: #E78F81;
-                        font-family: 'Merriweather', serif;
                         font-size: 25px;
                         font-weight: 900;
                         text-align: center;
@@ -65,7 +64,6 @@
                     /* Estructura general de la tabla convertida en divs */
                     .table {
                         width: 100%;
-                        font-family: 'Merriweather', serif;
                         font-weight: 900;
                         border-collapse: separate;
                         border-spacing: 0 10px;
@@ -84,8 +82,7 @@
                         background-color: #D9D9D9;
                         border-radius: 20px;
                         margin-bottom: 10px;
-                        padding: 5px;
-                        height: 50px;
+                        height: 70px;
                         width: 900px;
                     }
 
@@ -95,6 +92,7 @@
                         text-align: center;
                         color: #E78F81;
                         font-size: 20px;
+                        font-weight: 400;
                     }
 
                     .table-cell {
@@ -135,7 +133,6 @@
                         border: none;
                         border-radius: 10px;
                         background-color: transparent;
-                        font-family: 'Merriweather', serif;
                         font-weight: 900;
                         font-size: 15px;
                         padding: 7px;
@@ -148,7 +145,6 @@
                         border: none;
                         border-radius: 10px;
                         background-color: transparent;
-                        font-family: 'Merriweather', serif;
                         font-weight: 900;
                         font-size: 15px;
                         padding: 7px;
@@ -219,6 +215,7 @@
                         <!--Navbar-->
                         <%@include file="/jsp/componentes/navbar.jsp" %>
                         <!--Contenido-->
+                    <div class="container p-5">
                         <div class="row">
                             <div class="title">
                                 <p>BELLMUNT<br>HOTEL</p>
@@ -294,8 +291,11 @@
                                                             <% } %>
                                                     </div>
                                                     <% } else { %>
-                                                        <div class="col-12">
-                                                            <p class="mensaje-error">No tienes ninguna actividad reservada.</p>
+                                                        <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                                            <p class="mensaje-error mb-3">No tienes ninguna actividad reservada.</p>
+                                                            <button class="btn btn-outline-light">
+                                                                <a href="actividades">Ir a reservar</a>
+                                                            </button>
                                                         </div>
                                                         <% } %>
                                                 </div>
@@ -370,8 +370,11 @@
                                                             <% } %>
                                                     </div>
                                                     <% } else { %>
-                                                        <div class="col-12">
-                                                            <p class="mensaje-error">No tienes ninguna habitacion reservada.</p>
+                                                        <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                                            <p class="mensaje-error mb-3">No tienes ninguna habitacion reservada.</p>
+                                                            <button class="btn btn-outline-light">
+                                                                <a href="habitacion">Ir a reservar</a>
+                                                            </button>
                                                         </div>
                                                         <% } %>
                                                 </div>
@@ -379,7 +382,7 @@
                                 </div>
                             </div>
                         </div>
-
+                    </div>
                 </body>
 
                 </html>

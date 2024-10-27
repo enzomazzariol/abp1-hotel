@@ -158,7 +158,7 @@ public class UsuarioService {
     // -----------------------------------------DELETES------------------------------------------------------
 
     // ELIMINAR USUARIO
-    public void eliminarUsuario(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException, UsuariosException, ConexionException{
+    public void eliminarUsuario(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ClassNotFoundException, UsuariosException, ConexionException, ServletException, IOException {
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
 

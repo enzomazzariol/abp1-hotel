@@ -104,7 +104,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="imagen" class="form-label">Imagen de la habitacion</label>
-                        <input type="file" class="form-control" id="imagen" name="imagen" required>
+                        <input type="file" class="form-control" id="imagen" name="imagen">
                     </div>
                     <input type="hidden" name="id" id="idHabitacionActualizar">
             </div>
@@ -117,7 +117,6 @@
         </div>
     </div>
 </div>
-
 
 <!--Modal para eliminar una habitacion -->
 <div class="modal fade" id="modalEliminarHabitacion" tabindex="-1" aria-labelledby="modalEliminarHabitacionLabel" aria-hidden="true">
@@ -132,8 +131,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <form id="eliminarHabitacionForm" action="habitacion" method="post">
-                    <input type="hidden" name="action" value="eliminar">
+                <form id="eliminarHabitacionForm" action="admin" method="post">
+                    <input type="hidden" name="action" value="eliminarHabitacionAdmin">
                     <input type="hidden" name="id" id="id_habitacion_eliminar">
                     <button type="submit" class="btn btn-danger">Eliminar</button>
                 </form>
