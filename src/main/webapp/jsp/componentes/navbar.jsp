@@ -52,7 +52,7 @@
     </div>
     <div class="navbar-option">
         <ul>
-            <li><a href="habitaciones" class="nav-link">Habitaciones</a></li>
+            <li><a href="habitacion" class="nav-link">Habitaciones</a></li>
             <li><a href="actividades" class="nav-link">Actividades</a></li>
             <li><a href="misReservas" class="nav-link">Mis Reservas</a></li>
             <li class="me-3"><a href="perfil" class="nav-link">Perfil</a></li>

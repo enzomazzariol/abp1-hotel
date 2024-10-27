@@ -25,6 +25,14 @@ public class ReservaHabitacion extends Reservas{
         super(id, estado);
     }
 
+    public ReservaHabitacion(int idUsuario, Estado estado, int idHabitacion, String fechaEntrada, String fechaSalida) {
+        super(idUsuario, estado, null);
+        this.idHabitacion = idHabitacion;
+        this.fechaEntrada = fechaEntrada;
+        this.fechaSalida = fechaSalida;
+    }
+
+
     public int getIdHabitacion() {
         return idHabitacion;
     }
