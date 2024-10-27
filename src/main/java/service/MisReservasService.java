@@ -43,6 +43,7 @@ public class MisReservasService {
                     RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/misReservas.jsp");
                     dispatcher.forward(req, resp);
                 } else {
+                    req.setAttribute("error", "Ha habido un problema en la sesion de usuario.");
                     resp.sendRedirect("jsp/error.jsp");
                 }
             }

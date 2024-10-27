@@ -29,6 +29,7 @@ public class HomeService {
             RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
             dispatcher.forward(req, resp);
         } catch(ConexionException | SQLException| HabitacionException | ServletException | IOException | ActividadesException | ClassNotFoundException e){
+            req.setAttribute("error", e.getMessage());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
             dispatcher.forward(req, resp);
         }
