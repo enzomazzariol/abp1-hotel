@@ -4,16 +4,18 @@ import model.ReservaHabitacion;
 import utils.Estado;
 import excepciones.ConexionException;
 import excepciones.ReservaHabitacionException;
-
+import java.sql.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ReservaHabitacionDAO {
     // Constantes SQL para el CRUD
-    public static final String AGREGAR_RESERVA_HABITACION = "INSERT INTO reserva_habitaciones (id_usuario, id_habitacion, fecha_entrada, fecha_salida, estado, fecha_reserva) VALUES (?, ?, ?, ?, ?, ?)";
+    public static final String AGREGAR_RESERVA_HABITACION = "INSERT INTO reserva_habitaciones (id_usuario, estado, id_habitacion, fecha_entrada, fecha_salida) VALUES (?, ?, ?, ?, ?)";
     public static final String ACTUALIZAR_RESERVA_HABITACION = "UPDATE reserva_habitaciones SET id_usuario = ?, id_habitacion = ?, fecha_entrada = ?, fecha_salida = ?, estado = ?, fecha_reserva = ? WHERE id = ?";
     public static final String ACTUALIZAR_ESTADO_RESERVA_HABITACION = "UPDATE reserva_habitaciones SET  estado = ? WHERE id = ?";
     public static final String ELIMINAR_RESERVA_HABITACION = "DELETE FROM reserva_habitaciones WHERE id = ?";
@@ -24,17 +26,21 @@ public class ReservaHabitacionDAO {
     // INSERT:
     public void agregarReservaHabitacion(ReservaHabitacion reservaHabitacion) throws SQLException, ConexionException, ReservaHabitacionException {
         Conexion conn = new Conexion();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
+            Date fechaEntrada = new Date(format.parse(reservaHabitacion.getFechaEntrada()).getTime());
+            Date fechaSalida = new Date(format.parse(reservaHabitacion.getFechaSalida()).getTime());
+
             PreparedStatement ps = conn.conectar().prepareStatement(AGREGAR_RESERVA_HABITACION);
             ps.setInt(1, reservaHabitacion.getIdUsuario());
-            ps.setInt(2, reservaHabitacion.getIdHabitacion());
-            ps.setString(3, reservaHabitacion.getFechaEntrada());
-            ps.setString(4, reservaHabitacion.getFechaSalida());
-            ps.setString(5, reservaHabitacion.getEstado().name());
-            ps.setString(6, reservaHabitacion.getFechaReserva());
+            ps.setString(2, reservaHabitacion.getEstado().name());
+            ps.setInt(3, reservaHabitacion.getIdHabitacion());
+            ps.setDate(4, fechaEntrada);
+            ps.setDate(5, fechaSalida);
+
             ps.executeUpdate();
             System.out.println("Se ha insertado la reserva en la base de datos correctamente!");
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException | ParseException e) {
             throw new ReservaHabitacionException(ReservaHabitacionException.ErrorInsertarReserva);
         } finally {
             conn.desconectar();

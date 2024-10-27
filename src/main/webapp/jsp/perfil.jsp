@@ -23,49 +23,6 @@ body {
     background-color: #1E212D !important;
 }
 
-/* Eliminación del subrayado en los enlaces y color heredado */
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* Navbar */
-.navbar {
-    background-color: #FAF3E0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-}
-
-.navbar-title {
-    color: #E78F81;
-    font-family: 'Figtree', serif;
-    font-size: 26px;
-    font-weight: 900;
-}
-
-.navbar-option {
-    color: #E78F81;
-    font-family: 'Figtree', serif;
-    font-size: 20px;
-    font-weight: 900;
-}
-
-.navbar-option-select {
-    color: #ED3E22;
-}
-
-.navbar ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.navbar ul li {
-    margin-left: 30px;
-}
 
 .title {
     color: #E78F81;
@@ -238,20 +195,9 @@ a {
     </style>
 
     <body>
+
         <!--Navbar-->
-        <div class="navbar container-fluid">
-            <div class="navbar-title">
-                <a href="">Bellmunt Hotel</a>
-            </div>
-            <div class="navbar-option">
-                <ul>
-                    <li><a href="">Habitaciones</a></li>
-                    <li><a href="">Actividades</a></li>
-                    <li><a href="misReservas">Mis Reservas</a></li>
-                    <li class="me-3"><a href="" class="navbar-option-select">Perfil</a></li>
-                </ul>
-            </div>
-        </div>
+        <%@include file="/jsp/componentes/navbar.jsp" %>
 
         <!--Contenido-->
         <div class="container p-5">

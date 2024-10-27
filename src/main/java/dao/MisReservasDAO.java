@@ -11,12 +11,18 @@ import java.util.ArrayList;
 
 public class MisReservasDAO {
 
-    private static String SELECT_RESERVA_ACTIVIDAD_BY_ID = "SELECT DISTINCT ra.id, a.nombre_actividad, ra.estado, ra.fecha_reserva, " +
-            "CONCAT(rh.fecha_entrada, ' al ', rh.fecha_salida) AS fechasReservaHabitacion " +
-            "FROM reserva_actividades ra " +
-            "JOIN actividades a ON ra.id_actividad = a.id " +
-            "JOIN reserva_habitaciones rh ON ra.id_usuario = rh.id_usuario " +
-            "WHERE ra.id_usuario = ?";
+    private static final String SELECT_RESERVA_ACTIVIDAD_BY_ID =
+            "SELECT DISTINCT ra.id, " +
+                    "       a.nombre_actividad, " +
+                    "       ra.estado, " +
+                    "       ra.fecha_reserva, " +
+                    "       CONCAT(MIN(rh.fecha_entrada), ' al ', MAX(rh.fecha_salida)) AS fechasReservaHabitacion " +
+                    "FROM reserva_actividades ra " +
+                    "JOIN actividades a ON ra.id_actividad = a.id " +
+                    "LEFT JOIN reserva_habitaciones rh ON ra.id_usuario = rh.id_usuario " +
+                    "WHERE ra.id_usuario = ? " +
+                    "GROUP BY ra.id, a.nombre_actividad, ra.estado, ra.fecha_reserva";
+
 
     private static String SELECT_RESERVA_HABITACION_BY_ID = "SELECT DISTINCT rh.id, h.tipo_habitacion, rh.estado, rh.fecha_reserva, " +
             "CONCAT(rh.fecha_entrada, ' al ', rh.fecha_salida) AS fechas, " +
