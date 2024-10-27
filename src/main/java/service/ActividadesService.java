@@ -65,6 +65,9 @@ public class ActividadesService {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
             dispatcher.forward(req, resp);
         } catch (ReservaActividadesException e) {
+            req.setAttribute("error",  e.getMessage());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+            dispatcher.forward(req, resp);
             throw new RuntimeException(e);
         }
     }

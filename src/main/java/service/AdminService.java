@@ -62,7 +62,7 @@ public class AdminService {
         }
     }
 
-    public void fowardAdmin(HttpServletRequest req, HttpServletResponse resp) {
+    public void fowardAdmin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // mandar listas de usuarios, habitaciones, actividades y reservas
         try {
             req.setAttribute("usuarios", usuariosDAO.listarUsuarios());
@@ -73,6 +73,9 @@ public class AdminService {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/admin/admin.jsp");
             dispatcher.forward(req, resp);
         } catch (ServletException | IOException | ConexionException | SQLException |UsuariosException | ActividadesException| ClassNotFoundException | HabitacionException e){
+            req.setAttribute("error", "Error al procesar la acción: " + e.getMessage());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
+            dispatcher.forward(req, resp);
             throw new RuntimeException(e);
         }
     }
