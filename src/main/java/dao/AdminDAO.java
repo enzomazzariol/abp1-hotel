@@ -15,7 +15,7 @@ public class AdminDAO extends Conexion {
 
     public static final String SELECT_ALL_RESERVAS = "select * from AllReservas";
     public static final String ACTUALIZAR_ROL_USUARIO = "update usuarios set rol = 'admin' where id = ?";
-    public static final String ACTUALIZAR_ESTADO_HABITACION = "update habitaciones set estado = ? where id = ?";
+    public static final String ACTUALIZAR_ESTADO_HABITACION = "update habitaciones set estado = ?, precio = ? where id = ?";
 
     public ArrayList<ReservaGeneral> getAllReservas() {
         ArrayList<ReservaGeneral> reservas = new ArrayList<>();
@@ -55,12 +55,13 @@ public class AdminDAO extends Conexion {
         }
     }
 
-    public void actualizarEstadoHabitacion(Estado estado, int id) throws ConexionException, SQLException {
+    public void actualizarEstadoHabitacion(Estado estado, int precio, int id) throws ConexionException, SQLException {
         Conexion conn = new Conexion();
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(ACTUALIZAR_ESTADO_HABITACION);
             ps.setString(1, String.valueOf(estado));
-            ps.setInt(2, id);
+            ps.setInt(2, precio);
+            ps.setInt(3, id);
             ps.executeUpdate();
         } catch (ConexionException | ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);

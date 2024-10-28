@@ -1,0 +1,64 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Figtree";
+}
+ 
+ /* Eliminación del subrayado en los enlaces y color heredado */
+  a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #FAF3E0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+
+.nav-title {
+    color: #E78F81; 
+    font-family: 'Figtree', serif;
+    font-size: 26px;
+    font-weight: 900;
+    margin-left: 20px;
+    transition: 0.6s;
+}
+
+.nav-link{
+    text-decoration: none;
+    color: #E78F81; 
+    font-family: 18px;
+}
+
+.navbar-option {
+    color: #E78F81;
+    font-family: 'Figtree', serif;
+    font-size: 20px;
+    font-weight: 900;
+    transition: 0.6s;
+}
+
+.nav-link:hover, .nav-title:hover {
+    color: #1E212D !important;
+}
+
+/*.navbar-option-select {
+    color: #ED3E22;
+    border-bottom: 2px solid #ED3E22;
+}*/
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar ul li {
+    margin-left: 30px;
+}

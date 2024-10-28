@@ -55,7 +55,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="actividades" method="post" class="login-form">
+                <form action="admin" method="post" class="login-form">
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre de la actividad</label>
                         <input type="text" class="form-control" id="nombre" name="nombre_actividad" required>
@@ -83,7 +83,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <input type="hidden" name="action" value="agregar">
+                <input type="hidden" name="action" value="insertarActividadAdmin">
                 <button type="submit" value="enviar" class="btn btn-outline-primary">Crear actividad</button>
             </div>
             </form>
@@ -100,7 +100,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="actividades" method="post" class="login-form">
+                <form action="admin" method="post" class="login-form">
                     <div class="mb-3">
                         <label for="nombreActualizar" class="form-label">Nombre de la actividad</label>
                         <input type="text" class="form-control" id="nombreActualizar" name="nombre_actividad" required>
@@ -129,15 +129,13 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <input type="hidden" name="action" value="actualizar">
+                <input type="hidden" name="action" value="actualizarActividadAdmin">
                 <button type="submit" value="enviar" class="btn btn-outline-primary">Actualizar actividad</button>
             </div>
             </form>
         </div>
     </div>
 </div>
-
-
 
 <!-- Modal para eliminar una actividad -->
 <div class="modal fade" id="modalEliminarActividad" tabindex="-1" aria-labelledby="modalEliminarActividadLabel" aria-hidden="true">
@@ -152,8 +150,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <form id="eliminarActividadForm" action="actividades" method="post">
-                    <input type="hidden" name="action" value="eliminar">
+                <form id="eliminarActividadForm" action="admin" method="post">
+                    <input type="hidden" name="action" value="eliminarActividadAdmin">
                     <input type="hidden" name="id" id="id_actividad_eliminar">
                     <button type="submit" class="btn btn-danger">Eliminar</button>
                 </form>

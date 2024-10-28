@@ -580,7 +580,7 @@
                     const mensaje = "Debes iniciar sesión para reservar. ¿Quieres ir al login?";
 
                     Swal.fire({
-                        title: 'Informacón',
+                        title: 'Informacion',
                         text: mensaje,
                         icon: 'info',
                         showCancelButton: true,

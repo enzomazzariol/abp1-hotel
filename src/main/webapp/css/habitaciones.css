@@ -1,0 +1,29 @@
+body {
+    font-family: "Figtree" !important;
+    background-color: #1E212D !important;
+}
+
+.habitacion-tipo {
+    color: #1E212D;
+    font-family: 'Figtree';
+    font-weight: 400;
+    font-size: 24px;
+    margin: 0;
+}
+
+.habitacion-estado {
+    color: #1E212D;
+    font-family: 'Figtree';
+    font-weight: 40000;
+    font-size: 18px;
+    margin: 0;
+}
+
+.habitacion-label {
+    font-weight: 800;
+}
+
+.habitacion-input {
+    background-color: #FAF3E0 !important;
+}
+
