@@ -60,7 +60,7 @@
                     </select>
                     <div class="mb-3">
                         <label for="imagen" class="form-label">Imagen de la habitacion</label>
-                        <input type="file" class="form-control" id="imagen" name="imagen" required>
+                        <input type="file" class="form-control" id="imagen" name="imagen">
                     </div>
                     <div class="mb-3">
                         <label for="precio" class="form-label">Precio</label>

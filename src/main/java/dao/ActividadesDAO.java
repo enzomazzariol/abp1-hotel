@@ -14,6 +14,8 @@ public class ActividadesDAO extends Conexion {
     public static final String UPDATE_ACTIVIDADES = "update actividades set nombre_actividad = ?, descripcion = ?, imagen = ?, precio = ?, cupo = ?, fecha_actividad = ? where id = ?";
     public static final String DELETE_ACTIVIDADES = "delete from actividades where id = ?";
     public static final String UPDATE_ELIMINADO = "update actividades set eliminado = 1 where id = ?";
+    public static final String UPDATE_CUPO_ACTIVIDAD = "UPDATE actividades SET cupo = ? WHERE id = ?";
+
 
     public ArrayList<Actividad> listarActividades() throws SQLException, ClassNotFoundException, ActividadesException, ConexionException {
         ArrayList<Actividad> listaActividades = new ArrayList<>();
@@ -94,6 +96,40 @@ public class ActividadesDAO extends Conexion {
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new ActividadesException(ActividadesException.ErrorEliminarActividad);
+        } finally {
+            conn.desconectar();
+        }
+    }
+
+    public Actividad obtenerActividadPorId(int id) throws SQLException, ConexionException {
+        Actividad actividad = null;
+        Conexion conn = new Conexion();
+        try {
+            String sql = "SELECT * FROM actividades WHERE id = ?";
+            PreparedStatement ps = conn.conectar().prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                actividad = new Actividad(rs.getInt("id"), rs.getString("nombre_actividad"), rs.getString("descripcion"), rs.getString("imagen"), rs.getDouble("precio"), rs.getInt("cupo"), rs.getString("fecha_actividad"));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            conn.desconectar();
+        }
+        return actividad;
+    }
+
+    public void actualizarCupo(int idActividad, int nuevoCupo) throws SQLException, ConexionException, ActividadesException {
+        Conexion conn = new Conexion();
+        try {
+            PreparedStatement ps = conn.conectar().prepareStatement(UPDATE_CUPO_ACTIVIDAD);
+            ps.setInt(1, nuevoCupo);
+            ps.setInt(2, idActividad);
+            ps.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new ActividadesException(ActividadesException.ErrorActualizarCupo);
         } finally {
             conn.desconectar();
         }

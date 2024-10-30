@@ -108,7 +108,7 @@ public class ActividadesService {
         System.out.println("Se ha eliminado la actividad con el id: " + id);
     }
 
-    public void agregarReservaActividad(HttpServletRequest req) throws ServletException, IOException, SQLException, ConexionException, ReservaActividadesException {
+    public void agregarReservaActividad(HttpServletRequest req) throws ServletException, IOException, SQLException, ConexionException, ReservaActividadesException, ActividadesException {
         // Obtiene los datos de la nueva reserva de actividad
         int idUsuario = Integer.parseInt(req.getParameter("id_usuario"));
         int idActividad = Integer.parseInt(req.getParameter("id_actividad"));
@@ -123,6 +123,9 @@ public class ActividadesService {
         reservaActividadesDAO.insertarActividad(reservaActividad);
         System.out.println("Se ha creado la reserva de la actividad: " + reservaActividad.getIdActividad());
 
-
+        // Reducir el cupo de la actividad
+        Actividad actividad = actividadesDAO.obtenerActividadPorId(idActividad); // Implementa este método para obtener la actividad
+        actividad.reducirCupo(); // Reducimos el cupo en la instancia
+        actividadesDAO.actualizarCupo(idActividad, actividad.getCupo()); // Actualizamos el cupo en la base de datos
     }
 }

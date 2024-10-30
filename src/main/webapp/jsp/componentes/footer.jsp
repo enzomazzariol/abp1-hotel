@@ -1,3 +1,5 @@
+ <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
  <style>
     /* Footer */
     footer {
@@ -12,6 +14,12 @@
                     .footer-icono {
                         color: #1E212D;
                         font-size: 25px;
+                        transition: all .4s ease-in-out;
+                    }
+
+                    .footer-icono i:hover {
+                        transform: scale(1.2);
+                        color: #E78F81;
                     }
 
                     .footer-text {

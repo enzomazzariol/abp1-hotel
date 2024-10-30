@@ -21,6 +21,7 @@
 
             <form action="perfil" method="get" class="d-inline">
                 <input type="hidden" name="id" value="<%= usuario.getId() %>">
+                <input type="hidden" name="fromAdmin" value="true">
                 <button type="submit" class="list-user-button mostrar-button btn btn-light me-3" id="mostrar-button">
                     Mostrar
                 </button>

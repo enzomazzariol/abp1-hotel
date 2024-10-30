@@ -66,7 +66,7 @@
                                                         <input type="hidden" name="estado"
                                                         value="reservado">
                                                     <br>
-                                                    <button type="submit" class="mb-2">RESERVAR</button>
+                                                    <button type="submit" class="mb-2 btn <%= actividad.getCupo() <= 0 ? "disabled" : "" %>">RESERVAR</button>
                                                 </form>
                                             </div>
                                         </div>

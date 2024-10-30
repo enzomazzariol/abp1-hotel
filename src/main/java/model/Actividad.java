@@ -43,6 +43,12 @@ public class Actividad {
         this.fecha_actividad = fecha_actividad;
     }
 
+    public void reducirCupo() {
+        if (this.cupo > 0) {
+            this.cupo--;
+        }
+    }
+
     // Getters y setters
     public int getId() {
         return id;
