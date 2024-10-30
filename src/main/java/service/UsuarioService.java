@@ -107,7 +107,7 @@ public class UsuarioService {
         String password = req.getParameter("password"); // Obtener la contraseña
         //String rolParam = req.getParameter("rol");
 
-       // Rol rol = Rol.valueOf(rolParam.toUpperCase());
+        // Rol rol = Rol.valueOf(rolParam.toUpperCase());
 
         // Crear nuevo usuario con ID (puedes generarlo en la base de datos)
         Usuario nuevoUsuario = new Usuario(nombre, email, password);

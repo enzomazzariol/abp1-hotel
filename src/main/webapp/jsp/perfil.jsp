@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.Usuario" %>
     <!DOCTYPE html>
     <html lang="en">
@@ -214,6 +215,8 @@ body {
                         if (usuario == null) {
                             usuario = (Usuario) session.getAttribute("usuario");
                         }
+                        
+                        String fromAdmin = request.getParameter("fromAdmin");
                     %>
                         <div class="img">
                             <img src="<%= (usuario.getImagen() != null) ? usuario.getImagen() : "img/profileImg.jpg" %>" 
@@ -258,9 +261,11 @@ body {
                         <a href="home"><button class="button-login-out mt-2">Cerra sesion</button></a>
                         <!--Si es admin Mostrar el boton-->
                         <% if (usuario.getRol().getNombre().equals("admin")) { %>
-                            <a href="admin"><button class="button-admin mt-2">Admin</button></a>
+                            <a href="admin"><button class="button-admin mt-2 me-2">Admin</button></a>
                         <% } %>
-                        
+                         <% if ("true".equals(fromAdmin)) { %>  
+                            <a href="admin"><button class="button-admin mt-2">Volver a admin</button></a>
+                        <% } %>
                     </div>
                 </div>
             </div>

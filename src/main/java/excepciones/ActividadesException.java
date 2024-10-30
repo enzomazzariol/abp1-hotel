@@ -6,13 +6,15 @@ public class ActividadesException extends Exception {
     public static final int ErrorInsertarActividad = 1;
     public static final int ErrorActualizarActividad = 2;
     public static final int ErrorEliminarActividad = 3;
+    public static final int ErrorActualizarCupo = 4;
 
     // Descripciones de los errores
     public static String[] errores = {
             "Error al listar las actividades.",
             "Error al insertar la actividad.",
             "Error al actualizar la actividad.",
-            "Error al eliminar la actividad."
+            "Error al eliminar la actividad.",
+            "Error al actualizar los cupos de la actividad"
     };
 
     // Atributo para almacenar el código de error

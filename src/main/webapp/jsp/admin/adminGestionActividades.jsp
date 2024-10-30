@@ -161,27 +161,27 @@
 </div>
 
 <script>
-      function abrirModalActualizarActividad(idActividad, nombre, descripcion, precio, cupo, fecha_actividad) {
-    // Pasar el ID de la actividad al campo oculto en el formulario
-    document.getElementById('idActividadActualizar').value = idActividad;
-    
-    // Rellenar los campos del formulario de actualización con los valores actuales
-    document.getElementById('nombreActualizar').value = nombre;
-    document.getElementById('descripcionActualizar').value = descripcion;
-    document.getElementById('precioActualizar').value = precio;
-    document.getElementById('cupoActualizar').value = cupo;
-    document.getElementById('fechaActualizar').value = fecha_actividad;
-}
+    function abrirModalActualizarActividad(idActividad, nombre, descripcion, precio, cupo, fecha_actividad) {
+        // Pasar el ID de la actividad al campo oculto en el formulario
+        document.getElementById('idActividadActualizar').value = idActividad;
+        
+        // Rellenar los campos del formulario de actualización con los valores actuales
+        document.getElementById('nombreActualizar').value = nombre;
+        document.getElementById('descripcionActualizar').value = descripcion;
+        document.getElementById('precioActualizar').value = precio;
+        document.getElementById('cupoActualizar').value = cupo;
+        document.getElementById('fechaActualizar').value = fecha_actividad;
+    }
 
-function abrirModalEliminarActividad(idActividad) {
+    function abrirModalEliminarActividad(idActividad) {
     // Mostrar el ID de la actividad en el cuerpo del modal
     document.getElementById('idActividadEliminar').textContent = idActividad;
 
     // Pasar el ID de la actividad al campo oculto en el formulario
     document.getElementById('id_actividad_eliminar').value = idActividad;
-}
+    }
 
-document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
     const modalEliminarActividad = document.getElementById('modalEliminarActividad');
     
     modalEliminarActividad.addEventListener('hidden.bs.modal', function() {
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('idActividadEliminar').textContent = '';
         document.getElementById('id_actividad_eliminar').value = '';
     });
-});
+    });
 
     // Obtener la fecha actual
     const today = new Date().toISOString().split('T')[0];

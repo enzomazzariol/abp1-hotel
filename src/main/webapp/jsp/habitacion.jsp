@@ -2,6 +2,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.Habitacion" %>
 <%@ page import="model.Usuario" %>
+<%@ page import="utils.Estado" %>
 
             <!DOCTYPE html>
             <html lang="es">
@@ -39,7 +40,7 @@
                                     %>
                                     <div class="activity-container">
                                         <div class="activity-card">
-                                            <img src="img/habitaciones/<%= habitacion.getImagen() %>"
+                                            <img src="img/habitaciones/<%= habitacion.getImagen() == null ? "hotel_loading.jpeg" : habitacion.getImagen() %>"
                                                 alt="Imagen de la habitación" class="imagen">
                                             <div class="activity-info">
                                                 <h2 class="habitacion-tipo">
@@ -72,7 +73,9 @@
                                                             </div>
                                                         </div>
                                                         <br>
-                                                        <button type="submit">RESERVAR</button>
+                                                        <button type="submit" class="btn <% if(habitacion.getEstado().equals(Estado.MANTENIMIENTO) || habitacion.getEstado().equals(Estado.OCUPADA)) { %>disabled<% } %>">
+                                                            Reservar
+                                                        </button>
                                                     </form>
                                                 </div>
                                             </div>
