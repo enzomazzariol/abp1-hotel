@@ -15,6 +15,7 @@ import model.Usuario;
 import utils.Estado;
 import utils.TipoHabitacion;
 
+import javax.crypto.SecretKey;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 
 public class AdminService {
 
@@ -30,12 +32,14 @@ public class AdminService {
     private UsuariosDAO usuariosDAO;
     private ActividadesDAO actividadesDAO;
     private HabitacionesDAO habitacionesDAO;
+    CifradoService cifradoService;
 
     public AdminService(){
         adminDAO = new AdminDAO();
         usuariosDAO = new UsuariosDAO();
         actividadesDAO = new ActividadesDAO();
         habitacionesDAO = new HabitacionesDAO();
+        cifradoService = new CifradoService();
     }
 
     public void menuPostAdmin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -93,10 +97,25 @@ public class AdminService {
         String nombre = req.getParameter("nombre");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
+        try {
+            // Obtener o generar la clave DES para cifrar
+            SecretKey clave = cifradoService.obtenerClaveDesdeBD();
+            if (clave == null) {
+                clave = cifradoService.generarClaveDES();
+                System.out.println("Clave generada y almacenada en BD: " + Base64.getEncoder().encodeToString(clave.getEncoded()));
+            }
 
-        Usuario nuevoUsuario = new Usuario(nombre, email, password);
-        usuariosDAO.insertarUsuario(nuevoUsuario);
-        resp.sendRedirect("admin?success=true");
+            // Cifrar la contraseña
+            String passwordCifrada = cifradoService.cifrarDES(password, clave);
+
+            // Crear nuevo usuario con ID (puedes generarlo en la base de datos)
+            Usuario nuevoUsuario = new Usuario(nombre, email, passwordCifrada);
+            usuariosDAO.insertarUsuario(nuevoUsuario);
+            System.out.println("Nuevo usuario insertado: " + nuevoUsuario);
+            resp.sendRedirect("admin?success=true");
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void actualizarUsuarioRol(HttpServletRequest req, HttpServletResponse resp) {

@@ -1,4 +1,4 @@
-package utils;
+package service;
 
 import dao.Conexion;
 import excepciones.ConexionException;
@@ -8,14 +8,12 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Base64;
 
-public class CifradoUtils {
+public class CifradoService {
 
     // Genera y guarda una clave DES en la base de datos.
     public SecretKey generarClaveDES() throws Exception {
@@ -45,7 +43,7 @@ public class CifradoUtils {
     // Recupera la clave secreta de la base de datos
     public SecretKey obtenerClaveDesdeBD() throws Exception {
         Conexion conn = new Conexion();
-        String sql = "SELECT llave_secreta FROM cifrado LIMIT 1";
+        String sql = "SELECT llave_secreta FROM cifrado";
         try {
             PreparedStatement ps = conn.conectar().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();

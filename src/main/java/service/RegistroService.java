@@ -8,6 +8,7 @@ import excepciones.UsuariosException;
 import model.Usuario;
 import utils.Rol;
 
+import javax.crypto.SecretKey;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,15 +17,18 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class RegistroService {
 
     private UsuariosDAO usuariosDAO;
     private LoginDAO loginDAO;
+    CifradoService cifradoService;
 
     public RegistroService(){
         usuariosDAO = new UsuariosDAO();
         loginDAO = new LoginDAO();
+        cifradoService = new CifradoService();
     }
 
     public void fowardRegistro(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,9 +43,16 @@ public class RegistroService {
            String nombre = req.getParameter("nombre");
            String email = req.getParameter("email");
            String password = req.getParameter("password");
-           // String rolParam = req.getParameter("rol");
-           // Convertir el rol recibido del formulario a enum
-           //Rol rol = Rol.valueOf(rolParam.toUpperCase());
+
+           // 1. Obtener o generar la clave DES para cifrar
+           SecretKey clave = cifradoService.obtenerClaveDesdeBD();
+           if (clave == null) {
+               clave = cifradoService.generarClaveDES();
+               System.out.println("Clave generada y almacenada en BD: " + Base64.getEncoder().encodeToString(clave.getEncoded()));
+           }
+
+           // Cifrar la contraseña
+           String passwordCifrada = cifradoService.cifrarDES(password, clave);
 
            // Lista para acumular errores en el front
            ArrayList<String> errores = new ArrayList<>();
@@ -69,7 +80,7 @@ public class RegistroService {
            }
 
            try {
-               Usuario nuevoUsuario = new Usuario(nombre, email, password);
+               Usuario nuevoUsuario = new Usuario(nombre, email, passwordCifrada);
                usuariosDAO.insertarUsuario(nuevoUsuario);
 
                Usuario usuarioId = loginDAO.checklogin(nuevoUsuario.getNombre(), nuevoUsuario.getPassword());
@@ -86,7 +97,7 @@ public class RegistroService {
            } catch (LoginException e) {
                throw new RuntimeException(e);
            }
-       } catch(ServletException | IOException e){
+       } catch(Exception e){
            // Enviar a la página de error en caso de excepción
            req.setAttribute("error",  e.getMessage());
            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
