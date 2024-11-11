@@ -82,10 +82,9 @@ public class RegistroService {
            try {
                Usuario nuevoUsuario = new Usuario(nombre, email, passwordCifrada);
                usuariosDAO.insertarUsuario(nuevoUsuario);
-
+            // Corregir los objetos usuarios de abajo (dan un nullPointer) al recuperar el id, arreglarlo para que la pantalla registro funcione corectamente
                Usuario usuarioId = loginDAO.checklogin(nuevoUsuario.getNombre(), nuevoUsuario.getPassword());
                Usuario usuario = usuariosDAO.usuarioById(usuarioId.getId());
-
                HttpSession session = req.getSession();
                session.setAttribute("usuario", usuario);
                req.getRequestDispatcher("/jsp/perfil.jsp").forward(req, resp);
@@ -94,8 +93,6 @@ public class RegistroService {
                req.setAttribute("error",  e.getMessage());
                RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
                dispatcher.forward(req, resp);
-           } catch (LoginException e) {
-               throw new RuntimeException(e);
            }
        } catch(Exception e){
            // Enviar a la página de error en caso de excepción

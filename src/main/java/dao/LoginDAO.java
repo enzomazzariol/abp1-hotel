@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 public class LoginDAO {
     // Cambiar consulta SQL para solo seleccionar por nombre
-    public static final String SELECT_USUARIOS_NOMBRE = "SELECT id, nombre, password, eliminado FROM usuarios WHERE nombre = ?";
+    public static final String SELECT_USUARIOS_NOMBRE = "SELECT * FROM usuarios WHERE nombre = ?";
 
     CifradoService cifradoService;
 
