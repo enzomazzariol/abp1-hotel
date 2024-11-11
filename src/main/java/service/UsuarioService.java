@@ -8,20 +8,24 @@ import excepciones.UsuariosException;
 import excepciones.ConexionException;
 
 
+import javax.crypto.SecretKey;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Base64;
 
 public class UsuarioService {
     UsuariosDAO usuariosDAO;
     AdminService adminService;
+    CifradoService cifradoService;
 
     public UsuarioService() {
         this.usuariosDAO = new UsuariosDAO();
         adminService = new AdminService();
+        cifradoService = new CifradoService();
     }
 
     // Método principal para manejar el acceso al perfil
@@ -88,8 +92,7 @@ public class UsuarioService {
             }
 
             manejarPerfil(req, resp);
-        } catch (SQLException | ClassNotFoundException | UsuariosException | ConexionException | ServletException |
-                 IOException e) {
+        } catch (Exception e) {
             // Enviar a la página de error en caso de excepción
             req.setAttribute("error",  e.getMessage());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
@@ -104,21 +107,32 @@ public class UsuarioService {
     public void agregarUsuario(HttpServletRequest req) throws SQLException, ClassNotFoundException, UsuariosException, ConexionException {
         String nombre = req.getParameter("nombre");
         String email = req.getParameter("email");
-        String password = req.getParameter("password"); // Obtener la contraseña
-        //String rolParam = req.getParameter("rol");
+        String password = req.getParameter("password");
+        try {
+            //Obtener o generar la clave DES para cifrar
+            SecretKey clave = cifradoService.obtenerClaveDesdeBD();
+            if (clave == null) {
+                clave = cifradoService.generarClaveDES();
+                System.out.println("Clave generada y almacenada en BD: " + Base64.getEncoder().encodeToString(clave.getEncoded()));
+            }
 
-        // Rol rol = Rol.valueOf(rolParam.toUpperCase());
+            // Cifrar la contraseña
+            String passwordCifrada = cifradoService.cifrarDES(password, clave);
 
-        // Crear nuevo usuario con ID (puedes generarlo en la base de datos)
-        Usuario nuevoUsuario = new Usuario(nombre, email, password);
-        usuariosDAO.insertarUsuario(nuevoUsuario);
-        System.out.println("Nuevo usuario insertado: " + nuevoUsuario);
+            // Crear nuevo usuario
+            Usuario nuevoUsuario = new Usuario(nombre, email, passwordCifrada);
+            usuariosDAO.insertarUsuario(nuevoUsuario);
+            System.out.println("Nuevo usuario insertado: " + nuevoUsuario);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     // -----------------------------------------UPDATES------------------------------------------------------
 
     // ACTUALIZAR USUARIO
-    public void actualizarUsuario(HttpServletRequest req) throws SQLException, UsuariosException, ConexionException {
+    public void actualizarUsuario(HttpServletRequest req) throws Exception {
         int id = Integer.parseInt(req.getParameter("id"));
 
         // Obtener el usuario existente desde la base de datos
@@ -131,29 +145,37 @@ public class UsuarioService {
         String nuevaImagen = req.getParameter("imagen");
         String rolParam = req.getParameter("rol");
 
-        // Si el rol no es nulo, lo convertimos
-        Rol rol = null;
-        if (rolParam != null && !rolParam.isEmpty()) {
-            rol = Rol.valueOf(rolParam.toUpperCase());
-        } else {
-            rol = usuarioExistente.getRol(); // Mantener rol existente si no se proporciona
-        }
+        // Convertir el rol si se proporciona
+        Rol rol = (rolParam != null && !rolParam.isEmpty()) ? Rol.valueOf(rolParam.toUpperCase()) : usuarioExistente.getRol();
 
         // Actualizar campos solo si llegan nuevos valores
         String nombreFinal = (nuevoNombre != null && !nuevoNombre.isEmpty()) ? nuevoNombre : usuarioExistente.getNombre();
+        String passwordFinal = (nuevaPassword != null && !nuevaPassword.isEmpty() ? nuevaPassword : usuarioExistente.getPassword());
         String emailFinal = (nuevoEmail != null && !nuevoEmail.isEmpty()) ? nuevoEmail : usuarioExistente.getEmail();
-        String passwordFinal = (nuevaPassword != null && !nuevaPassword.isEmpty()) ? nuevaPassword : usuarioExistente.getPassword();
         String imagenFinal = (nuevaImagen != null && !nuevaImagen.isEmpty()) ? nuevaImagen : usuarioExistente.getImagen();
 
-        // Crear un nuevo objeto Usuario con los valores actualizados
-        Usuario usuarioActualizado = new Usuario(id, nombreFinal, emailFinal, passwordFinal, rol, usuarioExistente.getFechaRegistro(), usuarioExistente.isEliminado(), imagenFinal);
+        // Obtener la clave DES para cifrar
+        SecretKey clave = cifradoService.obtenerClaveDesdeBD();
+        // Cifrar la contraseña
+        String passwordCifrada = cifradoService.cifrarDES(passwordFinal, clave);
+
+        // Crear un nuevo objeto Usuario con los valores actualizados, incluyendo la contraseña cifrada
+        Usuario usuarioActualizado = new Usuario(
+                id,
+                nombreFinal,
+                emailFinal,
+                passwordCifrada,  // Contraseña cifrada
+                rol,
+                usuarioExistente.getFechaRegistro(),
+                usuarioExistente.isEliminado(),
+                imagenFinal
+        );
 
         // Llamar al DAO para realizar la actualización en la base de datos
         usuariosDAO.actualizarAllUsuario(usuarioActualizado);
 
         System.out.println("Usuario actualizado: " + usuarioActualizado);
     }
-
 
     // -----------------------------------------DELETES------------------------------------------------------
 

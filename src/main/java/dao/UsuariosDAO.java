@@ -2,6 +2,7 @@ package dao;
 
 
 import model.Usuario;
+import service.CifradoService;
 import utils.Rol;
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +10,15 @@ import java.util.ArrayList;
 import excepciones.UsuariosException;
 import excepciones.ConexionException;
 
+import javax.crypto.SecretKey;
+
 public class UsuariosDAO extends Conexion {
+
+    CifradoService cifradoService;
+
+    public UsuariosDAO(){
+        cifradoService = new CifradoService();
+    }
 
     // Constantes SQL para el CRUD
     public static final String SELECT_USUARIOS = "SELECT id, nombre, email, password, rol, fecha_registro, eliminado FROM usuarios where eliminado = 0";
@@ -43,7 +52,6 @@ public class UsuariosDAO extends Conexion {
                 String rolParam = rs.getString("rol"); // Convertir el rol a enum
                 String fechaRegistro = rs.getString("fecha_registro");
                 boolean eliminado = rs.getBoolean("eliminado");
-
                 Rol rol = Rol.valueOf(rolParam.toUpperCase());
 
                 Usuario nuevoUsuario = new Usuario(id, nombre, email, password, rol, fechaRegistro, eliminado);
@@ -51,7 +59,7 @@ public class UsuariosDAO extends Conexion {
 
                 System.out.println(nuevoUsuario);
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new UsuariosException(UsuariosException.ErrorListarUsuarios);
         } finally {
             conn.desconectar();
@@ -84,13 +92,21 @@ public class UsuariosDAO extends Conexion {
                 // Convierte el rol a Enum, asegurando que el string esté en mayúsculas
                 Rol rol = Rol.valueOf(rolParam.toUpperCase());
 
+                // Obtener la clave DES desde la base de datos
+                SecretKey clave = cifradoService.obtenerClaveDesdeBD();
+                if (clave == null) {
+                    throw new RuntimeException();
+                }
+
+                String passwordDescifrada = cifradoService.descifrarDES(password, clave);
+
                 // Crea el objeto Usuario
-                nuevoUsuario = new Usuario(id, nombre, email, password, rol, fechaRegistro, eliminado, imagen);
+                nuevoUsuario = new Usuario(id, nombre, email, passwordDescifrada, rol, fechaRegistro, eliminado, imagen);
 
                 System.out.println(nuevoUsuario); // Imprime el usuario encontrado
             }
 
-        } catch (ConexionException | ClassNotFoundException | SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
             // Cerrar recursos
