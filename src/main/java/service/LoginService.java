@@ -19,10 +19,12 @@ public class LoginService {
 
     LoginDAO loginDAO;
     UsuariosDAO usuariosDAO;
+    UsuarioService usuarioService;
 
     public LoginService() {
         this.loginDAO = new LoginDAO();
         this.usuariosDAO = new UsuariosDAO();
+        this.usuarioService = new UsuarioService();
     }
 
     // GET
@@ -72,7 +74,7 @@ public class LoginService {
                 // req.setAttribute("usuario", usuario);
                 HttpSession session = req.getSession();
                 session.setAttribute("usuario", usuario);
-                req.getRequestDispatcher("/jsp/perfil.jsp").forward(req, resp);
+                usuarioService.forwardUsuarioSesion(req, resp);
 
             }
         } catch(SQLException | ServletException | IOException | LoginException | ConexionException e) {
