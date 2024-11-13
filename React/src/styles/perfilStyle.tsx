@@ -1,130 +1,176 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
-const style= StyleSheet.create({
+const perfilStyle = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1E212D',
+    backgroundColor: '#1E212D', // Similar al fondo oscuro en el JSP
     padding: 20,
+  },
+  title: {
+    color: '#E78F81', // Color del título
+    fontFamily: 'Figtree', // Similar a la fuente de Figtree
+    fontSize: 40,
+    fontWeight: '900',
+    textAlign: 'center',
+    marginTop: 20,
+    lineHeight: 40,
   },
   profileImgContainer: {
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: 20,
   },
   imgWrapper: {
+    borderRadius: 125, // Estilo redondeado para la imagen
+    overflow: 'hidden',
     width: 250,
     height: 250,
-    borderRadius: 125,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#f0f0f0', // Color de fondo cuando la imagen está cargada
     justifyContent: 'center',
     alignItems: 'center',
-    overflow: 'hidden',
   },
   img: {
     width: '100%',
     height: '100%',
-    resizeMode: 'cover',
+    objectFit: 'cover', // Similar a "object-fit: cover" en CSS
     borderRadius: 125,
   },
   changeImageButton: {
-    backgroundColor: '#007bff',
-    color: '#fff',
-    paddingVertical: 8,
-    paddingHorizontal: 15,
-    borderRadius: 5,
     marginTop: 10,
+    padding: 10,
+    backgroundColor: '#007bff', // Color del botón cambiar imagen
+    borderRadius: 5,
   },
   changeImageButtonText: {
     color: '#fff',
+    fontWeight: 'bold',
   },
   profileContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     marginBottom: 20,
   },
   profileText: {
     fontSize: 18,
-    color: '#E78F81',
-    fontFamily: 'Figtree',
-    fontWeight: '400',
+    fontWeight: 'bold',
+    color: '#E78F81', // Estilo de texto del perfil
   },
   profileValue: {
-    fontSize: 16,
-    color: '#000',
-    backgroundColor: '#FAF3E0',
+    marginVertical: 10,
+    padding: 10,
+    backgroundColor: '#FAF3E0', // Fondo similar al color en JSP
     borderRadius: 5,
-    padding: 5,
-    width: '60%',
+    color: '#000', // Color de texto de los valores
   },
   editButton: {
-    backgroundColor: 'transparent',
-    borderColor: '#28a745',
-    borderWidth: 2,
-    paddingVertical: 5,
-    paddingHorizontal: 20,
+    padding: 10,
+    backgroundColor: '#28a745', // Color del botón de editar
     borderRadius: 5,
+    marginTop: 5,
   },
   editButtonText: {
-    color: '#28a745',
+    color: '#fff',
   },
   logoutButton: {
-    backgroundColor: 'transparent',
-    borderColor: '#ED3E22',
-    borderWidth: 2,
-    paddingVertical: 5,
-    paddingHorizontal: 20,
-    borderRadius: 5,
     marginTop: 20,
+    padding: 10,
+    backgroundColor: '#dc3545', // Color del botón de cerrar sesión
+    borderRadius: 5,
   },
   logoutButtonText: {
-    color: '#ED3E22',
-  },
-  adminButton: {
-    backgroundColor: '#E78F81',
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  adminButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
+    color: '#fff',
   },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo oscuro para el modal
   },
   modalContent: {
-    backgroundColor: '#fff',
+    width: 300,
     padding: 20,
+    backgroundColor: 'white',
     borderRadius: 10,
-    width: '80%',
     alignItems: 'center',
   },
   modalTitle: {
-    fontSize: 18,
-    marginBottom: 20,
-  },
-  modalInput: {
-    width: '100%',
-    padding: 10,
-    borderRadius: 5,
-    borderWidth: 1,
+    fontSize: 20,
+    fontWeight: 'bold',
     marginBottom: 20,
   },
   modalButton: {
-    backgroundColor: '#007bff',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    padding: 10,
+    backgroundColor: '#007bff', // Color del botón en el modal
     borderRadius: 5,
-    marginBottom: 10,
+    marginTop: 10,
   },
   modalButtonText: {
     color: '#fff',
+    fontWeight: 'bold',
+  },
+  buttonAdmin: {
+    backgroundColor: 'transparent',
+    borderColor: '#E78F81',
+    color: '#E78F81',
+    padding: 5,
+    fontSize: 16,
+    borderRadius: 5,
+    width: 130,
+    textAlign: 'center',
+    marginTop: 20,
+    alignSelf: 'center',
+  },
+  previewImage: {
+    width: 100,
+    height: 100,
+    marginTop: 20,
+    borderRadius: 50, // Estilo redondeado
+    overflow: 'hidden',
+  },
+  profileContentText: {
+    fontSize: 18,
+    color: '#E78F81',
+    fontFamily: 'Figtree',
+    fontWeight: '400',
+  },
+  profileContentValue: {
+    fontSize: 16,
+    color: '#000000',
+    backgroundColor: '#FAF3E0',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 5,
+  },
+  buttonLoginOut: {
+    backgroundColor: 'transparent',
+    borderColor: '#ED3E22',
+    color: '#ED3E22',
+    padding: 5,
+    fontSize: 16,
+    borderRadius: 5,
+    width: 130,
+    textAlign: 'center',
+  },
+  buttonLoginOutText: {
+    color: '#ED3E22',
+    textAlign: 'center',
+  },
+ 
+  buttonAdminText: {
+    color: '#E78F81',
+    textAlign: 'center',
+  },
+  buttonChangeImg: {
+    backgroundColor: 'transparent',
+    borderColor: '#0056b3',
+    color: '#0056b3',
+    padding: 5,
+    fontSize: 16,
+    borderRadius: 5,
+    width: 130,
+    textAlign: 'center',
+  },
+  buttonChangeImgText: {
+    color: '#0056b3',
+    textAlign: 'center',
   },
 });
 
-export default style;
+export default perfilStyle;
