@@ -26,11 +26,9 @@ const styles = StyleSheet.create({
     marginBottom: 20
    },
 
-   
-
-   
-
-   
+    barraNavegacion: {
+     backgroundColor: "#E78F81",
+    }   
   });
 
   export default styles;
