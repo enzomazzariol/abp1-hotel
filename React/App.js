@@ -9,11 +9,13 @@ export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Login" component={Login} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <PaperProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
+          <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </PaperProvider>
   );
 }
