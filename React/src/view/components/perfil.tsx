@@ -1,84 +1,128 @@
-import React from 'react';
-import { View, Text, Image } from 'react-native';
-import { TextInput, Button } from 'react-native-paper';
-import perfilStyle from '../../styles/perfilStyle'; 
-
-// Ejemplo de usuario en formato JSON
-const usuario = {
-  nombre: 'Juan Pérez',
-  email: 'juan.perez@example.com',
-  imagen: 'https://www.example.com/juan-perez.jpg', // URL de la imagen de perfil
-  rol: 'admin' // Puede ser 'admin' o 'user'
-};
+import React, { useState } from 'react';
+import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet, ScrollView, Modal } from 'react-native';
+import perfilStyle from '../../styles/perfilStyle'; // Importando los estilos
 
 const Perfil = () => {
-  return (
-    <View style={perfilStyle.container}>
-      <Text style={perfilStyle.title}>Perfil de {usuario.nombre}</Text>
+  // Estado del usuario
+  const [usuario, setUsuario] = useState({
+    nombre: 'Juan Pérez',
+    email: 'juan@example.com',
+    password: '********',
+    imagen: '', // Puede ser la URL de la imagen o una imagen local
+    id: 1,
+    rol: 'admin', // o 'usuario'
+  });
 
-      {/* Imagen de perfil */}
-      <View style={perfilStyle.profileImage}>
+  // Estado para el modal de la imagen
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newImagen, setNewImagen] = useState('');
+
+  // Función para cambiar la imagen
+  const handleImageChange = () => {
+    if (newImagen) {
+      setUsuario({ ...usuario, imagen: newImagen }); // Cambiar la imagen de perfil
+      setModalVisible(false); // Cerrar el modal
+    } else {
+      alert('Por favor ingresa una URL válida para la imagen');
+    }
+  };
+
+  return (
+    <ScrollView style={perfilStyle.container}>
+      {/* Contenedor de la imagen de perfil */}
+      <View style={perfilStyle.profileImgContainer}>
         <View style={perfilStyle.imgWrapper}>
           <Image
-            style={perfilStyle.img}
             source={{
-              uri: usuario.imagen ? usuario.imagen : 'https://www.example.com/default-profile.png',
+              uri: usuario.imagen || 'https://img.pokemondb.net/artwork/vaporeon.jpg', // URL predeterminada
             }}
+            style={perfilStyle.img}
           />
         </View>
-        <Button
-          mode="contained"
-          onPress={() => { /* Función para cambiar imagen */ }}
+        <TouchableOpacity
           style={perfilStyle.changeImageButton}
+          onPress={() => setModalVisible(true)} // Abrir modal para cambiar imagen
         >
-          Cambiar foto
-        </Button>
+          <Text style={perfilStyle.changeImageButtonText}>Cambiar foto</Text>
+        </TouchableOpacity>
       </View>
 
-      {/* Información del usuario */}
+      {/* Contenedor para el nombre del usuario */}
       <View style={perfilStyle.profileContent}>
-        <Text style={perfilStyle.profileText}>Nombre:</Text>
-        <Text style={perfilStyle.profileValue}>{usuario.nombre}</Text>
-        <Button mode="outlined">
-          Editar
-        </Button>
+        <Text style={perfilStyle.profileText}>Nombre</Text>
+        <View style={perfilStyle.profileValue}>
+          <Text>{usuario.nombre}</Text>
+        </View>
+        <TouchableOpacity style={perfilStyle.editButton} onPress={() => { /* Lógica para editar nombre */ }}>
+          <Text style={perfilStyle.editButtonText}>Editar</Text>
+        </TouchableOpacity>
       </View>
 
+      {/* Contenedor para el correo electrónico */}
       <View style={perfilStyle.profileContent}>
-        <Text style={perfilStyle.profileText}>Correo Electrónico:</Text>
-        <Text style={perfilStyle.profileValue}>{usuario.email}</Text>
-        <Button mode="outlined" >
-          Editar
-        </Button>
+        <Text style={perfilStyle.profileText}>Correo Electrónico</Text>
+        <View style={perfilStyle.profileValue}>
+          <Text>{usuario.email}</Text>
+        </View>
+        <TouchableOpacity style={perfilStyle.editButton} onPress={() => { /* Lógica para editar email */ }}>
+          <Text style={perfilStyle.editButtonText}>Editar</Text>
+        </TouchableOpacity>
       </View>
 
+      {/* Contenedor para la contraseña */}
       <View style={perfilStyle.profileContent}>
-        <Text style={perfilStyle.profileText}>Contraseña:</Text>
-        <Text style={perfilStyle.profileValue}>********</Text>
-        <Button mode="outlined" >
-          Editar
-        </Button>
+        <Text style={perfilStyle.profileText}>Contraseña</Text>
+        <View style={perfilStyle.profileValue}>
+          <Text>{usuario.password}</Text>
+        </View>
+        <TouchableOpacity style={perfilStyle.editButton} onPress={() => { /* Lógica para editar contraseña */ }}>
+          <Text style={perfilStyle.editButtonText}>Editar</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Botón de cerrar sesión */}
-      <Button
-        mode="contained"
-        onPress={() => { /* Función para cerrar sesión */ }}
-      >
-        Cerrar sesión
-      </Button>
+      <TouchableOpacity style={perfilStyle.logoutButton} onPress={() => { /* Lógica de logout */ }}>
+        <Text style={perfilStyle.logoutButtonText}>Cerrar sesión</Text>
+      </TouchableOpacity>
 
-      {/* Condición para mostrar el botón de admin */}
+      {/* Si el usuario es Admin, mostrar botón de Admin */}
       {usuario.rol === 'admin' && (
-        <Button
-          mode="contained"
-          onPress={() => { /* Función para acceder al panel de admin */ }}
-        >
-          Admin
-        </Button>
+        <TouchableOpacity style={perfilStyle.adminButton} onPress={() => { /* Lógica para admin */ }}>
+          <Text style={perfilStyle.adminButtonText}>Admin</Text>
+        </TouchableOpacity>
       )}
-    </View>
+
+      {/* Modal para cambiar la imagen de perfil */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)} // Cerrar modal
+      >
+        <View style={perfilStyle.modalContainer}>
+          <View style={perfilStyle.modalContent}>
+            <Text style={perfilStyle.modalTitle}>Cambiar Imagen de Perfil</Text>
+            <TextInput
+              style={perfilStyle.modalInput}
+              placeholder="URL de la imagen"
+              value={newImagen}
+              onChangeText={setNewImagen} // Actualizar el estado de la nueva imagen
+            />
+            <TouchableOpacity style={perfilStyle.modalButton} onPress={handleImageChange}>
+              <Text style={perfilStyle.modalButtonText}>Guardar Cambios</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={perfilStyle.modalButton}
+              onPress={() => setModalVisible(false)} // Cerrar el modal sin cambios
+            >
+              <Text style={perfilStyle.modalButtonText}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </ScrollView>
   );
 };
 
 export default Perfil;
+
