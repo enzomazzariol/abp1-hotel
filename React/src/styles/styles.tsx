@@ -28,7 +28,12 @@ const styles = StyleSheet.create({
 
     barraNavegacion: {
      backgroundColor: "#E78F81",
-    }   
+    },
+
+    safeArea: {
+      flex: 1,
+      backgroundColor: '#fff',
+    },
   });
 
   export default styles;

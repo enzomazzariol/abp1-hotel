@@ -16,7 +16,7 @@ public class MisReservasDAO {
                     "       a.nombre_actividad, " +
                     "       ra.estado, " +
                     "       ra.fecha_reserva, " +
-                    "       CONCAT(MIN(rh.fecha_entrada), ' al ', MAX(rh.fecha_salida)) AS fechasReservaHabitacion " +
+                    "       a.fecha_actividad AS fechasReservaHabitacion " +
                     "FROM reserva_actividades ra " +
                     "JOIN actividades a ON ra.id_actividad = a.id " +
                     "LEFT JOIN reserva_habitaciones rh ON ra.id_usuario = rh.id_usuario " +

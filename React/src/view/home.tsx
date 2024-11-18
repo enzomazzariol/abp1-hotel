@@ -1,8 +1,8 @@
 import React from "react";
 import { BottomNavigation, Text } from 'react-native-paper';
-import ActividadesView from "./components/actividadesView";
-import HabitacionesView from "./components/habitacionesView";
-import perfil from "./components/perfil";
+import ActividadesView from "./actividadesView";
+import HabitacionesView from "./habitacionesView";
+import perfil from "./perfil";
 import reservasView from "./components/reservasView";
 import styles from "../styles/styles";
 

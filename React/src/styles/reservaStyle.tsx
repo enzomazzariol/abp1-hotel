@@ -7,7 +7,7 @@ const reservaStyle = StyleSheet.create({
     titleView: {
         alignItems: 'center',
         padding: 10,
-        paddingTop: 15,
+        marginTop: 50,
     },
     title: {
         fontSize: 40,

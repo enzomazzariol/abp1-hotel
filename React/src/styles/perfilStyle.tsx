@@ -4,8 +4,9 @@ const perfilStyle = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1E212D', // Similar al fondo oscuro en el JSP
-    padding: 20,
+    padding: 40,
   },
+
   title: {
     color: '#E78F81', // Color del título
     fontFamily: 'Figtree', // Similar a la fuente de Figtree
@@ -15,10 +16,13 @@ const perfilStyle = StyleSheet.create({
     marginTop: 20,
     lineHeight: 40,
   },
+
   profileImgContainer: {
     alignItems: 'center',
     marginBottom: 20,
+    marginTop: 20,
   },
+
   imgWrapper: {
     borderRadius: 125, // Estilo redondeado para la imagen
     overflow: 'hidden',
@@ -28,30 +32,36 @@ const perfilStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   img: {
     width: '100%',
     height: '100%',
     objectFit: 'cover', // Similar a "object-fit: cover" en CSS
     borderRadius: 125,
   },
+
   changeImageButton: {
     marginTop: 10,
     padding: 10,
-    backgroundColor: '#007bff', // Color del botón cambiar imagen
+    backgroundColor: '#E78F81', // Color del botón cambiar imagen
     borderRadius: 5,
   },
+
   changeImageButtonText: {
     color: '#fff',
     fontWeight: 'bold',
   },
+  
   profileContent: {
     marginBottom: 20,
   },
+
   profileText: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#E78F81', // Estilo de texto del perfil
   },
+
   profileValue: {
     marginVertical: 10,
     padding: 10,
@@ -59,52 +69,63 @@ const perfilStyle = StyleSheet.create({
     borderRadius: 5,
     color: '#000', // Color de texto de los valores
   },
+
   editButton: {
     padding: 10,
     backgroundColor: '#28a745', // Color del botón de editar
     borderRadius: 5,
     marginTop: 5,
   },
+  
   editButtonText: {
     color: '#fff',
   },
+
   logoutButton: {
     marginTop: 20,
     padding: 10,
     backgroundColor: '#dc3545', // Color del botón de cerrar sesión
     borderRadius: 5,
   },
+
   logoutButtonText: {
     color: '#fff',
   },
+
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo oscuro para el modal
   },
+
   modalContent: {
     width: 300,
     padding: 20,
-    backgroundColor: 'white',
     borderRadius: 10,
     alignItems: 'center',
+    backgroundColor: "#FAF3E0",
   },
+
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
   },
+
   modalButton: {
     padding: 10,
-    backgroundColor: '#007bff', // Color del botón en el modal
+    backgroundColor: '#E78F81', // Color del botón en el modal
     borderRadius: 5,
     marginTop: 10,
+    width: "50%",
   },
   modalButtonText: {
+    textAlign: 'center',
     color: '#fff',
     fontWeight: 'bold',
   },
+
   buttonAdmin: {
     backgroundColor: 'transparent',
     borderColor: '#E78F81',
@@ -117,6 +138,7 @@ const perfilStyle = StyleSheet.create({
     marginTop: 20,
     alignSelf: 'center',
   },
+
   previewImage: {
     width: 100,
     height: 100,
@@ -124,12 +146,14 @@ const perfilStyle = StyleSheet.create({
     borderRadius: 50, // Estilo redondeado
     overflow: 'hidden',
   },
+
   profileContentText: {
     fontSize: 18,
     color: '#E78F81',
     fontFamily: 'Figtree',
     fontWeight: '400',
   },
+
   profileContentValue: {
     fontSize: 16,
     color: '#000000',
@@ -138,6 +162,7 @@ const perfilStyle = StyleSheet.create({
     borderRadius: 5,
     marginTop: 5,
   },
+
   buttonLoginOut: {
     backgroundColor: 'transparent',
     borderColor: '#ED3E22',
@@ -148,6 +173,7 @@ const perfilStyle = StyleSheet.create({
     width: 130,
     textAlign: 'center',
   },
+
   buttonLoginOutText: {
     color: '#ED3E22',
     textAlign: 'center',
@@ -156,6 +182,7 @@ const perfilStyle = StyleSheet.create({
   buttonAdminText: {
     color: '#E78F81',
     textAlign: 'center',
+    marginBottom: 30,
   },
   buttonChangeImg: {
     backgroundColor: 'transparent',
