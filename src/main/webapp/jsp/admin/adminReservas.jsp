@@ -25,8 +25,12 @@
                         <td class="user-td"><%= reserva.getTipoReserva() %></td>
                         <td class="user-td"><%= reserva.getDetalleReserva() %></td>
                         <td class="user-td"><%= reserva.getEstado() %></td>
-                        <td class="user-td"><%= reserva.getFechaEntrada() %></td>
-                        <td class="user-td"><%= reserva.getFechaSalida() %></td>
+                        <td class="user-td">
+                            <%= (reserva.getFechaEntrada() == null || reserva.getFechaEntrada().isEmpty()) ? "No disponible" : reserva.getFechaEntrada()%>
+                        </td>
+                        <td class="user-td">
+                            <%= (reserva.getFechaSalida() == null || reserva.getFechaSalida().isEmpty()) ? "No disponible" : reserva.getFechaSalida() %>
+                        </td>
                         <td class="user-td"><%= reserva.getFechaReserva() %></td>
                     </tr>
                     <% 

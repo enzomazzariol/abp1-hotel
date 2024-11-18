@@ -59,7 +59,7 @@ public class LoginService {
 
             // Logica para comprobar el nombre y la contraseña.
             Usuario usuarioActual = this.loginDAO.checklogin(nombre, password);
-            if (usuarioActual.getId() == 0) {
+            if (usuarioActual == null) {
                 errores.add("Usuario o contraseña incorrecto");
             } else if (usuarioActual.isEliminado()) {
                 errores.add("El usuario ha sido eliminado");

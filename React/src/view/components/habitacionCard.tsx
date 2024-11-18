@@ -1,8 +1,7 @@
-import { View, Image, ScrollView } from "react-native";
-import actividadesStyle from "../../styles/actividadesStyle";
-import { Button, Card, Modal, Portal, Text, TextInput } from "react-native-paper";
 import { useState } from "react";
-import { lightBlue100 } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
+import { View, Image } from "react-native";
+import { Button, Card, Modal, Portal, Text, TextInput } from "react-native-paper";
+import actividadesStyle from "../../styles/actividadesStyle";
 
 const imagenes = {
     'Habitacion_sencilla.jpg': require('../../assets/Habitacion_sencilla.jpg'),
@@ -10,37 +9,14 @@ const imagenes = {
     'Habitacion_suite.jpg': require('../../assets/Habitacion_suite.jpg'),
   };
 
-const habitacionData = [
-    {
-        "tipoHabitacion": "sencilla", 
-        "imagen": "Habitacion_sencilla.jpg",
-        "precio": 50.00,
-        "estado": "disponible"
-    },
-    {
-        "tipoHabitacion": "doble",
-        "imagen": "Habitacion_doble.jpg",
-        "precio": 80.00,
-        "estado": "disponible"
-    },
-    {
-        "tipoHabitacion": "suite",
-        "imagen": "Habitacion_suite.jpg",
-        "precio": 150.00,
-        "estado": "disponible"
-    }
-]
-
-export const HabitacionesView = () =>{
+export function HabitacionCard({habitacion}) {
     const [visible, setVisible] = useState(false);
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
-      
+
     return(
-        <ScrollView>
-            <View style={actividadesStyle.container}>
-                <Text style={actividadesStyle.title}>Habitaciones view</Text>
-                    {habitacionData.map((item, index) => (
+        <View style={actividadesStyle.cardContainer}>
+        {habitacion.map((item, index) => (
                         <Card style={actividadesStyle.actividadContainer} key={index}>
                             <Image source={imagenes[item.imagen]} style={actividadesStyle.actividadImagen} />
                             <Card.Content>
@@ -78,10 +54,6 @@ export const HabitacionesView = () =>{
                             </Card.Content>
                         </Card>
                     ))}
-                    
-            </View>
-        </ScrollView>
+        </View>
     )
 }
-
-export default HabitacionesView;

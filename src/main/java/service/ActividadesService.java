@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ActividadesService {
 
@@ -37,6 +38,10 @@ public class ActividadesService {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
             dispatcher.forward(req, resp);
         }
+    }
+
+    public ArrayList<Actividad> listarActividades() throws ConexionException, SQLException, ActividadesException, ClassNotFoundException {
+        return actividadesDAO.listarActividades();
     }
 
     public void menuPostActividad(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

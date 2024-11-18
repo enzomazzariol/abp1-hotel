@@ -243,7 +243,7 @@
                                                             <div class="table-cell-head">Nombre</div>
                                                             <div class="table-cell-head">Estado</div>
                                                             <div class="table-cell-head">Fecha Reserva</div>
-                                                            <div class="table-cell-head">Reserva</div>
+                                                            <div class="table-cell-head">Fecha Actividad</div>
                                                             <div class="table-cell-head">Acciones</div>
                                                         </div>
                                                     </div>

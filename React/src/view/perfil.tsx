@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Image, TouchableOpacity, Modal, Button, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import perfilStyle from '../../styles/perfilStyle';
+import perfilStyle from '../styles/perfilStyle';
 
 // Componente de perfil
 const Perfil = () => {
@@ -71,12 +71,14 @@ const Perfil = () => {
 
       <View style={perfilStyle.profileContent}>
         <Text style={perfilStyle.profileText}>Nombre</Text>
+        <View>
         <View style={perfilStyle.profileValue}>
           <Text>{usuario.nombre}</Text>
         </View>
         <TouchableOpacity style={perfilStyle.editButton} onPress={() => { /* Lógica para editar */ }}>
           <Text style={perfilStyle.editButtonText}>Editar</Text>
         </TouchableOpacity>
+        </View>
       </View>
 
       <View style={perfilStyle.profileContent}>
@@ -111,7 +113,6 @@ const Perfil = () => {
       )}
        
 
-
       {/* Modal para cambiar la imagen de perfil */}
       <Modal
         animationType="slide"
@@ -135,6 +136,7 @@ const Perfil = () => {
             <TouchableOpacity style={perfilStyle.modalButton} onPress={handleImageChange}>
               <Text style={perfilStyle.modalButtonText}>Guardar Cambios</Text>
             </TouchableOpacity>
+            
             <TouchableOpacity
               style={perfilStyle.modalButton}
               onPress={() => setModalVisible(false)} 

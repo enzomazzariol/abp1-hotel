@@ -43,6 +43,10 @@ const actividadesStyle = StyleSheet.create({
       },
 
       // Card
+      cardContainer: {
+        backgroundColor: "#1E212D",
+      },
+
       cardTitle: {
         fontSize: 28,
         fontWeight: 300,
