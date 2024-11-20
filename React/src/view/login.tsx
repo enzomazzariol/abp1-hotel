@@ -32,10 +32,6 @@ export const Login = ({ navigation }) => {
             alert('Usuario o contraseña incorrecto. Intenta de nuevo.');
         }
     };
-
-    async function loginCall() {
-        const data = await userLogin();
-    }
     
     return (
             <View style={loginStyle.container}>
@@ -62,7 +58,7 @@ export const Login = ({ navigation }) => {
                         onChangeText={(text) => setPassword(text)}  
                         secureTextEntry 
                     />
-                    <Button style={loginStyle.button} icon="login" mode="contained" onPress={() => loginCall()}>
+                    <Button style={loginStyle.button} icon="login" mode="contained" onPress={() => userLogin()}>
                         Acceder
                     </Button>
                 </View>
