@@ -1,46 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
-import styles from "../../styles/styles";
-import { Provider as PaperProvider, TextInput, Card, Button } from "react-native-paper";
-import reservaStyle from '../../styles/reservaStyle';
+import { Provider as PaperProvider, Card, Button, Portal, Modal } from "react-native-paper";
+import reservaStyle from "../../styles/reservaStyle";
 import { DetalleReservaActividad, DetalleReservaHabitacion } from "../../model/Reserva";
-
-const reservasData = {
-    detalleReservaActividad: [
-        {
-            id: 1,
-            nombreActividad: "Surf en Cala Blava",
-            estadoReservaActividad: "reservado",
-            fechaReservaActividad: "2024-11-01",
-        },
-        {
-            id: 2,
-            nombreActividad: "Yoga al amanecer",
-            estadoReservaActividad: "completado",
-            fechaReservaActividad: "2024-10-20"
-        }
-    ],
-    detalleReservaHabitacion: [
-        {
-            id: 1,
-            tipoDeHabitacion: "Suite",
-            estadoReserva: "reservado",
-            fechaReserva: "2024-11-01",
-            fechas: "2024-11-01 a 2024-11-03"
-        },
-        {
-            id: 2,
-            tipoDeHabitacion: "Doble",
-            estadoReserva: "cancelado",
-            fechaReserva: "2024-10-15",
-            fechas: "2024-10-15 a 2024-10-18"
-        }
-    ]
-};
+import { getReservas, sendReservas } from "../../dao/ReservasDao";
 
 export const ReservasView = () => {
-    const [detalleReservaActividad, setDetalleReservaActividad] = useState<DetalleReservaActividad[]>(reservasData.detalleReservaActividad);
-    const [detalleReservaHabitacion, setDetalleReservaHabitacion] = useState<DetalleReservaHabitacion[]>(reservasData.detalleReservaHabitacion);
+    const [detalleReservaActividad, setDetalleReservaActividad] = useState<DetalleReservaActividad[]>([]);
+    const [detalleReservaHabitacion, setDetalleReservaHabitacion] = useState<DetalleReservaHabitacion[]>([]);
+    const [visibleActividad, setVisibleActividad] = useState(false);
+    const [visibleHabitacion, setVisibleHabitacion] = useState(false);
+    const [reservaSeleccionada, setReservaSeleccionada] = useState<any>(null);
+
+    useEffect(() => {
+        cargarReservas();
+    }, []);
+
+    // Función para cargar datos
+    const cargarReservas = async () => {
+        try {
+            const { reservasActividad, reservasHabitacion } = await getReservas();
+            setDetalleReservaActividad(reservasActividad);
+            setDetalleReservaHabitacion(reservasHabitacion);
+        } catch (error) {
+            console.error("Error al cargar las reservas:", error);
+        }
+    };
+
+    // Abrir modal para actividades
+    const showModalActividad = (actividad: DetalleReservaActividad) => {
+        setReservaSeleccionada(actividad);
+        setVisibleActividad(true);
+    };
+
+    // Abrir modal para habitaciones
+    const showModalHabitacion = (habitacion: DetalleReservaHabitacion) => {
+        setReservaSeleccionada(habitacion);
+        setVisibleHabitacion(true);
+    };
+
+    // Cerrar modal
+    const hideModal = () => {
+        setReservaSeleccionada(null);
+        setVisibleActividad(false);
+        setVisibleHabitacion(false);
+    };
 
     return (
         <ScrollView style={reservaStyle.content}>
@@ -57,18 +61,61 @@ export const ReservasView = () => {
                     <Card key={actividad.id} style={reservaStyle.reserva}>
                         <Card.Content>
                             <Text style={reservaStyle.titleContentReserva}>{actividad.nombreActividad}</Text>
-                            <Text style={reservaStyle.subtitleContentReserva}>Estado: {actividad.estadoReservaActividad}</Text>
+                            <Text style={reservaStyle.subtitleContentReserva}>Estado: <Text style={reservaStyle.underling}>{actividad.estadoReservaActividad}</Text></Text>
                             <Text style={reservaStyle.subtitleContentReserva}>Fecha de la Reserva: {actividad.fechaReservaActividad}</Text>
                         </Card.Content>
+
                         <View style={reservaStyle.actionReserva}>
-                            <Card.Actions>
-                                <Button style={reservaStyle.buttonBorder} onPress={() => {/* Lógica para cancelar */ }}><Text style={reservaStyle.buttonColor}>Cancelar</Text></Button>
-                                <Button style={reservaStyle.buttonBackground} onPress={() => {/* Lógica para completar */ }}>Completado</Button>
-                            </Card.Actions>
+                            {actividad.estadoReservaActividad == "reservado" && (
+                                <Card.Actions>
+                                    <Button
+                                        style={reservaStyle.buttonBorder}
+                                        onPress={() => showModalActividad(actividad)}
+                                    >
+                                        <Text style={reservaStyle.buttonColor}>Ver Detalles</Text>
+                                    </Button>
+                                </Card.Actions>
+                            )}
                         </View>
+
                     </Card>
                 ))}
             </View>
+
+            {/* Modal para actividades */}
+            <Portal>
+                <Modal visible={visibleActividad} onDismiss={hideModal} style={reservaStyle.modal}>
+                    <Text style={reservaStyle.modalTitle}>{reservaSeleccionada?.nombreActividad}</Text>
+                    <Text style={reservaStyle.modalDescription}>Estado: {reservaSeleccionada?.estadoReservaActividad}</Text>
+                    <Text style={reservaStyle.modalDescription}>Fecha: {reservaSeleccionada?.fechaReservaActividad}</Text>
+
+                    <View style={reservaStyle.buttonRow}>
+                        <Button
+                            style={[reservaStyle.buttonBackground, reservaStyle.buttonSpacing]}
+                            onPress={() => {
+                                sendReservas("actualizarActividades", reservaSeleccionada.id, setVisibleActividad, cargarReservas);
+                                console.log("Acción completada sobre la reserva:", reservaSeleccionada);
+                                hideModal();
+                            }}
+                        >
+                            <Text style={reservaStyle.cardButtonText}>Completado</Text>
+                        </Button>
+                        <Button
+                            style={[reservaStyle.buttonBackground, reservaStyle.buttonSpacing]}
+                            onPress={() => {
+                                sendReservas("eliminarActividades", reservaSeleccionada.id, setVisibleActividad, cargarReservas);
+                                console.log("Acción cancelada sobre la reserva:", reservaSeleccionada);
+                                hideModal();
+                            }}
+                        >
+                            <Text style={reservaStyle.cardButtonText}>Cancelar</Text>
+                        </Button>
+                    </View>
+                    <Button style={reservaStyle.modalButton} onPress={hideModal}>
+                        <Text style={reservaStyle.cardButtonText}>Volver</Text>
+                    </Button>
+                </Modal>
+            </Portal>
 
             {/* Reservas de Habitaciones */}
             <View style={reservaStyle.contentView}>
@@ -79,21 +126,63 @@ export const ReservasView = () => {
                     <Card key={habitacion.id} style={reservaStyle.reserva}>
                         <Card.Content>
                             <Text style={reservaStyle.titleContentReserva}>{habitacion.tipoDeHabitacion}</Text>
-                            <Text style={reservaStyle.subtitleContentReserva}>Estado: {habitacion.estadoReserva}</Text>
-                            <Text style={reservaStyle.subtitleContentReserva}>Fecha de la Reserva: {habitacion.fechaReserva}</Text>
+                            <Text style={reservaStyle.subtitleContentReserva}>Estado: <Text style={reservaStyle.underling}>{habitacion.estadoReserva}</Text></Text>
                             {habitacion.fechas && <Text style={reservaStyle.subtitleContentReserva}>Fechas: {habitacion.fechas}</Text>}
                         </Card.Content>
+
                         <View style={reservaStyle.actionReserva}>
-                            <Card.Actions>
-                                <Button style={reservaStyle.buttonBorder} onPress={() => {/* Lógica para cancelar */ }}><Text style={reservaStyle.buttonColor}>Cancelar</Text></Button>
-                                <Button style={reservaStyle.buttonBackground} onPress={() => {/* Lógica para completar */ }}>Completado</Button>
-                            </Card.Actions>
+                            {habitacion.estadoReserva == "reservado" && (
+                                <Card.Actions>
+                                    <Button
+                                        style={reservaStyle.buttonBorder}
+                                        onPress={() => showModalHabitacion(habitacion)}
+                                    >
+                                        <Text style={reservaStyle.buttonColor}>Ver Detalles</Text>
+                                    </Button>
+                                </Card.Actions>
+                            )}
                         </View>
+
                     </Card>
                 ))}
             </View>
+
+            {/* Modal para habitaciones */}
+            <Portal>
+                <Modal visible={visibleHabitacion} onDismiss={hideModal} style={reservaStyle.modal}>
+                    <Text style={reservaStyle.modalTitle}>{reservaSeleccionada?.tipoDeHabitacion}</Text>
+                    <Text style={reservaStyle.modalDescription}>Estado: {reservaSeleccionada?.estadoReserva}</Text>
+                    <Text style={reservaStyle.modalDescription}>Fechas: {reservaSeleccionada?.fechas}</Text>
+
+                    <View style={reservaStyle.buttonRow}>
+                        <Button
+                            style={[reservaStyle.buttonBackground, reservaStyle.buttonSpacing]}
+                            onPress={() => {
+                                sendReservas("actualizarHabitaciones", reservaSeleccionada.id, setVisibleHabitacion, cargarReservas);
+                                console.log("Acción completada sobre la reserva:", reservaSeleccionada);
+                                hideModal();
+                            }}
+                        >
+                            <Text style={reservaStyle.cardButtonText}>Completado</Text>
+                        </Button>
+                        <Button
+                            style={[reservaStyle.buttonBackground, reservaStyle.buttonSpacing]}
+                            onPress={() => {
+                                sendReservas("eliminarHabitaciones", reservaSeleccionada.id, setVisibleHabitacion, cargarReservas);
+                                console.log("Acción cancelada sobre la reserva:", reservaSeleccionada);
+                                hideModal();
+                            }}
+                        >
+                            <Text style={reservaStyle.cardButtonText}>Cancelar</Text>
+                        </Button>
+                    </View>
+                    <Button style={reservaStyle.modalButton} onPress={hideModal}>
+                        <Text style={reservaStyle.cardButtonText}>Volver</Text>
+                    </Button>
+                </Modal>
+            </Portal>
         </ScrollView>
     );
-}
+};
 
 export default ReservasView;

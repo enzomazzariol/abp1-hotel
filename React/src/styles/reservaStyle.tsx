@@ -29,11 +29,15 @@ const reservaStyle = StyleSheet.create({
         fontFamily: 'Copperplate',
         color: "#E78F81",
     },
+    underling: {
+        fontWeight: "bold",
+        fontFamily: 'Cochin',
+        fontSize: 20,
+    },
     reserva: {
         margin: 10,
         padding: 10,
         backgroundColor: "#EAD7BB",
-
     },
     titleContentReserva: {
         fontSize: 25,
@@ -60,7 +64,72 @@ const reservaStyle = StyleSheet.create({
     buttonBorder: {
         borderColor: "#E78F81",
         borderWidth: 2,
-    }
-})
+    },
+    noDataText: {
+        fontSize: 18,
+        textAlign: "center",
+        color: "#EAD7BB",
+        fontFamily: "Cochin",
+        marginVertical: 20,
+    },
+    cardButton: {
+        padding: 2,
+        backgroundColor: "#E78F81",
+        color: "#1E1E1E"
+    },
+
+    cardButtonText: {
+        color: "#1E1E1E",
+        fontWeight: 700,
+        fontFamily: "KohinoorTelugu-Medium"
+    },
+
+    modal: {
+        backgroundColor: "#FAF3E0",
+        padding: 25,
+        height: 300,
+        width: 340,
+        borderRadius: 12,
+        marginHorizontal: 40,
+        marginTop: 280,
+    },
+
+    modalTitle: {
+        fontSize: 24,
+        fontWeight: 900,
+        fontFamily: "Copperplate",
+        textAlign: "center",
+        marginBottom: 20
+    },
+
+    modalDescription: {
+        fontSize: 20,
+        fontFamily: "KohinoorTelugu-Medium",
+        textAlign: "center",
+        marginBottom: 20
+    },
+
+    modalButton: {
+        padding: 2,
+        marginTop: 10,
+        backgroundColor: "transparent",
+        color: "#1E1E1E",
+        borderColor: "#E78F81",
+        borderWidth: 2
+    },
+    buttonRow: {
+        flexDirection: "row", // Alinea los botones en fila
+        justifyContent: "space-around", // Espacio uniforme entre los botones
+        marginBottom: 10,
+    },
+    buttonSpacing: {
+        flex: 1, // Permite que los botones ocupen espacio uniforme
+        marginHorizontal: 5, // Espaciado lateral entre botones
+    },
+    
+
+
+
+});
 
 export default reservaStyle;

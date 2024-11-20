@@ -2,7 +2,7 @@
 
 export const getHabitaciones = async () => {
     try {
-        const response = await fetch(`http://10.4.14.248:8080/untitled/habitacionJSON`, {
+        const response = await fetch(`http://10.4.6.142:8080/untitled/habitacionJSON`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
