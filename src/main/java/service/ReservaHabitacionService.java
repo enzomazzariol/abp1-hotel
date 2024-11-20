@@ -118,10 +118,35 @@ public class ReservaHabitacionService {
 
     }
 
+    public void actualizarEstadoReservaHabitacionJSON(int id) throws SQLException, ReservaHabitacionException, ConexionException, ServletException, IOException {
+        /*String estadoParam = req.getParameter("estado"); Para el Postman*/
+        String estadoParam = "completado";
+
+        Estado estado = Estado.valueOf(estadoParam.toUpperCase());
+
+        // Crear una nueva instancia de Habitacion con id.
+        ReservaHabitacion nuevaReservaHabitacion = new ReservaHabitacion(id, estado);
+
+        // Se actualiza la habitacion a la base de datos.
+        reservaHabitacionDAO.actualizarEstadoReservaHabitacion(nuevaReservaHabitacion);
+
+        // Imprime por consola la Habitacion actualiza.
+        System.out.println("Reserva de habitación actualizada: " + nuevaReservaHabitacion);
+
+    }
+
     public void eliminarReservaHabitacion(HttpServletRequest req) throws SQLException, ClassNotFoundException, ReservaHabitacionException, ConexionException {
         // Obtener los parámetros de la solicitud
         int id = Integer.parseInt(req.getParameter("id"));
 
+        // Se elimina la habitacion con el id.
+        reservaHabitacionDAO.actualizarEliminadoReservaHabitacion(id);
+
+        // Imprime por consola la Habitacion actualiza.
+        System.out.println("Se ha eliminado la reserva de habitacion con id " + id);
+    }
+
+    public void eliminarReservaHabitacionJSON(int id) throws SQLException, ClassNotFoundException, ReservaHabitacionException, ConexionException {
         // Se elimina la habitacion con el id.
         reservaHabitacionDAO.actualizarEliminadoReservaHabitacion(id);
 

@@ -1,9 +1,13 @@
 package service;
 
 import dao.MisReservasDAO;
+import excepciones.ActividadesException;
 import excepciones.ConexionException;
 import excepciones.ReservaActividadesException;
 import excepciones.ReservaHabitacionException;
+import model.Actividad;
+import model.DetalleReservaActividad;
+import model.DetalleReservaHabitacion;
 import model.Usuario;
 
 import javax.servlet.RequestDispatcher;
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class MisReservasService {
     public MisReservasDAO misReservasDAO;
@@ -97,5 +102,38 @@ public class MisReservasService {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public void menuPostMisReservasJSON(String[] reservaData) {
+        try {
+            String action = reservaData[0];
+            int id = Integer.parseInt(reservaData[1]);
+
+            if ("actualizarActividades".equals(action)) {
+                reservaActividadService.actualizarReservaActividadJSON(id);
+            } else if ("eliminarActividades".equals(action)) {
+                reservaActividadService.eliminarReservaActividadJSON(id);
+            } else if ("actualizarHabitaciones".equals(action)) {
+                reservaHabitacionService.actualizarEstadoReservaHabitacionJSON(id);
+            } else if ("eliminarHabitaciones".equals(action)) {
+                reservaHabitacionService.eliminarReservaHabitacionJSON(id);
+            }
+        } catch (SQLException | IOException | ConexionException | ReservaActividadesException | ClassNotFoundException |
+                 ReservaHabitacionException | ServletException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+
+    public ArrayList<DetalleReservaActividad> listarReservasActividad() throws ConexionException, SQLException, ActividadesException, ClassNotFoundException {
+        int idUsuario = 1;
+        return misReservasDAO.reservaActividadesById(idUsuario);
+    }
+
+    public ArrayList<DetalleReservaHabitacion> listarReservasHabitacion() throws ConexionException, SQLException, ActividadesException, ClassNotFoundException {
+        int idUsuario = 1;
+        return misReservasDAO.reservaHabitacionesById(idUsuario);
     }
 }
