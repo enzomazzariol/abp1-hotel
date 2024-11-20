@@ -1,5 +1,6 @@
 // src/dao/ReservasDAO.js
-const url: string = "http://10.4.6.142:8080/untitled";
+import { url } from "../utils/Constants";
+
 export const getReservas = async () => {
     try {
         const response = await fetch(`${url}/misReservasJSON`, {
@@ -13,11 +14,11 @@ export const getReservas = async () => {
             throw new Error(`Error en la solicitud: ${response.statusText}`);
         }
 
+        console.log("Datos obtenidos con exito");
         const data = await response.json();
-        console.log("Datos obtenidos:", data);
-
         // Retornar las dos listas separadas
         return {
+            
             reservasActividad: data.reservasActividad || [],
             reservasHabitacion: data.reservasHabitacion || [],
         };
@@ -44,6 +45,7 @@ export async function sendReservas(action: string, id: number, setVisible: (valu
         }
 
         const data = await response.json();
+        // volver a cargar las reservas
         cargarReservas();
         setVisible(false); // Cierra el modal correspondiente
         console.log("Respuesta del servidor:", data);

@@ -1,5 +1,6 @@
 package service;
 
+import com.google.gson.Gson;
 import dao.ActividadesDAO;
 import dao.ReservaActividadesDAO;
 import excepciones.ReservaActividadesException;
@@ -16,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ActividadesService {
 
@@ -132,5 +136,110 @@ public class ActividadesService {
         Actividad actividad = actividadesDAO.obtenerActividadPorId(idActividad); // Implementa este método para obtener la actividad
         actividad.reducirCupo(); // Reducimos el cupo en la instancia
         actividadesDAO.actualizarCupo(idActividad, actividad.getCupo()); // Actualizamos el cupo en la base de datos
+    }
+
+
+    //------------------- APP Methods ------------------------------//
+
+    public void getActividadesApp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // Permitir CORS para cualquier origen
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+        resp.setStatus(HttpServletResponse.SC_OK);
+
+        ActividadesService actividadesService = new ActividadesService();
+
+        // Creamos un mapa con los datos que queremos devolver
+        ArrayList actividades;
+        try {
+            actividades = actividadesService.listarActividades();
+        } catch (ConexionException | ActividadesException | SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(actividades);
+        // Convertimos el mapa a JSON usando Gson
+        Gson gson = new Gson();
+        String jsonResponse = gson.toJson(actividades);
+
+        // Configuramos el tipo de contenido para la respuesta
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+
+        // Enviamos el JSON como respuesta
+        resp.getWriter().write(jsonResponse);
+    }
+
+    // Recibir datos de la reserva del front para enviarlos al DAO
+    public void insertReservaActividadApp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+        String getAction = req.getReader().readLine();
+
+        // Eliminar cualquier envoltura de comillas (por si las hubiera)
+        getAction = getAction.replaceAll("^\"|\"$", "");
+
+        String[] action = getAction.split("-");
+        System.out.println("Actividad recibida: " + Arrays.toString(action));
+
+        // convertir array de string a int
+        int[] actividadData = Arrays.stream(action).mapToInt(Integer::parseInt).toArray();
+
+        if (action.length != 0) {
+            // Procesar la acción recibida
+            System.out.println("Acción recibida correctamente");
+
+            //hacer insert a la base de datos (insertar reserva de actividad)
+            try {
+                // pasar array de int como arg
+                agregarReservaActividadApp(actividadData);
+            } catch (SQLException | ConexionException | ActividadesException | ReservaActividadesException e) {
+                throw new RuntimeException(e);
+            }
+
+            // Responder con un mensaje
+            Map<String, String> responseData = new HashMap<>();
+            responseData.put("message", "Acción procesada: " + Arrays.toString(action));
+
+            Gson gson = new Gson();
+            String jsonResponse = gson.toJson(responseData);
+
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            resp.getWriter().write(jsonResponse);
+
+        } else {
+            // Si no se recibe la acción, enviar error
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            Map<String, String> responseData = new HashMap<>();
+            responseData.put("error", "No se recibió la acción");
+
+            Gson gson = new Gson();
+            String jsonResponse = gson.toJson(responseData);
+            resp.getWriter().write(jsonResponse);
+        }
+    }
+
+    //Hacer insert para reservar actividad desde react
+    public void agregarReservaActividadApp(int[] actividadData) throws ConexionException, ReservaActividadesException, SQLException, ActividadesException {
+        try {
+            int id = actividadData[0];
+            int id_actividad = actividadData[1];
+            Estado estado = Estado.RESERVADO;
+
+            // Crea la nueva instancia de Reserva Actividad
+            ReservaActividad reservaActividad = new ReservaActividad(id, id_actividad, estado);
+
+            // insertamos la actividad en la BD
+            reservaActividadesDAO.insertarActividad(reservaActividad);
+            System.out.println("Se ha creado la reserva de la actividad: " + reservaActividad.getIdActividad());
+
+            // Reducir el cupo de la actividad
+            Actividad actividad = actividadesDAO.obtenerActividadPorId(id_actividad); // Implementa este método para obtener la actividad
+            actividad.reducirCupo(); // Reducimos el cupo en la instancia
+            actividadesDAO.actualizarCupo(id_actividad, actividad.getCupo()); // Actualizamos el cupo en la base de datos
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

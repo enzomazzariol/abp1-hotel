@@ -3,13 +3,40 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import { Provider as PaperProvider, TextInput } from "react-native-paper";
 import { Button } from 'react-native-paper';
 import loginStyle from "../styles/loginStyle";
-import styles from "../styles/styles";
-
+import { url } from "../utils/Constants";
 export const Login = ({ navigation }) => {
 
-    const [usuario, setUsuario] = useState("");
-    const [password, setPassword] = useState("");
+    const [usuario, setUsuario] = useState(null);
+    const [password, setPassword] = useState(null);
 
+    const userLogin = async () => {
+        try {
+            const response = await fetch(`${url}/loginJSON`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(usuario + '-' + password),
+            });
+    
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`); 
+            }
+    
+            const data = await response.json();
+            console.log('Login exitoso:', data);
+            navigation.navigate('Home');
+
+        } catch (error) {
+            console.log('Error al iniciar sesión:', error);
+            alert('Usuario o contraseña incorrecto. Intenta de nuevo.');
+        }
+    };
+
+    async function loginCall() {
+        const data = await userLogin();
+    }
+    
     return (
             <View style={loginStyle.container}>
                 <View style={loginStyle.imageContainer}>
@@ -22,9 +49,20 @@ export const Login = ({ navigation }) => {
                     <View style={loginStyle.viewTitle}>
                         <Text style={loginStyle.title}>Login</Text>
                     </View>
-                    <TextInput label="Usuario" style={loginStyle.inputBackground} value={usuario} onChangeText={setUsuario} />
-                    <TextInput label="Password" style={loginStyle.inputBackground} value={password} onChangeText={setPassword} secureTextEntry />
-                    <Button style={loginStyle.button} icon="login" mode="contained" onPress={() => { navigation.navigate('Home') }}>
+                    <TextInput 
+                        label="Usuario" 
+                        style={loginStyle.inputBackground} 
+                        value={usuario} 
+                        onChangeText={(text) => setUsuario(text)}  
+                    />
+                    <TextInput 
+                        label="Contreseña" 
+                        style={loginStyle.inputBackground} 
+                        value={password} 
+                        onChangeText={(text) => setPassword(text)}  
+                        secureTextEntry 
+                    />
+                    <Button style={loginStyle.button} icon="login" mode="contained" onPress={() => loginCall()}>
                         Acceder
                     </Button>
                 </View>

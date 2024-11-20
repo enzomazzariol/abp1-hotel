@@ -6,6 +6,7 @@ class Usuario {
         public contrasena: string = "",
         public fechaNacimiento: Date,
         public rol: string = "usuario", 
+        public imagen: string = "",
         public fechaRegistro: Date = new Date(),
         public eliminado: boolean = false
     ) { }

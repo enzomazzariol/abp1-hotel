@@ -38,8 +38,9 @@ public class MisReservasJSON extends HttpServlet {
         ArrayList detalleReservaActividad;
         ArrayList detalleReservaHabitacion;
         try {
-            detalleReservaActividad = misReservasService.listarReservasActividad();
-            detalleReservaHabitacion = misReservasService.listarReservasHabitacion();
+            detalleReservaActividad = misReservasService.listarReservasActividad(req, resp);
+            detalleReservaHabitacion = misReservasService.listarReservasHabitacion(req, resp);
+            System.out.println(detalleReservaActividad);
         } catch (ConexionException | ActividadesException | SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -48,7 +49,6 @@ public class MisReservasJSON extends HttpServlet {
         HashMap<String, Object> responseMap = new HashMap<String, Object>();
         responseMap.put("reservasActividad", detalleReservaActividad);
         responseMap.put("reservasHabitacion", detalleReservaHabitacion);
-
         // Convertir el mapa a JSON
         Gson gson = new Gson();
         String jsonResponse = gson.toJson(responseMap);
@@ -58,6 +58,7 @@ public class MisReservasJSON extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
 
         // Enviar el JSON como respuesta
+        resp.getWriter().flush();
         resp.getWriter().write(jsonResponse);
     }
 
@@ -72,15 +73,15 @@ public class MisReservasJSON extends HttpServlet {
         String[] action = getAction.split("-");
         System.out.println("Actividad recibida: " + Arrays.toString(action));
 
-        if (action != null) {
+        if (action.length != 0) {
 
-            System.out.println("Acción recibida: " + action);
+            System.out.println("Acción recibida: " + Arrays.toString(action));
 
             misReservasService.menuPostMisReservasJSON(action);
 
             // Responder con un mensaje
             Map<String, String> responseData = new HashMap<>();
-            responseData.put("message", "Acción procesada: " + action);
+            responseData.put("message", "Acción procesada: " + Arrays.toString(action));
             Gson gson = new Gson();
             String jsonResponse = gson.toJson(responseData);
 
@@ -90,7 +91,6 @@ public class MisReservasJSON extends HttpServlet {
             resp.getWriter().write(jsonResponse);
 
         } else {
-
             // Si no se recibe la acción, enviar error
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             Map<String, String> responseData = new HashMap<>();
