@@ -9,10 +9,13 @@ export const HabitacionesView = () =>{
 
     const[habitacion, setHabitacion] = useState([]);
 
+    async function cargarHabitaciones() {
+        const data = await getHabitaciones();
+        setHabitacion(data);
+    }
+
     useEffect(() => {
-        getHabitaciones().then((habitacion) => {
-            setHabitacion(habitacion);
-        });
+        cargarHabitaciones();
     }, []);
       
     return(

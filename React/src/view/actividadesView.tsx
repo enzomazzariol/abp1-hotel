@@ -9,14 +9,15 @@ export const ActividadesView = () =>{
 
     const [actividad, setActividades] = useState([]);
 
-    useEffect(() => {
-        checkData();
-    }, []);
-      
-    async function checkData() {
-        setActividades(await getActividades());
+    async function cargarActividades() {
+        const data = await getActividades();
+        setActividades(data);
     }
 
+    useEffect(() => {
+        cargarActividades();
+    }, []);
+      
     return(
         <ScrollView>
             <View style={actividadesStyle.container}>
@@ -24,7 +25,7 @@ export const ActividadesView = () =>{
                 {actividad.length === 0 ? (
                     <ActivityIndicator color={"#fff"} size={"large"} />
                 ) : (
-                    <ActividadCard actividad={actividad}/>
+                    <ActividadCard actividad={actividad} cargarActividades={cargarActividades}/>
                 )}
                 
             </View>

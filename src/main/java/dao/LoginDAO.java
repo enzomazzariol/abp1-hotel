@@ -52,7 +52,6 @@ public class LoginDAO {
                     usuario.setEliminado(rs.getBoolean("eliminado"));
                 }
             }
-
             return usuario;
         } catch (SQLException | ClassNotFoundException e) {
             throw new ConexionException(ConexionException.ErrorConexionBD);

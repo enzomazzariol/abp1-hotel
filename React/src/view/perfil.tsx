@@ -1,21 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Image, TouchableOpacity, Modal, Button, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import perfilStyle from '../styles/perfilStyle';
+import { getUsuario } from '../dao/perfilDao';
 
 // Componente de perfil
 const Perfil = () => {
   const [usuario, setUsuario] = useState({
-    nombre: 'Juan Pérez',
-    email: 'juan@example.com',
-    password: '********',
-    imagen: '', // Inicia con una imagen vacía
-    id: 1,
-    rol: 'admin', // o 'usuario'
+    id: '',
+    nombre: '',
+    email: '',
+    imagen: '',
+    password: '',
+    rol: ''
   });
 
   const [modalVisible, setModalVisible] = useState(false);
   const [newImagen, setNewImagen] = useState('');
+
+  useEffect(() => {
+    cargarUsuario();
+}, []);
+  
+async function cargarUsuario() {
+  const usuarioData = await getUsuario();
+  console.log("Datos del usuario:", usuarioData);  
+  setUsuario(usuarioData);
+}
   
   // Función para pedir permisos y seleccionar una imagen de la galería
   const pickImage = async () => {
@@ -101,7 +112,7 @@ const Perfil = () => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={perfilStyle.logoutButton} onPress={() => { /* Lógica de logout */ }}>
+      <TouchableOpacity style={perfilStyle.logoutButton} onPress={() => { /* Lógica para cerrar sesion */ }}>
         <Text style={perfilStyle.logoutButtonText}>Cerrar sesión</Text>
       </TouchableOpacity>
 

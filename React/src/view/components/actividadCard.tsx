@@ -1,7 +1,9 @@
 import { Card, Text, Button, Portal, Modal} from "react-native-paper";
 import { View, Image } from "react-native";
 import actividadesStyle from "../../styles/actividadesStyle";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { sendActividad } from "../../dao/ActividadesDao";
+import { getUsuario } from "../../dao/perfilDao";
 
 const imagenes = {
     'Actividad_surf.jpg': require('../../assets/Actividad_surf.jpg'),
@@ -9,16 +11,31 @@ const imagenes = {
     'Actividad_moto_agua.jpg': require('../../assets/Actividad_moto_agua.jpg'),
 };
 
-export function ActividadCard({ actividad }) {
+export function ActividadCard({ actividad, cargarActividades }) {
     const [visible, setVisible] = useState(false);
     const [actividadSeleccionada, setActividadSeleccionada] = useState(null);
+    const [usuario, setUsuario] = useState({
+        id: null,
+    });
 
+    // Abrir modal para reservas actividad
     const showModal = (nombre_actividad) => {
         setActividadSeleccionada(nombre_actividad);
         setVisible(true);
     };
 
+    // Cerrar modal para reservas actividad
     const hideModal = () => setVisible(false);
+
+    useEffect(() => {
+        cargarUsuario();
+    }, []);
+
+    async function cargarUsuario() {
+        const usuarioData = await getUsuario();
+        console.log("Datos del usuario:", usuarioData);  
+        setUsuario(usuarioData);
+    }
 
     return (
         <View style={actividadesStyle.cardContainer}>
@@ -42,7 +59,11 @@ export function ActividadCard({ actividad }) {
                             <Modal visible={visible && actividadSeleccionada === item.nombre_actividad} onDismiss={hideModal} style={actividadesStyle.modal}>
                                 <Text style={actividadesStyle.modalTitle}>Reserva de Actividad</Text>
                                 <Text style={actividadesStyle.modalDescription}>¿Quieres hacer una reserva para la actividad {item.nombre_actividad}?</Text>
-                                <Button style={actividadesStyle.cardButton}>
+                                <Button style={actividadesStyle.cardButton} onPress={() => {
+                                    sendActividad(item.id, usuario.id, setVisible, cargarActividades)
+                                    alert('Reserva realizada con éxito!')
+                                    }}
+                                    >
                                     <Text style={actividadesStyle.cardButtonText}>Reservar</Text>
                                 </Button>
                                 <Button style={actividadesStyle.modalButton} onPress={hideModal}>

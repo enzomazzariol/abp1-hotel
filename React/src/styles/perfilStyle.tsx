@@ -84,6 +84,7 @@ const perfilStyle = StyleSheet.create({
   logoutButton: {
     marginTop: 20,
     padding: 10,
+    marginBottom: 40,
     backgroundColor: '#dc3545', // Color del botón de cerrar sesión
     borderRadius: 5,
   },

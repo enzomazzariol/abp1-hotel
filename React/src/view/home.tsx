@@ -5,6 +5,7 @@ import HabitacionesView from "./habitacionesView";
 import perfil from "./perfil";
 import reservasView from "./components/reservasView";
 import styles from "../styles/styles";
+import { DarkTheme } from "@react-navigation/native";
 
 export const Home = () => {
 
@@ -25,10 +26,13 @@ export const Home = () => {
   
     return(
             <BottomNavigation
-                style={styles.barraNavegacion}
                 navigationState={{ index, routes }}
                 onIndexChange={setIndex}
-                renderScene={renderScene} />
+                renderScene={renderScene} 
+                barStyle={{ backgroundColor: '#1E212D'}} 
+                activeColor="#E78F81" 
+                inactiveColor="#FAF3E0" 
+                />
     )
 }
 

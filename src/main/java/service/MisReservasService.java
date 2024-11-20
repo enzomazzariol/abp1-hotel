@@ -23,13 +23,13 @@ public class MisReservasService {
     public MisReservasDAO misReservasDAO;
     public ReservaActividadService reservaActividadService;
     public ReservaHabitacionService reservaHabitacionService;
-
+    public LoginService loginService;
 
     public MisReservasService() {
         misReservasDAO = new MisReservasDAO();
         reservaActividadService = new ReservaActividadService();
         reservaHabitacionService = new ReservaHabitacionService();
-
+        loginService = new LoginService();
     }
 
     public void fowardReservaActividad(HttpServletRequest req, HttpServletResponse resp) {
@@ -125,15 +125,13 @@ public class MisReservasService {
 
     }
 
-
-
-    public ArrayList<DetalleReservaActividad> listarReservasActividad() throws ConexionException, SQLException, ActividadesException, ClassNotFoundException {
-        int idUsuario = 1;
+    public ArrayList<DetalleReservaActividad> listarReservasActividad(HttpServletRequest req, HttpServletResponse resp) throws ConexionException, SQLException, ActividadesException, ClassNotFoundException, ServletException, IOException {
+        int idUsuario = loginService.obtenerUsuarioSesionById(req, resp);
         return misReservasDAO.reservaActividadesById(idUsuario);
     }
 
-    public ArrayList<DetalleReservaHabitacion> listarReservasHabitacion() throws ConexionException, SQLException, ActividadesException, ClassNotFoundException {
-        int idUsuario = 1;
+    public ArrayList<DetalleReservaHabitacion> listarReservasHabitacion(HttpServletRequest req, HttpServletResponse resp) throws ConexionException, SQLException, ActividadesException, ClassNotFoundException, ServletException, IOException {
+        int idUsuario = loginService.obtenerUsuarioSesionById(req, resp);
         return misReservasDAO.reservaHabitacionesById(idUsuario);
     }
 }

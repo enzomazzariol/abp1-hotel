@@ -1,5 +1,6 @@
 package service;
 
+import com.google.gson.Gson;
 import dao.HabitacionesDAO;
 import dao.ReservaHabitacionDAO;
 import excepciones.ReservaHabitacionException;
@@ -17,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HabitacionService {
     HabitacionesDAO habitacionesDAO;
@@ -133,6 +137,98 @@ public class HabitacionService {
         String fechaSalida = req.getParameter("fechaSalida");
 
         Estado estado = Estado.valueOf(estadoParam.toUpperCase());
+
+        // Crea la nueva instancia de ReservaHabitacion
+        ReservaHabitacion nuevaReservaHabitacion = new ReservaHabitacion(idUsuario, estado, idHabitacion, fechaEntrada, fechaSalida);
+
+        // Se agrega la habitacion a la base de datos.
+        reservaHabitacionDAO.agregarReservaHabitacion(nuevaReservaHabitacion);
+
+        // Imprime por consola la Habitacion agregada.
+        System.out.println("Nueva reserva de habitación: " + nuevaReservaHabitacion);
+    }
+
+    // ---------------------------------- App methods -----------------------------------------//
+
+    public void getHabitacionesApp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "GET,PUT,DELETE");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-type, Authorization");
+        HabitacionService habitacionService = new HabitacionService();
+
+        // Creamos un mapa con los datos que queremos devolver
+        ArrayList habitaciones;
+        try {
+            habitaciones = habitacionService.listarHabitaciones();
+        } catch (ConexionException | SQLException |
+                 HabitacionException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(habitaciones);
+        // Convertimos el mapa a JSON usando Gson
+        Gson gson = new Gson();
+        String jsonResponse = gson.toJson(habitaciones);
+
+        // Configuramos el tipo de contenido para la respuesta
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+
+        // Enviamos el JSON como respuesta
+        resp.getWriter().write(jsonResponse);
+    }
+
+    // Recibir datos de la reserva del front para enviarlos al DAO
+    public void insertReservaHabitacionApp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String getAction = req.getReader().readLine();
+
+        // Eliminar cualquier envoltura de comillas (por si las hubiera)
+        getAction = getAction.replaceAll("^\"|\"$", "");
+
+        String[] action = getAction.split("/");
+
+        System.out.println("Habitacion recibida: " + Arrays.toString(action));
+
+        if (action.length != 0) {
+            // Procesar la acción recibida
+            System.out.println("Acción recibida correctamente");
+
+            //hacer insert a la base de datos (insertar reserva de habitacion)
+            try {
+                agregarReservaHabitacionApp(action);
+            } catch (ReservaHabitacionException | ConexionException | SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            // Responder con un mensaje
+            Map<String, String> responseData = new HashMap<>();
+            responseData.put("message", "Acción procesada: " + Arrays.toString(action));
+
+            Gson gson = new Gson();
+            String jsonResponse = gson.toJson(responseData);
+
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            resp.getWriter().write(jsonResponse);
+
+        } else {
+            // Si no se recibe la acción, enviar error
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            Map<String, String> responseData = new HashMap<>();
+            responseData.put("error", "No se recibió la acción");
+
+            Gson gson = new Gson();
+            String jsonResponse = gson.toJson(responseData);
+            resp.getWriter().write(jsonResponse);
+        }
+    }
+
+    public void agregarReservaHabitacionApp(String[] action) throws ReservaHabitacionException, ConexionException, SQLException {
+        int idUsuario = Integer.parseInt(action[0]);
+        int idHabitacion = Integer.parseInt(action[1]);
+        String fechaEntrada = action[2];
+        String fechaSalida = action[3];
+        Estado estado = Estado.RESERVADO;
 
         // Crea la nueva instancia de ReservaHabitacion
         ReservaHabitacion nuevaReservaHabitacion = new ReservaHabitacion(idUsuario, estado, idHabitacion, fechaEntrada, fechaSalida);

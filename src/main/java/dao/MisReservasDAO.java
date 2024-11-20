@@ -36,7 +36,6 @@ public class MisReservasDAO {
         Conexion conn = new Conexion();
 
         try {
-
             PreparedStatement ps = conn.conectar().prepareStatement(SELECT_RESERVA_ACTIVIDAD_BY_ID);
             ps.setInt(1, idUsuario); // Pasar el idUsuario como parámetro
             ResultSet rs = ps.executeQuery();

@@ -4,6 +4,7 @@ import { Provider as PaperProvider, Card, Button, Portal, Modal } from "react-na
 import reservaStyle from "../../styles/reservaStyle";
 import { DetalleReservaActividad, DetalleReservaHabitacion } from "../../model/Reserva";
 import { getReservas, sendReservas } from "../../dao/ReservasDao";
+import { getUsuario } from "../../dao/perfilDao";
 
 export const ReservasView = () => {
     const [detalleReservaActividad, setDetalleReservaActividad] = useState<DetalleReservaActividad[]>([]);
@@ -11,10 +12,14 @@ export const ReservasView = () => {
     const [visibleActividad, setVisibleActividad] = useState(false);
     const [visibleHabitacion, setVisibleHabitacion] = useState(false);
     const [reservaSeleccionada, setReservaSeleccionada] = useState<any>(null);
+    const [usuario, setUsuario] = useState({
+        id: null,
+    });
 
     useEffect(() => {
         cargarReservas();
     }, []);
+
 
     // Función para cargar datos
     const cargarReservas = async () => {
