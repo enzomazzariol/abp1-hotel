@@ -135,7 +135,7 @@ export const ReservasView = () => {
                     <Text style={reservaStyle.subtitile}>Habitaciones</Text>
                 </View>
                 {
-                detalleReservaActividad.length === 0 ? (
+                detalleReservaHabitacion.length === 0 ? (
                     <Text style={reservaStyle.emptyText}>No hay reservas de habitaciones.</Text>
                 ) : 
                     <>
