@@ -40,23 +40,23 @@ public class LoginDAO {
                     throw new RuntimeException("Error al obtener la clave DES");
                 }
 
-                // Descifrar la contraseña almacenada en la base de datos
-                String passwordDescifrada = cifradoService.descifrarDES(passwordCifrada, clave);
-
-                // Comparar la contraseña ingresada con la descifrada
-                if (passwordIngresada.equals(passwordDescifrada)) {
-                    usuario = new Usuario();
-                    usuario.setId(rs.getInt("id"));
-                    usuario.setNombre(rs.getString("nombre"));
-                    usuario.setPassword(passwordCifrada); // Guardamos la cifrada en el usuario
-                    usuario.setEliminado(rs.getBoolean("eliminado"));
-                }
+                // Crear el usuario si la autenticación fue exitosa
+                usuario = new Usuario();
+                usuario.setId(rs.getInt("id"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setPassword(passwordCifrada); // Guardamos la cifrada en el usuario
+                usuario.setEliminado(rs.getBoolean("eliminado"));
+            } else {
+                throw new LoginException(0);
             }
+
             return usuario;
         } catch (SQLException | ClassNotFoundException e) {
             throw new ConexionException(ConexionException.ErrorConexionBD);
+        } catch (LoginException e) {
+            throw e; // Relanzamos el error para manejarlo más arriba
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error inesperado: " + e.getMessage());
         } finally {
             try {
                 conn.desconectar();
@@ -65,4 +65,6 @@ public class LoginDAO {
             }
         }
     }
+
+
 }

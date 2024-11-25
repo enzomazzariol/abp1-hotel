@@ -127,6 +127,13 @@ const reservaStyle = StyleSheet.create({
         marginHorizontal: 5, // Espaciado lateral entre botones
     },
     
+    emptyText: {
+        fontSize: 25,
+        textAlign: "center",
+        color: "#EAD7BB",
+        fontFamily: "Cochin",
+        marginVertical: 20,
+    }
 
 
 

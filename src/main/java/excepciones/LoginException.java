@@ -6,13 +6,15 @@ public class LoginException extends Exception {
     public static final int ErrorCredencialesInvalidas = 1;
     public static final int ErrorUsuarioContraseña = 2;
     public static final int ErrorUsuarioEliminado = 3;
+    public static final int UsuarioExiste = 4;
 
     // Descripciones de los errores
     public static String[] errores = {
             "Usuario no encontrado.",
             "Credenciales inválidas. Por favor, verifica tu nombre de usuario y contraseña.",
             "Error en el usuario o contraseña.",
-            "El usuario ha sido eliminado"
+            "El usuario ha sido eliminado",
+            "El usuario ya existe"
     };
 
     // Atributo para almacenar el código de error

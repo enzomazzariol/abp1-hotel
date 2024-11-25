@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
-import { Provider as PaperProvider, TextInput } from "react-native-paper";
+import { View, Text, Image } from "react-native";
+import { TextInput } from "react-native-paper";
 import { Button } from 'react-native-paper';
 import loginStyle from "../styles/loginStyle";
 import { url } from "../utils/Constants";
