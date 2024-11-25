@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity, Modal, Button, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, Image, TouchableOpacity, Modal, ScrollView, ActivityIndicator, Alert, Button } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import perfilStyle from '../styles/perfilStyle';
+import { getUsuarioById, updateUsuario } from '../dao/UsuariosDAO';
 import { getUsuario } from '../dao/perfilDao';
 
-// Componente de perfil
+
 const Perfil = () => {
   const [usuario, setUsuario] = useState({
     id: '',
@@ -15,37 +16,43 @@ const Perfil = () => {
     rol: ''
   });
 
+  const [loading, setLoading] = useState(true); // Estado de carga
+  const [error, setError] = useState(null); // Estado para manejar errores
+
   const [modalVisible, setModalVisible] = useState(false);
   const [newImagen, setNewImagen] = useState('');
+  const [isEditing, setIsEditing] = useState(false); 
+
+  // Estados para manejar los nuevos valores de los campos editables
+  const [newNombre, setNewNombre] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
   useEffect(() => {
     cargarUsuario();
 }, []);
   
-async function cargarUsuario() {
-  const usuarioData = await getUsuario();
-  console.log("Datos del usuario:", usuarioData);  
-  setUsuario(usuarioData);
-}
-  
-  // Función para pedir permisos y seleccionar una imagen de la galería
+  async function cargarUsuario() {
+    const usuarioData = await getUsuario();
+    console.log("Datos del usuario:", usuarioData);  
+    setUsuario(usuarioData);
+  }
+
+  // Función para seleccionar una imagen de la galería
   const pickImage = async () => {
-    // Solicitar permisos para acceder a la galería
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
       alert('Se necesitan permisos para acceder a las fotos');
       return;
     }
 
-    // Abrir la galería de imágenes
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images, // Acepta solo imágenes
-      allowsEditing: true, // Permitir edición (recorte) de la imagen
-      aspect: [1, 1], // Relación de aspecto 1:1 (cuadrado)
-      quality: 1, // Alta calidad
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
     });
 
-   
     if (!result.canceled) {
       setNewImagen(result.assets[0].uri);
     }
@@ -54,12 +61,49 @@ async function cargarUsuario() {
   // Función para cambiar la imagen de perfil
   const handleImageChange = () => {
     if (newImagen) {
-      setUsuario({ ...usuario, imagen: newImagen }); // Cambiar la imagen de perfil
-      setModalVisible(false); // Cerrar el modal
+      setUsuario({ ...usuario, imagen: newImagen });
+      setModalVisible(false);
     } else {
       alert('Por favor selecciona una imagen válida');
     }
   };
+
+  // Función para guardar los cambios en el backend
+  const handleSaveChanges = async () => {
+    if (!newNombre.trim() || !newEmail.trim()) {
+      Alert.alert('Error', 'Todos los campos son obligatorios');
+      return;
+    }
+
+    try {
+      const updatedUser = await updateUsuario({
+        id: usuario.id,
+        nombre: newNombre,
+        email: newEmail,
+        password: newPassword || null, // Solo actualiza la contraseña si se proporciona
+      });
+
+      if (updatedUser) {
+        setUsuario(updatedUser); // Actualiza el estado con los datos nuevos
+        setIsEditing(false); // Salir del modo edición
+        Alert.alert('Éxito', 'Cambios guardados con éxito');
+      } else {
+        throw new Error('Error en la actualización');
+      }
+    } catch (error) {
+      Alert.alert('Error', `Error al guardar los cambios: ${error.message}`);
+    }
+  };
+
+ 
+
+  if (error) {
+    return (
+      <View style={perfilStyle.errorContainer}>
+        <Text style={perfilStyle.errorText}>Error: {error}</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={perfilStyle.container}>
@@ -67,52 +111,80 @@ async function cargarUsuario() {
         <View style={perfilStyle.imgWrapper}>
           <Image
             source={{
-              uri: usuario.imagen || 'https://img.pokemondb.net/artwork/vaporeon.jpg', // Imagen vaporeon por defecto
+              uri: usuario.imagen || 'https://img.pokemondb.net/artwork/vaporeon.jpg',
             }}
             style={perfilStyle.img}
           />
         </View>
         <TouchableOpacity
           style={perfilStyle.changeImageButton}
-          onPress={() => setModalVisible(true)} 
+          onPress={() => setModalVisible(true)}
         >
           <Text style={perfilStyle.changeImageButtonText}>Cambiar foto</Text>
         </TouchableOpacity>
       </View>
 
+      {/* Edición de datos */}
       <View style={perfilStyle.profileContent}>
         <Text style={perfilStyle.profileText}>Nombre</Text>
-        <View>
-        <View style={perfilStyle.profileValue}>
-          <Text>{usuario.nombre}</Text>
-        </View>
-        <TouchableOpacity style={perfilStyle.editButton} onPress={() => { /* Lógica para editar */ }}>
-          <Text style={perfilStyle.editButtonText}>Editar</Text>
-        </TouchableOpacity>
-        </View>
+        {isEditing ? (
+          <TextInput
+            style={perfilStyle.profileValue}
+            value={newNombre}
+            onChangeText={setNewNombre}
+            placeholder="Nuevo nombre de usuario"
+          />
+        ) : (
+          <Text style={perfilStyle.profileValue}>{usuario.nombre}</Text>
+        )}
       </View>
 
       <View style={perfilStyle.profileContent}>
         <Text style={perfilStyle.profileText}>Correo Electrónico</Text>
-        <View style={perfilStyle.profileValue}>
-          <Text>{usuario.email}</Text>
-        </View>
-        <TouchableOpacity style={perfilStyle.editButton} onPress={() => { /* Lógica para editar */ }}>
-          <Text style={perfilStyle.editButtonText}>Editar</Text>
-        </TouchableOpacity>
+        {isEditing ? (
+          <TextInput
+            style={perfilStyle.profileValue}
+            value={newEmail}
+            onChangeText={setNewEmail}
+            placeholder="Nuevo correo electrónico"
+          />
+        ) : (
+          <Text style={perfilStyle.profileValue}>{usuario.email}</Text>
+        )}
       </View>
 
       <View style={perfilStyle.profileContent}>
         <Text style={perfilStyle.profileText}>Contraseña</Text>
-        <View style={perfilStyle.profileValue}>
-          <Text>{usuario.password}</Text>
-        </View>
-        <TouchableOpacity style={perfilStyle.editButton} onPress={() => { /* Lógica para editar */ }}>
-          <Text style={perfilStyle.editButtonText}>Editar</Text>
-        </TouchableOpacity>
+        {isEditing ? (
+          <TextInput
+            style={perfilStyle.profileValue}
+            secureTextEntry
+            value={newPassword}
+            onChangeText={setNewPassword}
+            placeholder="Nueva contraseña"
+          />
+        ) : (
+          <Text style={perfilStyle.profileValue}>********</Text>
+        )}
       </View>
 
-      <TouchableOpacity style={perfilStyle.logoutButton} onPress={() => { /* Lógica para cerrar sesion */ }}>
+      {isEditing ? (
+        <TouchableOpacity
+          style={perfilStyle.editButton}
+          onPress={handleSaveChanges}
+        >
+          <Text style={perfilStyle.editButtonText}>Guardar Cambios</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={perfilStyle.editButton}
+          onPress={() => setIsEditing(true)}
+        >
+          <Text style={perfilStyle.editButtonText}>Editar</Text>
+        </TouchableOpacity>
+      )}
+
+      <TouchableOpacity style={perfilStyle.logoutButton} onPress={() => {}}>
         <Text style={perfilStyle.logoutButtonText}>Cerrar sesión</Text>
       </TouchableOpacity>
 
@@ -162,4 +234,7 @@ async function cargarUsuario() {
 };
 
 export default Perfil;
+
+
+
 

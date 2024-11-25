@@ -179,7 +179,6 @@ const perfilStyle = StyleSheet.create({
     color: '#ED3E22',
     textAlign: 'center',
   },
- 
   buttonAdminText: {
     color: '#E78F81',
     textAlign: 'center',
@@ -199,6 +198,22 @@ const perfilStyle = StyleSheet.create({
     color: '#0056b3',
     textAlign: 'center',
   },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    fontSize: 18,
+    color: 'red',
+    textAlign: 'center',
+  },
 });
 
 export default perfilStyle;
+
