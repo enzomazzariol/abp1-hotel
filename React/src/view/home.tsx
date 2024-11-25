@@ -4,8 +4,6 @@ import ActividadesView from "./actividadesView";
 import HabitacionesView from "./habitacionesView";
 import perfil from "./perfil";
 import reservasView from "./components/reservasView";
-import styles from "../styles/styles";
-import { DarkTheme } from "@react-navigation/native";
 
 export const Home = () => {
 

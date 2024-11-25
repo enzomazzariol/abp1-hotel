@@ -62,7 +62,12 @@ export const ReservasView = () => {
                 <View style={reservaStyle.subtitileView}>
                     <Text style={reservaStyle.subtitile}>Actividades</Text>
                 </View>
-                {detalleReservaActividad.map((actividad) => (
+                {
+                detalleReservaActividad.length === 0 ? (
+                    <Text style={reservaStyle.emptyText}>No hay reservas de actividades.</Text>
+                ) : 
+                    <>
+                        {detalleReservaActividad.map((actividad) => (
                     <Card key={actividad.id} style={reservaStyle.reserva}>
                         <Card.Content>
                             <Text style={reservaStyle.titleContentReserva}>{actividad.nombreActividad}</Text>
@@ -85,6 +90,8 @@ export const ReservasView = () => {
 
                     </Card>
                 ))}
+                    </>
+                }
             </View>
 
             {/* Modal para actividades */}
@@ -127,7 +134,12 @@ export const ReservasView = () => {
                 <View style={reservaStyle.subtitileView}>
                     <Text style={reservaStyle.subtitile}>Habitaciones</Text>
                 </View>
-                {detalleReservaHabitacion.map((habitacion) => (
+                {
+                detalleReservaActividad.length === 0 ? (
+                    <Text style={reservaStyle.emptyText}>No hay reservas de habitaciones.</Text>
+                ) : 
+                    <>
+                    {detalleReservaHabitacion.map((habitacion) => (
                     <Card key={habitacion.id} style={reservaStyle.reserva}>
                         <Card.Content>
                             <Text style={reservaStyle.titleContentReserva}>{habitacion.tipoDeHabitacion}</Text>
@@ -149,9 +161,11 @@ export const ReservasView = () => {
                         </View>
 
                     </Card>
-                ))}
-            </View>
+                    ))}
+                </>
+                }
 
+            </View>
             {/* Modal para habitaciones */}
             <Portal>
                 <Modal visible={visibleHabitacion} onDismiss={hideModal} style={reservaStyle.modal}>

@@ -38,13 +38,16 @@ public class RegistroService {
     }
 
     public void registroUsuario(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       try {
+        // Lista para acumular errores en el front
+        ArrayList<String> errores = new ArrayList<>();
+
+        try {
            // recuperar parametros del formulario registro
            String nombre = req.getParameter("nombre");
            String email = req.getParameter("email");
            String password = req.getParameter("password");
 
-           // 1. Obtener o generar la clave DES para cifrar
+           // Obtener o generar la clave DES para cifrar
            SecretKey clave = cifradoService.obtenerClaveDesdeBD();
            if (clave == null) {
                clave = cifradoService.generarClaveDES();
@@ -53,9 +56,6 @@ public class RegistroService {
 
            // Cifrar la contraseña
            String passwordCifrada = cifradoService.cifrarDES(password, clave);
-
-           // Lista para acumular errores en el front
-           ArrayList<String> errores = new ArrayList<>();
 
            // Validar campos vacíos
            if (nombre == null || nombre.trim().isEmpty()) {
@@ -82,23 +82,27 @@ public class RegistroService {
            try {
                Usuario nuevoUsuario = new Usuario(nombre, email, passwordCifrada);
                usuariosDAO.insertarUsuario(nuevoUsuario);
-            // Corregir los objetos usuarios de abajo (dan un nullPointer) al recuperar el id, arreglarlo para que la pantalla registro funcione corectamente
+            // Corregir los objetos usuarios de abajo (dan un nullPointer) al recuperar el id, arreglarlo para que la pantalla registro funcione correctamente
                Usuario usuarioId = loginDAO.checklogin(nuevoUsuario.getNombre(), nuevoUsuario.getPassword());
                Usuario usuario = usuariosDAO.usuarioById(usuarioId.getId());
                HttpSession session = req.getSession();
                session.setAttribute("usuario", usuario);
                req.getRequestDispatcher("/jsp/perfil.jsp").forward(req, resp);
 
-           } catch (SQLException | ClassNotFoundException | UsuariosException | ConexionException e) {
-               req.setAttribute("error",  e.getMessage());
-               RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
-               dispatcher.forward(req, resp);
+           } catch (SQLException | ClassNotFoundException e) {
+               errores.add("Hubo un problema con el registro. Inténtalo más tarde.");
+           } catch (UsuariosException e) {
+               errores.add("El usuario ya existe o el correo ya está en uso.");
            }
-       } catch(Exception e){
-           // Enviar a la página de error en caso de excepción
-           req.setAttribute("error",  e.getMessage());
-           RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/error.jsp");
-           dispatcher.forward(req, resp);
+       } catch (Exception e) {
+           errores.add("Ocurrió un error inesperado: " + e.getMessage());
        }
+
+        // Si hay errores, volver al formulario con los mensajes
+        if (!errores.isEmpty()) {
+            req.setAttribute("errores", errores);
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/registro.jsp");
+            dispatcher.forward(req, resp);
+        }
     }
 }
