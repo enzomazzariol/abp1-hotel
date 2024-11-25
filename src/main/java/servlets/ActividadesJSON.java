@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import excepciones.ActividadesException;
 import excepciones.ConexionException;
 import excepciones.ReservaActividadesException;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import service.ActividadesService;
 
 import javax.servlet.ServletException;
