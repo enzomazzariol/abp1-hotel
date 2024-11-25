@@ -40,6 +40,14 @@ public class LoginDAO {
                     throw new RuntimeException("Error al obtener la clave DES");
                 }
 
+                // Descifrar la contraseña
+                String passwordDescifrada = cifradoService.descifrarDES(passwordCifrada, clave);
+
+                // Verificar si la contraseña ingresada coincide con la descifrada
+                if (!passwordDescifrada.equals(passwordIngresada)) {
+                    throw new LoginException(1); // Contraseña incorrecta
+                }
+
                 // Crear el usuario si la autenticación fue exitosa
                 usuario = new Usuario();
                 usuario.setId(rs.getInt("id"));
@@ -47,7 +55,7 @@ public class LoginDAO {
                 usuario.setPassword(passwordCifrada); // Guardamos la cifrada en el usuario
                 usuario.setEliminado(rs.getBoolean("eliminado"));
             } else {
-                throw new LoginException(0);
+                throw new LoginException(0); // Usuario no encontrado
             }
 
             return usuario;
@@ -65,6 +73,46 @@ public class LoginDAO {
             }
         }
     }
+
+    public Usuario checkRegistro(String nombre, String passwordIngresada) throws LoginException, ConexionException {
+        Usuario usuario = null;
+        Conexion conn = new Conexion();
+
+        try {
+            Connection connection = conn.conectar();
+            PreparedStatement ps = connection.prepareStatement(SELECT_USUARIOS_NOMBRE);
+            ps.setString(1, nombre);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String passwordCifrada = rs.getString("password");
+
+                // Crear el usuario si la autenticación fue exitosa
+                usuario = new Usuario();
+                usuario.setId(rs.getInt("id"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setPassword(passwordCifrada); // Guardamos la cifrada en el usuario
+                usuario.setEliminado(rs.getBoolean("eliminado"));
+            } else {
+                throw new LoginException(0); // Usuario no encontrado
+            }
+
+            return usuario;
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new ConexionException(ConexionException.ErrorConexionBD);
+        } catch (LoginException e) {
+            throw e; // Relanzamos el error para manejarlo más arriba
+        } catch (Exception e) {
+            throw new RuntimeException("Error inesperado: " + e.getMessage());
+        } finally {
+            try {
+                conn.desconectar();
+            } catch (SQLException e) {
+                throw new ConexionException(ConexionException.ErrorConexionBD);
+            }
+        }
+    }
+
 
 
 }

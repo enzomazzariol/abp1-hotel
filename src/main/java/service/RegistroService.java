@@ -83,7 +83,7 @@ public class RegistroService {
                Usuario nuevoUsuario = new Usuario(nombre, email, passwordCifrada);
                usuariosDAO.insertarUsuario(nuevoUsuario);
             // Corregir los objetos usuarios de abajo (dan un nullPointer) al recuperar el id, arreglarlo para que la pantalla registro funcione correctamente
-               Usuario usuarioId = loginDAO.checklogin(nuevoUsuario.getNombre(), nuevoUsuario.getPassword());
+               Usuario usuarioId = loginDAO.checkRegistro(nuevoUsuario.getNombre(), nuevoUsuario.getPassword());
                Usuario usuario = usuariosDAO.usuarioById(usuarioId.getId());
                HttpSession session = req.getSession();
                session.setAttribute("usuario", usuario);
