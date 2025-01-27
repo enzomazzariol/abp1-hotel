@@ -1,7 +1,7 @@
 # ABP1 Hotel G4
 
 
-# Gestión de Hotel - Aplicativo Web y Móvil
+## Gestión de Hotel - Aplicativo Web y Móvil
 
 Este proyecto es un sistema completo de gestión para un hotel que incluye una versión web y una aplicación móvil. Permite a los usuarios realizar reservas de habitaciones y actividades, mientras que los administradores cuentan con un panel para gestionar usuarios, habitaciones y actividades mediante un CRUD.
 
